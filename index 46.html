@@ -1,0 +1,2150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<title>폐허의 기록</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&family=Noto+Serif+KR:wght@400;600;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#000000; --ash:#141413; --smoke:#2b2a28; --bone:#e7e3da; --dust:#8d8981;
+  --red:#c8322d; --blue:#4a7fd4; --yellow:#d8b13a; --nuri:#eaf2ff;
+  --serif:"Noto Serif KR","Nanum Myeongjo","Apple SD Gothic Neo",serif;
+  --term:"Nanum Gothic Coding","D2Coding",ui-monospace,Menlo,Consolas,monospace;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--black:#000000;--bone:#e7e3da;}}
+:root[data-theme="dark"]{--black:#000000;--bone:#e7e3da;}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;height:100%;background:var(--black);color:var(--bone);font-family:var(--serif);overflow:hidden;
+  touch-action:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+canvas#cv{position:fixed;inset:0;width:100%;height:100%;display:block;image-rendering:pixelated}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:2px solid var(--bone);outline-offset:2px}
+.hidden{display:none!important}
+
+/* HUD */
+#hud{position:fixed;left:0;right:0;top:0;padding:calc(env(safe-area-inset-top,0px) + 14px) 16px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;pointer-events:none;z-index:5}
+.hud-l{max-width:min(460px,62vw);text-shadow:0 1px 3px #000}
+.rec{font-family:var(--term);font-size:12px;color:var(--dust);display:flex;align-items:center;gap:6px}
+.rec .dot{width:7px;height:7px;border-radius:50%;background:var(--red);animation:blink 1.6s steps(2) infinite}
+@keyframes blink{50%{opacity:.15}}
+#areaName{font-size:15px;font-weight:600;margin-top:8px;letter-spacing:.02em}
+#objective{font-size:13px;color:#bdb9b0;margin-top:4px;line-height:1.6}
+.hud-r{display:flex;gap:8px;pointer-events:auto;flex-wrap:wrap;justify-content:flex-end}
+.hbtn{background:rgba(10,10,10,.78);border:1px solid #3d3b37;padding:8px 13px;font-size:13px;border-radius:2px}
+.hbtn:hover{border-color:#77736b}
+.hbtn.blue{border-color:var(--blue);color:#b9cff5}
+#recCount{font-family:var(--term);color:var(--dust);margin-left:4px}
+
+/* dialog */
+#dialog{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 18px);width:min(740px,94vw);
+  background:rgba(8,8,8,.93);border-top:1px solid #4a4843;padding:18px 24px 16px;z-index:8;cursor:pointer}
+#dSpk{font-family:var(--term);font-size:12px;color:var(--dust);margin-bottom:8px}
+#dTxt{font-size:16px;line-height:1.85;white-space:pre-wrap;min-height:3.6em}
+#dCh{display:flex;flex-direction:column;gap:6px;margin-top:12px}
+#dCh button{text-align:left;background:transparent;border:1px solid #3d3b37;padding:9px 12px;font-size:14px}
+#dCh button:hover{border-color:var(--bone)}
+#dNext{position:absolute;right:18px;bottom:10px;font-size:11px;color:var(--dust);animation:blink 1.2s steps(2) infinite}
+
+/* overlays */
+.ov{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;padding:calc(env(safe-area-inset-top,0px) + 12px) 12px calc(env(safe-area-inset-bottom,0px) + 12px)}
+#fade{position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;transition:opacity .45s;z-index:20}
+#fade.on{opacity:1}
+#flash{position:fixed;inset:0;pointer-events:none;z-index:19;opacity:0}
+#flash.go{animation:flash 1s ease-out}
+@keyframes flash{0%{opacity:.85}100%{opacity:0}}
+#toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 96px);transform:translateX(-50%);background:rgba(8,8,8,.9);border-left:3px solid var(--bone);
+  padding:9px 16px;font-size:14px;z-index:9;opacity:0;transition:opacity .3s;pointer-events:none;max-width:90vw}
+#toast.on{opacity:1}
+
+/* title */
+#title{background:radial-gradient(ellipse at 50% 60%,rgba(0,0,0,.35),rgba(0,0,0,.92) 70%);flex-direction:column}
+.t-in{text-align:center;max-width:560px}
+#title h1{font-size:clamp(46px,11vw,96px);font-weight:900;margin:0;letter-spacing:-.02em;line-height:1.05;position:relative;display:inline-block}
+#title h1::after{content:"";position:absolute;left:-4%;right:-4%;top:52%;height:3px;background:var(--red);transform:rotate(-2deg);opacity:.85}
+.t-sub{font-size:17px;color:#c9c5bc;margin:22px 0 34px}
+.t-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.t-btns button{background:transparent;border:1px solid var(--bone);padding:12px 26px;font-size:15px}
+.t-btns button:hover{background:var(--bone);color:#000}
+.acc{margin:26px auto 0;max-width:420px;border:1px solid #33312d;background:rgba(10,10,10,.72);padding:14px 16px;text-align:left}
+.acc-k{font-size:14px;font-weight:600}.acc-k b{font-weight:900}
+.acc-s{font-size:13px;color:#bdb9b0;line-height:1.7;margin-top:6px}.acc-s.dim{color:var(--dust);font-size:12px}
+.acc-row{display:flex;gap:8px;margin-top:10px}
+.acc-row input{flex:1;min-width:0;background:#0a0a09;border:1px solid #4a4843;color:var(--bone);font:inherit;font-size:15px;padding:9px 10px;-webkit-user-select:text;user-select:text}
+.acc-row input:focus{outline:none;border-color:var(--bone)}
+.acc-row button{background:var(--bone);color:#000;border:0;padding:9px 14px;font-size:14px}
+.acc-row button:disabled{opacity:.5}
+.acc-row.col{flex-direction:column}
+.acc-row button.link{background:transparent;color:var(--dust);border:0;padding:2px 0;font-size:13px;text-decoration:underline}
+.acc-row button.google{flex:1;background:#fff;color:#1f1f1f;font-weight:600}
+.acc-row button.ghost{background:transparent;color:var(--bone);border:1px solid #4a4843}
+.t-confirm{flex:1 1 100%;font-size:14px;color:#cfcbc2;line-height:1.7;margin-bottom:6px}
+#sync{margin-left:6px}
+.t-ctl{font-size:13px;color:var(--dust);margin-top:28px;line-height:1.7}
+.t-demo{font-size:12px;color:#66635d;margin-top:10px}
+.t-seq{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#000;gap:26px;text-align:center;padding:20px}
+.t-day{font-family:var(--term);font-size:clamp(36px,8vw,64px);letter-spacing:.2em}
+.t-q{font-size:19px}
+.t-yn{display:flex;gap:14px}
+.t-yn button{font-family:var(--term);background:transparent;border:1px solid var(--bone);padding:10px 28px;font-size:15px}
+.t-yn button:hover{background:var(--bone);color:#000}
+
+/* archive */
+#archive{background:rgba(0,0,0,.72)}
+.arc-panel{position:relative;width:min(980px,100%);height:min(700px,100%);background:#0c0c0b;border:1px solid #33312d;display:flex;flex-direction:column;overflow:hidden}
+.arc-head{display:flex;align-items:flex-end;justify-content:space-between;padding:18px 22px 12px;border-bottom:1px solid #26241f;gap:10px}
+.arc-sys{font-family:var(--term);font-size:12px;color:var(--dust)}
+.arc-head h2{margin:4px 0 0;font-size:22px;font-weight:900}
+.arc-head .x{background:transparent;border:1px solid #3d3b37;padding:7px 14px;font-size:13px}
+.tabs{display:flex;border-bottom:1px solid #26241f}
+.tabs button{background:transparent;border:0;padding:11px 20px;font-size:14px;color:var(--dust);border-bottom:2px solid transparent}
+.tabs button.on{color:var(--bone);border-bottom-color:var(--bone)}
+.arc-body{flex:1;display:grid;grid-template-columns:300px 1fr;min-height:0}
+.arc-left{border-right:1px solid #26241f;display:flex;flex-direction:column;min-height:0}
+.cmpbar{padding:10px 12px;border-bottom:1px solid #26241f;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.cmpbar button{background:transparent;border:1px solid #4a4843;padding:6px 11px;font-size:13px}
+.cmpbar button.on{border-color:var(--red);color:#f0c4c1}
+.cmpbar button:disabled{opacity:.35;cursor:default}
+#cmpHint{font-size:12px;color:var(--dust);flex:1 1 100%}
+#arcList{overflow:auto;flex:1;padding:6px}
+.card{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;background:transparent;border:1px solid transparent;padding:10px;margin-bottom:2px}
+.card:hover{background:#161614}
+.card.on{border-color:#4a4843;background:#141412}
+.card.sel{border-color:var(--red);background:#1a100f}
+.card .d{width:8px;height:8px;border-radius:50%;margin-top:7px;flex:none;background:var(--c)}
+.card .ct{font-size:14px;font-weight:600;line-height:1.4}
+.card .cm{font-size:12px;color:var(--dust);margin-top:2px}
+.c-red{--c:var(--red)}.c-blue{--c:var(--blue)}.c-yellow{--c:var(--yellow)}.c-nuri{--c:var(--nuri)}.c-white{--c:#9a968e}
+.arc-detail{overflow:auto;padding:26px 30px}
+.arc-detail .stripe{width:40px;height:3px;background:var(--c);margin-bottom:16px}
+.arc-detail .dm{font-size:13px;color:var(--dust)}
+.arc-detail h3{font-size:24px;margin:6px 0 18px;font-weight:900}
+.arc-detail p{font-size:15px;line-height:1.95;margin:0 0 14px;max-width:34em;white-space:pre-wrap}
+.arc-detail .pastgo{margin-top:8px;background:transparent;border:1px solid var(--blue);color:#b9cff5;padding:10px 16px;font-size:14px}
+.empty{color:var(--dust);font-size:14px;line-height:1.8;padding:14px}
+.arc-ded{flex:1;overflow:auto;padding:22px 26px}
+.arc-ded h4{font-size:15px;margin:0 0 12px;font-weight:600;color:#cfcbc2}
+.ded{border-left:2px solid var(--red);padding:4px 0 4px 14px;margin-bottom:16px;max-width:40em}
+.ded b{display:block;font-size:15px;margin-bottom:4px}
+.ded span{font-size:14px;line-height:1.8;color:#c3bfb6}
+.ded.lock{border-left-color:#33312d;color:#57544f}
+.esc{display:flex;gap:12px;align-items:baseline;font-size:14px;padding:6px 0;border-bottom:1px solid #1d1c19;max-width:40em}
+.esc .m{font-family:var(--term);width:22px}
+.esc .a{color:var(--dust);font-size:12px;margin-left:auto}
+.cmp-result{position:absolute;inset:0;background:rgba(6,6,6,.96);display:flex;align-items:center;justify-content:center;padding:24px}
+.cmp-in{max-width:520px}
+.cmp-k{font-size:14px;font-weight:600;color:var(--red)}
+.cmp-k.no{color:var(--dust)}
+.cmp-in h3{font-size:26px;font-weight:900;margin:8px 0 14px}
+.cmp-in p{font-size:15px;line-height:1.95;white-space:pre-wrap}
+.cmp-in button{margin-top:10px;background:transparent;border:1px solid var(--bone);padding:10px 22px}
+@media (max-width:720px){
+  .arc-body{grid-template-columns:1fr;grid-template-rows:minmax(150px,38%) 1fr}
+  .arc-left{border-right:0;border-bottom:1px solid #26241f}
+  .arc-detail{padding:18px}
+  .arc-head{padding:14px 16px 10px}
+}
+
+/* keypad */
+#keypad{background:rgba(0,0,0,.7)}
+.kp{background:#151513;border:1px solid #3d3b37;padding:22px;width:min(320px,100%);text-align:center}
+.kp-k{font-family:var(--term);font-size:12px;color:var(--dust)}
+.kp-screen{font-family:var(--term);font-size:34px;letter-spacing:.35em;background:#0a0a09;border:1px solid #2c2b27;color:var(--yellow);margin:12px 0 8px;padding:10px 0 10px .35em}
+.kp-screen.bad{color:var(--red);animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.kp-msg{font-size:13px;color:#bdb9b0;min-height:3.2em;line-height:1.6}
+.kp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.kp-grid button{font-family:var(--term);font-size:20px;background:#1f1e1b;border:1px solid #33312d;padding:12px 0}
+.kp-grid button:active{background:#2c2b27}
+#kpClose{margin-top:12px;background:transparent;border:0;color:var(--dust);font-size:13px;padding:6px}
+
+/* end */
+#end{background:#000;flex-direction:column;text-align:center}
+#endLines{font-family:var(--term);font-size:clamp(14px,3.6vw,18px);line-height:2;color:#cfd8e8;min-height:12em;white-space:pre-wrap}
+#endLines .g{animation:glitch .18s steps(2) 3}
+@keyframes glitch{50%{transform:translateX(4px);color:var(--red)}}
+#endCard{max-width:520px}
+#endCard h2{font-size:clamp(34px,8vw,56px);font-weight:900;margin:0 0 6px}
+#endCard .q{font-size:22px;color:var(--dust);margin-bottom:26px}
+#endCard p{font-size:15px;line-height:1.9;color:#c9c5bc}
+#endCard .next{margin-top:22px;border-top:1px solid #26241f;padding-top:18px;color:var(--dust);font-size:14px}
+#endCard .t-btns{margin-top:26px}
+#end.forget{background:#f3f2ed;color:#141414}
+#end.truth{background:#05070b}
+#end.nuri{background:linear-gradient(120deg,#fbe3ea,#e3f3ec,#e3e9fb,#f8f0dc);color:#2a2a33}
+#end.nuri #endLines{font-family:var(--serif);color:#2a2a33;font-size:clamp(15px,3.8vw,19px)}
+#end.nuri #endCard p{color:#3a3a44}#end.nuri #endCard .q,#end.nuri #endCard .next{color:#6c6878;border-top-color:#d9d3e6}
+#end.nuri .t-btns button,#end.nuri .t-yn button{border-color:#2a2a33;color:#2a2a33}
+#end.nuri .t-btns button:hover,#end.nuri .t-yn button:hover{background:#2a2a33;color:#fff}
+.nq{font-size:24px;margin-bottom:26px}.nyn{justify-content:center}
+#endLines .t-yn{justify-content:center;margin-top:20px}
+.t-loop{font-family:var(--term);font-size:13px;color:var(--dust)}
+body.bright #hud .hud-l{text-shadow:none;color:#2a2a33}
+body.bright #objective{color:#4a4856}
+body.bright .rec{color:#6c6878}
+body.bright #feed{color:rgba(60,60,80,.65);text-shadow:none}
+body.bright #feed div:last-child{color:#2a2a33}
+#end.truth #endLines{font-family:var(--serif);color:#dfe6f2;font-size:clamp(15px,3.8vw,19px)}
+#end.truth .er{color:#9fb0c8}
+#feed{position:fixed;right:16px;top:calc(env(safe-area-inset-top,0px) + 62px);width:min(300px,50vw);font-family:var(--term);font-size:11px;line-height:1.65;color:rgba(185,205,235,.62);text-align:right;pointer-events:none;z-index:5;text-shadow:0 1px 2px #000}
+#feed .fh{color:var(--red);margin-bottom:2px}
+#feed div:last-child{color:#eef3ff}
+body.busy #feed{opacity:.35}
+#end.forget #endLines{font-family:var(--serif);color:#2a2a28;font-size:clamp(15px,3.8vw,19px)}
+#end.forget #endCard p{color:#3a3935}
+#end.forget #endCard .q{color:#77746d}
+#end.forget #endCard .next{border-top-color:#d6d3cb;color:#77746d}
+#end.forget .t-btns button{border-color:#141414}
+#end.forget .t-btns button:hover{background:#141414;color:#f3f2ed}
+.er-h{font-family:var(--term);font-size:13px;color:var(--red);margin-bottom:14px}
+.er-w{max-width:620px;margin:0 auto;line-height:2.1}
+.er{display:inline-block;margin:0 10px;transition:opacity .6s,filter .6s;font-size:15px}
+.er.gone{opacity:0;filter:blur(3px);text-decoration:line-through}
+.fl{animation:fin 1.2s ease-out}
+@keyframes fin{from{opacity:0}to{opacity:1}}
+
+/* touch */
+#touch{display:none}
+body.playing #touch{display:block}
+body.busy #touch{display:none}
+#joyzone{position:fixed;left:0;bottom:0;width:min(48vw,300px);height:min(50vh,300px);z-index:4;touch-action:none}
+#joyBase{position:fixed;left:calc(26px + env(safe-area-inset-left,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 26px);width:128px;height:128px;border-radius:50%;
+  border:2px solid rgba(231,227,218,.32);background:radial-gradient(circle,rgba(0,0,0,.15),rgba(0,0,0,.45));z-index:4;pointer-events:none;transition:border-color .15s}
+#joyBase.on{border-color:rgba(231,227,218,.7)}
+#joyBase::after{content:"";position:absolute;inset:38%;border-radius:50%;border:1px dashed rgba(231,227,218,.18)}
+#joyKnob{position:absolute;left:50%;top:50%;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:50%;background:rgba(231,227,218,.38);box-shadow:0 2px 10px rgba(0,0,0,.4);transition:transform .08s}
+#joyBase.on #joyKnob{transition:none;background:rgba(231,227,218,.6)}
+.tbtn{position:fixed;z-index:4;right:calc(22px + env(safe-area-inset-right,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 40px);width:84px;height:84px;border-radius:50%;
+  background:rgba(10,10,10,.6);border:1px solid rgba(231,227,218,.35);font-size:16px;touch-action:none}
+.tbtn.ready{border-color:var(--bone);background:rgba(231,227,218,.18)}
+#btnRun{right:calc(122px + env(safe-area-inset-right,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 18px);width:74px;height:74px;border:0;padding:0;font-size:14px;
+  background:conic-gradient(var(--bone) calc(var(--st,1) * 360deg),rgba(231,227,218,.14) 0)}
+#btnRun span{position:absolute;inset:4px;border-radius:50%;background:rgba(10,10,10,.82);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.2}
+#btnRun small{font-size:10px;color:var(--dust)}
+#btnRun.on span{background:rgba(60,58,54,.9)}
+#btnRun.tired{background:conic-gradient(var(--red) calc(var(--st,1) * 360deg),rgba(231,227,218,.14) 0)}
+body.bright #joyBase{border-color:rgba(42,42,51,.3)}
+@media (prefers-reduced-motion:reduce){.rec .dot,#dNext{animation:none}#flash.go{animation-duration:.01s}}
+</style>
+</head>
+<body>
+<script>
+/* ===== 계정 설정 =====
+   Firebase 콘솔의 "웹 앱 추가"에서 받은 firebaseConfig를 아래 null 자리에 붙여 넣으면
+   Google 로그인과 계정 저장이 켜집니다. (설정 방법은 FIREBASE_설정방법.md 참고)
+   예:
+   window.RUINS_FIREBASE = {
+     apiKey: "AIza...", authDomain: "내프로젝트.firebaseapp.com", projectId: "내프로젝트",
+     storageBucket: "내프로젝트.appspot.com", messagingSenderId: "123", appId: "1:123:web:abc"
+   };
+   둘 다 비워 두면 이 브라우저에만 저장됩니다. claude.ai에서 열면 claude.ai 계정을 씁니다. */
+window.RUINS_FIREBASE = {
+  apiKey: "AIzaSyC7Q5RLRDh-zmtl33fYFOHv1zt29djXFmE",
+  authDomain: "broken-city.firebaseapp.com",
+  projectId: "broken-city",
+  storageBucket: "broken-city.firebasestorage.app",
+  messagingSenderId: "61347663505",
+  appId: "1:61347663505:web:b043405b9c82e02e1a7930",
+  measurementId: "G-LTXH66CJNB"
+};
+/* 직접 만든 서버를 쓸 때만: 서버 주소 (Firebase를 쓰면 비워 두세요) */
+window.RUINS_SERVER = '';
+</script>
+<canvas id="cv"></canvas>
+
+<div id="hud" class="hidden">
+  <div class="hud-l">
+    <div class="rec"><span class="dot"></span>REC <span id="recTime">00:00:00</span><span id="sync"></span></div>
+    <div id="areaName"></div>
+    <div id="objective"></div>
+  </div>
+  <div class="hud-r">
+    <button id="pastBtn" class="hbtn blue hidden"></button>
+    <button id="arcBtn" class="hbtn">기록 보관함<span id="recCount"></span></button>
+  </div>
+</div>
+
+<div id="dialog" class="hidden"><div id="dSpk"></div><div id="dTxt"></div><div id="dCh"></div><div id="dNext">▼</div></div>
+<div id="toast"></div>
+<div id="feed" class="hidden"></div>
+
+<div id="touch">
+  <div id="joyzone"></div>
+  <div id="joyBase"><div id="joyKnob"></div></div>
+  <button id="btnRun" class="tbtn"><span>달리기<small id="runKey"></small></span></button>
+  <button id="btnAct" class="tbtn">조사</button>
+</div>
+
+<div id="archive" class="ov hidden">
+  <div class="arc-panel">
+    <div class="arc-head">
+      <div><div class="arc-sys">ARCHIVE SYSTEM · USER: UNKNOWN · STATUS: RECORDING</div><h2>기록 보관함</h2></div>
+      <button class="x" id="arcClose">닫기</button>
+    </div>
+    <div class="tabs"><button data-tab="rec" class="on">기록</button><button data-tab="ded">추론</button></div>
+    <div id="arcRec" class="arc-body">
+      <div class="arc-left">
+        <div class="cmpbar"><button id="cmpToggle">두 기록 비교</button><button id="cmpGo" class="hidden" disabled>비교하기</button><span id="cmpHint">서로 맞지 않는 두 기록을 찾으면 진실에 가까워진다.</span></div>
+        <div id="arcList"></div>
+      </div>
+      <div id="arcDetail" class="arc-detail"></div>
+    </div>
+    <div id="arcDed" class="arc-ded hidden"></div>
+    <div id="cmpResult" class="cmp-result hidden"></div>
+  </div>
+</div>
+
+<div id="keypad" class="ov hidden">
+  <div class="kp">
+    <div class="kp-k" id="kpTitle">한결중학교 정문</div>
+    <div class="kp-screen" id="kpScreen">____</div>
+    <div class="kp-msg" id="kpMsg">학교에 마지막으로 사람이 있었던 날 (월일 4자리)</div>
+    <div class="kp-grid" id="kpGrid"></div>
+    <button id="kpClose">그만둔다</button>
+  </div>
+</div>
+
+<div id="title" class="ov">
+  <div class="t-in">
+    <h1>폐허의 기록</h1>
+    <p class="t-sub">도시는 죽었지만, 기록은 살아 있다.</p>
+    <div class="t-btns" id="tBtns"><button id="btnNew">새로 기록하기</button><button id="btnCont" class="hidden">이어서 기록하기</button></div>
+    <div class="acc" id="acc"></div>
+    <p class="t-ctl" id="tCtl"></p>
+    <p class="t-demo">구역 5곳 · 엔딩 4종</p>
+  </div>
+  <div class="t-seq hidden" id="tSeq"></div>
+</div>
+
+<div id="end" class="ov hidden">
+  <div id="endLines"></div>
+  <div id="endCard" class="hidden"></div>
+</div>
+
+<div id="flash"></div>
+<div id="fade"></div>
+
+<script>
+(function(){
+"use strict";
+const TS=32;
+const $=id=>document.getElementById(id);
+const cv=$('cv'), ctx=cv.getContext('2d');
+const isTouch=(window.matchMedia&&matchMedia('(pointer:coarse)').matches)||('ontouchstart' in window);
+if(isTouch) document.body.classList.add('touch');
+const COL={red:'#c8322d',blue:'#4a7fd4',yellow:'#d8b13a',nuri:'#eaf2ff',white:'#d9d6cf'};
+const KEY='ruins-record-demo-v1';
+
+/* ================= RECORDS ================= */
+const R={
+ news:{title:'삼실일보 1면',type:'신문',place:'폐허 도시, 가판대',date:'2011.10.15',color:'red',
+  text:'석말공장 사고, "단순 기계 고장"\n\n14일 새벽 4시경 석말공장에서 발생한 사고는 냉각 설비의 단순 기계 고장으로 확인됐다. 시는 만일에 대비해 14일 하루 관내 모든 학교에 휴교령을 내렸다. 인명 피해는 없다.\n\n기사 아래, 누군가 볼펜으로 눌러 쓴 글씨. "거짓말."'},
+ photo:{title:'빛바랜 폴라로이드',type:'사진',place:'폐허 도시, 버려진 승용차',date:'2011.10.14',color:'red',
+  text:'조수석에 떨어져 있던 사진 한 장.\n\n교복 입은 아이들이 "한결중학교 축제" 현수막 앞에서 웃고 있다. 뒤편 강당 시계는 오후 3시를 가리킨다.\n\n뒷면의 글씨. "2011. 10. 14. 축제 끝! 서윤이랑."'},
+ phone:{title:'공중전화 녹음',type:'전화기',place:'폐허 도시, 공중전화 부스',date:'날짜 불명',color:'white',
+  text:'끊긴 줄 알았던 회선에서 흘러나온 목소리.\n\n"거기 누구 있어요? 신문은 믿지 마세요. 그날, 학교엔 사람들이 있었어요. 다들 아직… 아직 거기서……"\n\n마지막으로, 잡음 속에서. "……기록자님?"',
+  pages:[{t:'수화기를 들자, 끊긴 줄 알았던 회선에서 잡음이 흘러나온다.'},{s:'???',t:'……거기 누구 있어요?'},{s:'???',t:'신문은 믿지 마세요. 그날, 학교엔 사람들이 있었어요.'},{s:'???',t:'다들 아직… 아직 거기서……'},{s:'???',t:'(치지직) ……기록자님?'},{t:'뚝. 신호가 끊겼다.\n…왜 이 사람은 나를 알고 있지?'}]},
+ graffiti:{title:'붉은 낙서',type:'낙서',place:'폐허 도시, 무너진 벽',date:'날짜 불명',color:'red',
+  text:'벽에 붉은 스프레이로 크게 적혀 있다.\n\n"기록은 거짓말을 한다."\n\n그 아래 작은 글씨로. "전부 다는 아니지만."'},
+ radio:{title:'긴급 재난 방송',type:'라디오',place:'폐허 도시, 상점 쇼윈도',date:'2011.10.14',color:'yellow',
+  text:'전원도 없는 라디오가 스스로 켜져 있다.\n\n"치직… 긴급 재난 방송입니다. 10월 14일 오후 5시… 석말공장 인근 주민은 즉시 대피… 치직… 학생들은 교내 대피소에서 대기하십시오…"\n\n방송은 같은 문장만 끝없이 반복한다.'},
+ map:{title:'삼실특별시 안내도',type:'지도',place:'폐허 도시, 버스 정류장',date:'날짜 불명',color:'red',esc:true,
+  text:'버스 정류장의 삼실특별시 안내도. 누군가 붉은 펜으로 도시 중앙의 지하에 X를 그려 두었다.\n\n"EXIT — 학교 아래 → 공장 → 더 아래"\n\n화살표는 지도 바깥, 아래쪽을 가리킨다. 탈출구의 위치를 가리키는 첫 번째 기록이다.'},
+ diary:{title:'찢어진 일기',type:'일기',place:'폐허 도시, 아파트 우편함',date:'2011.10.13',color:'white',
+  text:'10월 13일.\n\n내일은 서윤이네 학교 축제다. 요즘 공장 사람들이 이상하다. 밤마다 공장 굴뚝에서 하얀 빛이 올라온다. 연기가 아니라, 빛이.\n\n남편은 신경 쓰지 말라고 한다.'},
+ memo:{title:'경비실 메모',type:'메모',place:'폐허 도시, 학교 정문',date:'날짜 불명',color:'yellow',
+  text:'정문 비밀번호 변경 안내.\n\n새 비밀번호: 학교에 마지막으로 사람이 있었던 날 (월일 4자리).\n\n"잊지 않도록." 누가 이런 식으로 비밀번호를 정하는 걸까.'},
+ roll:{title:'2학년 3반 출석부',type:'출석부',place:'폐교, 2학년 3반 교실',date:'2011.10.14',color:'white',
+  text:'재적 30명. 강민재, 김하은, 박도윤 … 한서윤 … 황지우.\n\n10월 14일, 30명 전원 "출석". 명단 어디에도 빈칸은 없다.'},
+ diary2:{title:'반복되는 일기',type:'일기',place:'폐교, 2학년 1반 교실',date:'2011.10.14',color:'white',
+  text:'10월 14일. 드디어 축제!\n\n10월 14일. 또 축제다. 어제도 축제였는데.\n\n10월 14일. 아무도 이상하다고 하지 않는다.\n\n10월 14일. 10월 14일. 10월 14일. 10월 14일.\n\n마지막 장. "밖에 누가 서 있다. 우리를 적고 있다."'},
+ board:{title:'칠판의 문장',type:'칠판',place:'폐교, 2학년 3반 교실',date:'날짜 불명',color:'white',
+  text:'칠판 가득 같은 문장이 반복해서 적혀 있다.\n\n"우리는 사라지지 않는다. 기록될 뿐이다."\n\n한가운데, 다른 사람의 글씨로. "그곳에서 만나."'},
+ video:{title:'축제 영상',type:'녹화 테이프',place:'폐교, 방송 동아리실',date:'2011.10.14',color:'blue',past:true,pastArea:'school',
+  text:'캠코더에 꽂힌 테이프. 라벨: "11.10.14 축제".\n\n영상 속 복도는 깨끗하고 밝다. 3반 부스 앞에서 한 학생이 카메라를 향해 손을 흔든다. 명찰에 적힌 이름은 "기록자".\n\n그 뒤, 복도 벽에는 붉고 흰 벽화가 그려져 있다. 지금은 무너진 자리다.'},
+ log:{title:'교무일지',type:'학교 문서',place:'폐교, 교무실',date:'2011.10.14',color:'yellow',
+  text:'10월 14일 (금).\n\n축제 예정대로 진행. 교육청 휴교 지시 없음.\n\n16:50 석말공장 측 방문. 방송실에 "측정 장비" 설치 요청. 교장 승인.\n\n17:00 전교생 대피 훈련 방송 예정.'},
+ nuri:{title:'PROJECT NURI 보고서',type:'연구 자료',place:'폐교, 숨겨진 방',date:'2011.10.14',color:'nuri',
+  text:'PROJECT NURI — 1차 관측 보고서.\n\n관측 구역: 한결중학교\n관측 대상: 31명\n관측 방식: 기록\n\n관측 대상은 관측되는 동안 소멸하지 않는다.\n\n████ 개방 예정: 10월 14일 17:02.\n\n이름 부분만 검게 지워져 있다.'},
+ broadcast:{title:'마지막 대피 방송',type:'방송 기록',place:'폐교, 방송실',date:'2011.10.14 17:02',color:'red',esc:true,
+  text:'방송실 콘솔에 남은 마지막 송출 기록.\n\n"10월 14일 17시 02분. 전교생은 즉시 지하 대피소로 이동하십시오. 대피소 입구는 공장 방향 지하 통로에 있습니다."\n\n"문을 열지 마십시오. 반복합니다. 어떤 문도 열지 마십시오."\n\n탈출구로 이어지는 두 번째 기록이다.'},
+ cctv:{title:'CCTV 녹화, 석말공장',type:'CCTV 영상',place:'거대 공장, 관제실',date:'2011.10.14 16:58',color:'blue',past:true,pastArea:'factory',
+  text:'관제실 모니터 하나에만 전원이 남아 있다. 화면 구석의 시각은 2011.10.14 16:58.\n\n흰 코트를 입은 사람이 석말공장 레버실로 들어간다. 손에는 노트. 레버를 하나 당길 때마다 무언가를 적는다.\n\n얼굴은 노이즈에 가려 보이지 않는다.'},
+ govdoc:{title:'재난조사위원회 결과서',type:'정부 문서',place:'거대 공장, 관제실',date:'2011.11.02',color:'yellow',
+  text:'삼실특별시 재난조사위원회. 석말공장 사고 조사 결과.\n\n사고 원인: 냉각 설비 기계 고장.\n\n참고: 해당 날짜(10월 14일)의 공장 CCTV 기록은 존재하지 않는 것으로 확인됨.\n\n문서 아래에 "열람 후 파기" 도장이 찍혀 있다.'},
+ worklog:{title:'석말공장 작업 일지',type:'공장 기록',place:'거대 공장, 사무실',date:'2011.10.14',color:'white',
+  text:'04:00 냉각 설비 정기 점검. 이상 없음.\n\n16:40 NURI 팀, 제3반응로 가동 요청. 작업자 전원 제3구역 밖으로 철수.\n\n17:02 ————\n\n그 뒤로는 아무것도 적혀 있지 않다. 펜이 종이를 찢고 지나간 자국만 남아 있다.'},
+ resdiary:{title:'연구원의 일기',type:'일기',place:'거대 공장, 사무실',date:'2011.10.14',color:'red',
+  text:'그건 사고가 아니었다. 우리는 문을 열었다.\n\n정비 매뉴얼의 레버 순서는 거짓이다. 매뉴얼대로 당기면 발전기가 폭주한다. 윗선이 일부러 그렇게 적어 두었다. 아무도 다시 켜지 못하게.\n\n안전한 순서는 그날 그 사람이 당긴 순서뿐이다. 흰 코트, 노트. 그 사람은 처음부터 모든 것을 적고 있었다.'},
+ manual:{title:'제3발전기 정비 매뉴얼',type:'공장 기록',place:'거대 공장, 레버실',date:'2009.03.01',color:'yellow',
+  text:'제3발전기 재가동 절차.\n\n1. A 레버를 당긴다.\n2. B 레버를 당긴다.\n3. C 레버를 당긴다.\n\n※ 순서를 반드시 지킬 것.'},
+ power:{title:'비상 전력 배분표',type:'공장 기록',place:'거대 공장, 발전기실',date:'날짜 불명',color:'red',esc:true,
+  text:'제3발전기 비상 전력 배분표.\n\nB3 지하 연구시설 서버실: 공급 중\nB3 비상 탈출구 잠금장치: 공급 중\n\n경고: 비상 탈출구를 개방하면 ARCHIVE 저장 장치의 전원이 차단됩니다.\n\n탈출구로 이어지는 세 번째 기록이다.'},
+ nuriel:{title:'PROJECT NURI 최종 목표',type:'연구 자료',place:'거대 공장, 폐쇄된 실험실',date:'2011.10.01',color:'nuri',
+  text:'PROJECT NURI의 최종 목표.\n\n사라지지 않는 도시. 모든 것이 기록되어, 영원히 남는 장소.\n\n우리는 그곳을 "누리느엘"이라 부른다.\n\n개방 조건: 기록자의 존재.'},
+ archive:{title:'ARCHIVE 시스템 로그',type:'컴퓨터 데이터',place:'지하 연구시설, ARCHIVE실',date:'실시간',color:'nuri',
+  text:'ARCHIVE SYSTEM. USER: UNKNOWN. STATUS: RECORDING.\n\n화면 아래로 나의 모든 움직임이 한 줄씩 적히고 있다. 이동, 정지, 조사, 망설임.\n\n나는 기록을 모으고 있었다. 그리고 누군가는 줄곧 나를 기록하고 있었다.'},
+ accesslog:{title:'B3 출입 기록',type:'출입 기록',place:'지하 연구시설, 보안 게이트',date:'2011~2026',color:'red',
+  text:'2011.10.14 16:30 기록자 입장\n2014.10.14 09:12 기록자 입장\n2017.10.14 09:12 기록자 입장\n2020.10.14 09:12 기록자 입장\n2023.10.14 09:12 기록자 입장\n2026.10.14 09:12 기록자 입장\n\n서로 다른 해, 같은 이름. 퇴장 기록은 한 건도 없다.'},
+ server:{title:'오래된 서버',type:'컴퓨터 데이터',place:'지하 연구시설, 서버실',date:'실시간',color:'white',
+  text:'누적 관측 기록: 1,247,009건.\n현재 관측 중인 대상: 1명.\n\n전원: 제3발전기 비상 라인.\n\n비상 탈출구 개방 시 전원 차단. 모든 관측 기록이 소실됩니다.'},
+ recorder:{title:'연구원의 녹음',type:'녹음기',place:'지하 연구시설, 보안 게이트',date:'날짜 불명',color:'white',
+  text:'녹음기에서 지친 목소리가 흘러나온다.\n\n"문을 열면 기록이 지워진다. 기록을 지키면 문이 닫힌다. 우리 중 누구도 둘 다를 가질 순 없었다."\n\n"…그래도 기록자라면. 모든 기록을 끝까지 모은 기록자라면, 어쩌면."'},
+ deleted:{title:'복구된 최종 보고',type:'연구 자료',place:'지하 연구시설, ARCHIVE실',date:'2011.10.14',color:'nuri',
+  text:'PROJECT NURI 최종 보고 (복구됨).\n\n17:02, 누리느엘 개방. 도시 전체가 관측 범위에 들어감.\n\n관측된 사람들은 사라지지 않았다. 그들은 기록이 되었다. 끝나지 않는 10월 14일 속에서.\n\n관측을 유지하려면 관측자가 필요하다. 31번 대상을 관측자로 지정함. 호칭: 기록자.'},
+ code:{title:'최종 잠금 해제 코드',type:'연구 자료',place:'지하 연구시설, ARCHIVE실',date:'날짜 불명',color:'red',esc:true,
+  text:'비상 탈출구 최종 잠금 해제 코드.\n\n코드 = [관측 대상의 수] + [누리느엘 개방 시각의 분]\n\n네 자리. 기록을 기억하는 자만 문을 열 수 있다.\n\n탈출구로 이어지는 마지막 기록이다.'},
+ notfirst:{title:'피험자 31 관찰 기록',type:'연구 자료',place:'지하 연구시설, 폐쇄된 실험실',date:'2026.10.14',color:'red',
+  text:'피험자 31. 스스로를 기록자라 인식함. 이전 회차의 기억 없음.\n\n회차: 5\n\n마지막 줄, 붉은 펜으로 덧쓴 글씨.\n\n"기록자는 이곳에 처음 온 사람이 아니다."'},
+ c0400:{title:'광장의 가로등 시계',type:'시계',place:'누리느엘, 광장',date:'04:00',color:'white',
+  text:'광장 가로등에 매달린 시계는 04시 00분에서 멈춰 있다.\n\n신문이 말한 사고 시각이다. 그런데 이 시계만 유독 색이 바래 있다. 누군가 억지로 바늘을 돌려 놓은 것처럼.'},
+ c1500:{title:'강당 시계',type:'시계',place:'누리느엘, 홀',date:'15:00',color:'nuri',
+  text:'홀 벽에 걸린 강당 시계. 15시 00분.\n\n폴라로이드 속 아이들 뒤에 걸려 있던 바로 그 시계다. 축제가 끝난 시각.'},
+ c1650:{title:'지하의 벽시계',type:'시계',place:'누리느엘, 지하 3층',date:'16:50',color:'nuri',
+  text:'지하 3층의 괘종시계는 16시 50분을 가리킨다.\n\n교무일지에 적힌 시각. 석말공장 사람들이 학교에 도착한 순간이다.'},
+ c1658:{title:'옥상의 시계',type:'시계',place:'누리느엘, 옥상',date:'16:58',color:'nuri',
+  text:'옥상 난간의 시계, 16시 58분.\n\nCCTV 속 흰 코트의 사람이 레버실로 들어간 시각이다.'},
+ c1702:{title:'서윤의 손목시계',type:'시계',place:'누리느엘, 홀',date:'17:02',color:'nuri',
+  text:'서윤의 손목시계는 17시 02분에서 멈춰 있다.\n\n방송이 흘러나오고, 누리느엘이 열린 시각.'},
+ seoyun:{title:'한서윤',type:'사람',place:'누리느엘, 홀',date:'2011.10.14',color:'nuri',
+  text:'홀 한가운데, 교복 차림의 소녀가 웃고 있다. 폴라로이드 속 그 얼굴이다.\n\n"오늘 축제 진짜 재밌었지? 내일도 축제야. 모레도."\n\n"여기선 아무도 늙지 않아. 아무것도 끝나지 않아. …근데 너는 왜 자꾸 떠나?"'},
+ phone2:{title:'누리느엘의 공중전화',type:'전화기',place:'누리느엘, 광장',date:'날짜 불명',color:'red',
+  text:'수화기를 들자, 입이 저절로 움직였다.\n\n"……거기 누구 있어요? 신문은 믿지 마세요. 그날, 학교엔 사람들이 있었어요."\n\n도시의 공중전화에서 들었던 그 목소리. 그건 나였다.',
+  pages:[{t:'공중전화가 울린다. 수화기를 들었다.'},{t:'상대편에서는 잡음만 들린다. 그런데 내 입이 저절로 움직였다.'},{s:'나',t:'……거기 누구 있어요?'},{s:'나',t:'신문은 믿지 마세요. 그날, 학교엔 사람들이 있었어요.'},{s:'나',t:'다들 아직… 아직 거기서……'},{s:'나',t:'……기록자님?'},{t:'뚝.'},{t:'도시의 공중전화에서 들었던 목소리.\n그건, 나였다.'}]},
+ nlcore:{title:'기록자의 기록',type:'기록',place:'누리느엘, 중심부',date:'모든 회차',color:'nuri',
+  text:'모든 회차의 기록자가 남긴 한 권의 기록.\n\n1회차: 문을 열었다. 잊었다.\n2회차: 문을 열었다. 잊었다.\n3회차: 이곳에서 빛에 닿았다. 기록이 되었다.\n4회차: 문을 열었다. 진실을 안 채 떠났다. 그리고 다시 DAY 1.\n5회차: 기록을 지켰다. 이곳에 왔다. 되돌아갔다.\n\n한 번도, 모든 기록을 가져간 적은 없다.\n\n6회차: ____'}
+};
+const TOTAL=Object.keys(R).length;
+const CONTRA=[
+ {a:'news',b:'photo',flag:'dateTruth',title:'휴교령은 없었다',
+  text:'신문은 14일 하루 휴교령이 내려졌다고 한다.\n하지만 사진 속 아이들은 14일 오후 3시, 학교 축제를 즐기고 있다.\n\n신문이 거짓이다. 10월 14일, 학교에는 사람이 있었다.'},
+ {a:'news',b:'radio',title:'사고는 새벽이 아니었다',
+  text:'신문은 새벽 4시의 사고, 인명 피해 없음이라고 한다.\n그런데 라디오는 오후 5시에 긴급 대피를 알렸다.\n\n대피가 필요한 무언가가 그날 오후에 일어났다.'},
+ {a:'news',b:'log',title:'지워진 오후',
+  text:'교무일지에는 휴교 지시가 없었다고 적혀 있다.\n그리고 오후 4시 50분, 석말공장 사람들이 학교에 왔다.\n\n신문은 그 오후를 통째로 지웠다.'},
+ {a:'roll',b:'video',flag:'nameKnown',title:'출석부에 없는 학생',
+  text:'출석부의 30명 중에 "기록자"라는 이름은 없다.\n하지만 영상 속 학생의 명찰에는 분명히 "기록자"라고 적혀 있다.\n\n이 학교에는 출석부에 없는 학생이 있었다.'},
+ {a:'roll',b:'nuri',title:'31번째',
+  text:'출석부의 재적 인원은 30명.\n보고서의 관측 대상은 31명.\n\n한 명은 오직 기록 속에만 존재한다.'},
+ {a:'diary2',b:'nuri',title:'끝나지 않는 하루',
+  text:'일기 속 하루는 10월 14일에서 멈춰 있다.\n보고서는 관측 대상이 "관측되는 동안 소멸하지 않는다"고 한다.\n\n누군가 그날을 지금도 기록하고 있다.'},
+ {a:'govdoc',b:'cctv',title:'존재하지 않는 영상',
+  text:'정부 문서는 10월 14일의 공장 CCTV 기록이 존재하지 않는다고 한다.\n하지만 나는 지금 그 영상을 보고 있다.\n\n누군가 기록이 없다고 발표했다. 기록은 지워지지 않았다.'},
+ {a:'news',b:'worklog',title:'새벽의 사고는 없었다',
+  text:'신문은 새벽 4시의 냉각 설비 고장이라고 했다.\n작업 일지의 새벽 4시 점검 결과는 "이상 없음".\n\n무언가가 일어난 건 17시 02분, 기록이 끊긴 바로 그 순간이다.'},
+ {a:'manual',b:'resdiary',flag:'manualLie',title:'거짓 매뉴얼',
+  text:'매뉴얼은 A, B, C 순서를 지시한다.\n연구원은 매뉴얼대로 당기면 발전기가 폭주한다고 적었다.\n\n믿을 수 있는 건 그날 흰 코트의 사람이 당긴 순서뿐이다.'},
+ {a:'cctv',b:'video',title:'노트를 든 사람',
+  text:'축제 영상 속 "기록자" 명찰의 학생. CCTV 속 흰 코트의 사람.\n둘 다 무언가를 계속 적고 있다.\n\n같은 날, 같은 도시. 기록자는 어디에나 있었다.'},
+ {a:'nuri',b:'nuriel',title:'지워진 이름',
+  text:'학교의 보고서에서 검게 지워져 있던 네 글자.\n공장의 문서는 그 이름을 숨기지 않는다.\n\n누리느엘. 도시가 사라진 이유는 그곳에 있다.'},
+ {a:'accesslog',b:'diary2',title:'매년 같은 날',
+  text:'일기 속 하루는 언제나 10월 14일이다.\n출입 기록의 날짜도 매번 10월 14일. 바뀌는 건 해뿐이다.\n\n기록자는 그날로, 몇 번이고 돌아왔다.'},
+ {a:'accesslog',b:'phone',title:'나를 아는 목소리',
+  text:'공중전화 속 목소리는 처음 보는 나를 "기록자님"이라고 불렀다.\n출입 기록에는 같은 이름이 여섯 번.\n\n그 사람은 나를 처음 만난 게 아니었다.'},
+ {a:'notfirst',b:'map',title:'붉은 펜의 주인',
+  text:'도시 안내도에 EXIT를 그려 둔 붉은 펜.\n관찰 기록 마지막 줄을 덧쓴 붉은 펜.\n\n같은 필체다. 탈출구를 표시한 건 이전 회차의 기록자, 나였다.'},
+ {a:'server',b:'power',title:'지워지는 도시',
+  text:'탈출구가 열리면 서버의 전원이 끊긴다.\n누적 관측 기록 1,247,009건, 도시의 모든 사람이 거기 있다.\n\n문을 여는 건 탈출이자, 도시를 완전히 지우는 일이다.'},
+ {a:'c0400',b:'worklog',title:'거짓의 시간',
+  text:'가로등 시계는 04:00. 신문이 말한 사고 시각이다.\n하지만 작업 일지의 새벽 4시는 "이상 없음".\n\n누리느엘의 시계 중 이것 하나만 거짓을 가리킨다.'},
+ {a:'phone2',b:'phone',title:'전화를 건 사람',
+  text:'도시의 공중전화에서 들은 목소리.\n누리느엘의 공중전화에서 내 입으로 한 말.\n\n똑같다. 나에게 경고한 건, 나였다.'},
+ {a:'seoyun',b:'photo',title:'자라지 않는 아이',
+  text:'폴라로이드 속 서윤, 2011년.\n누리느엘의 서윤. 15년이 지났는데 그대로다.\n\n이곳에서는 아무도 늙지 않는다.'},
+ {a:'nlcore',b:'notfirst',title:'여섯 번째',
+  text:'관찰 기록의 회차는 5.\n기록자의 기록에 남은 다섯 번의 선택.\n\n이번이 여섯 번째다. 그리고 아직, 모든 기록을 가져간 적은 없다.'}
+];
+const ESC=[{id:'map',l:'출입구 위치 기록',a:'폐허 도시'},{id:'broadcast',l:'대피 방송 기록',a:'폐교'},{id:'power',l:'전력 공급 기록',a:'거대 공장'},{id:'code',l:'최종 잠금 해제 코드',a:'지하 연구시설'}];
+
+/* ================= MAPS ================= */
+function grid(w,h,c){return Array.from({length:h},()=>Array(w).fill(c));}
+function rect(g,x,y,w,h,c){for(let j=y;j<y+h;j++)for(let i=x;i<x+w;i++)if(g[j]&&g[j][i]!==undefined)g[j][i]=c;}
+function put(g,l,c){l.forEach(p=>{g[p[1]][p[0]]=c;});}
+function buildCity(){
+ const g=grid(40,30,',');
+ rect(g,0,0,40,1,'#');rect(g,0,29,40,1,'#');rect(g,0,0,1,30,'#');rect(g,39,0,1,30,'#');
+ rect(g,1,13,38,4,'.');rect(g,18,1,4,28,'.');
+ [[2,2,7,5],[11,2,5,5],[24,2,6,5],[32,2,6,5],[2,19,8,6],[11,20,5,5],[24,19,5,6],[31,19,7,6]].forEach(b=>rect(g,b[0],b[1],b[2],b[3],'#'));
+ g[0][19]='G';g[0][20]='G';
+ put(g,[[5,14],[10,15],[27,13],[20,8],[19,23],[35,15],[14,13]],'c');
+ put(g,[[7,8],[8,8],[12,17],[29,17],[30,17],[3,26]],'r');
+ put(g,[[10,10],[23,10],[16,26],[30,11]],'T');
+ return {w:40,h:30,g};
+}
+function buildSchool(){
+ const g=grid(34,27,'#');
+ rect(g,1,12,32,3,'f');
+ rect(g,2,3,8,8,'f');g[11][5]='f';g[11][6]='f';
+ rect(g,12,3,7,8,'f');g[11][15]='f';
+ rect(g,21,3,5,8,'f');g[11][23]='f';
+ rect(g,28,3,5,8,'f');g[11][30]='f';
+ rect(g,2,16,9,6,'f');g[15][6]='f';
+ rect(g,15,16,7,6,'f');
+ rect(g,26,15,2,10,'f');g[25][26]='E';g[25][27]='E';
+ put(g,[[3,6],[5,6],[7,6],[3,8],[5,8],[7,8],[13,7],[17,7],[22,7],[24,7],[29,7],[3,18],[5,18],[7,18],[9,18],[3,20],[5,20],[7,20],[9,20]],'d');
+ return {w:34,h:27,g};
+}
+function buildFactory(){
+ const g=grid(38,30,'#');
+ rect(g,2,12,34,10,'m');
+ rect(g,3,3,7,8,'m');g[11][6]='m';
+ rect(g,12,3,6,8,'m');g[11][14]='m';
+ rect(g,20,3,6,8,'m');g[11][22]='m';
+ rect(g,28,3,7,8,'m');g[11][31]='L';
+ rect(g,3,23,8,5,'m');g[22][7]='m';
+ rect(g,26,23,6,5,'m');g[22][28]='K';
+ rect(g,17,22,4,6,'m');g[28][18]='E';g[28][19]='E';
+ rect(g,5,14,4,3,'X');rect(g,26,14,5,3,'X');rect(g,12,18,3,2,'X');rect(g,23,18,3,2,'X');
+ put(g,[[5,25],[7,25]],'X');
+ put(g,[[10,13],[20,15],[32,19],[16,20],[4,20]],'v');
+ g[26][29]='Z';g[26][30]='Z';
+ return {w:38,h:30,g};
+}
+function buildLab(){
+ const g=grid(36,40,'#');
+ rect(g,16,1,4,5,'n');g[1][17]='U';g[1][18]='U';
+ rect(g,3,6,30,3,'n');
+ rect(g,3,1,9,4,'n');g[5][7]='n';
+ rect(g,23,1,10,4,'n');g[5][27]='n';
+ put(g,[[24,1],[26,1],[28,1],[30,1],[24,3],[26,3],[28,3],[30,3]],'S');
+ rect(g,3,10,8,6,'n');g[9][6]='n';
+ rect(g,13,10,10,7,'n');g[9][17]='n';g[9][18]='n';
+ rect(g,25,10,7,6,'n');g[9][28]='J';
+ rect(g,33,6,2,24,'n');g[10][33]='Q';g[10][34]='Q';
+ rect(g,10,30,25,8,'n');
+ return {w:36,h:40,g};
+}
+const MAPS={city:buildCity(),school:buildSchool(),factory:buildFactory(),lab:buildLab()};
+function buildNL(){
+ const g=grid(50,44,'V');
+ rect(g,4,1,20,8,'w');
+ for(let y=6;y<=7;y++)for(let x=5;x<=21;x++)if(x!==13&&x!==14)g[y][x]='C';
+ rect(g,13,9,2,5,'h');
+ rect(g,2,14,24,10,'w');rect(g,0,18,28,3,'o');
+ rect(g,3,14,5,3,'B');rect(g,18,14,6,3,'B');
+ rect(g,30,2,12,8,'Y');rect(g,38,2,4,2,'B');
+ rect(g,30,13,12,7,'R');rect(g,31,13,4,2,'B');
+ rect(g,30,23,18,12,'W');
+ return {w:50,h:44,g};
+}
+MAPS.nl=buildNL();
+const NL_ZONES=[['중심부',4,1,20,8],['없던 길',13,9,2,5],['광장',0,14,28,10],['지하 3층',30,2,12,8],['옥상',30,13,12,7],['홀',30,23,18,12]];
+const CLOCKS=['c0400','c1500','c1650','c1658','c1702'];
+const LAB_ROOMS=[['ARCHIVE실',3,1,9,4],['서버실',23,1,10,4],['보안 게이트',3,10,8,6],['장치실',13,10,10,7],['폐쇄된 실험실',25,10,7,6],['수직 통로',33,6,2,24],['탈출구 앞',10,30,25,8],['B3 복도',3,6,30,3],['계단',16,1,4,5]];
+const VENTS=[];MAPS.factory.g.forEach((row,y)=>row.forEach((c,x)=>{if(c==='v')VENTS.push([x,y]);}));
+const RUBBLE_S=new Set(['8,13','9,12','22,14','31,13']);
+const SOLID=new Set(['#','r','c','T','G','d','M','X','L','K','S','Q','J','V','B','C']);
+const AREA_NAME={city:'AREA 01 · 폐허 도시',school:'AREA 02 · 폐교',factory:'AREA 03 · 거대 공장',lab:'AREA 04 · 지하 연구시설',nl:'AREA 05 · 누리느엘'};
+
+/* ================= STATE ================= */
+function fresh(){return {area:'city',x:5.5*TS,y:27.6*TS,records:[],contra:[],flags:{},past:false,time:0};}
+let S=fresh();
+const P={x:S.x,y:S.y,fx:0,fy:1,moving:false,anim:0,vx:0,vy:0,running:false,sta:1,tired:false,dustT:0,phase:0,walkW:0,runW:0,face:'d'};
+const DUST=[];
+let started=false,transitioning=false,arcOpen=false,kpOpen=false,endOpen=false;
+let near=null,shakeT=0,wrongTries=0;
+function has(id){return S.records.indexOf(id)>=0;}
+/* ---------- 계정 저장 ----------
+ 우선순위: ① claude.ai에서 열었을 때 → claude.ai 계정 저장소
+           ② window.RUINS_SERVER 주소가 있을 때 → 직접 만든 서버 (README의 API 참고)
+           ③ 둘 다 없을 때 → 이 브라우저(localStorage)에만 저장 */
+const SERVER_URL=String(window.RUINS_SERVER||'').trim().replace(/\/+$/,'');
+const TOKEN_KEY='ruins-record-token';
+const ACC={state:'loading',mode:'off',profile:null,cloud:null,be:null};
+let wiped=false,cloudPending=null,cloudBusy=false,cloudTimer=null,profChain=Promise.resolve();
+function save(){
+ if(wiped||!started)return;
+ S.x=P.x;S.y=P.y;const str=JSON.stringify(Object.assign({},S,{past:false,savedAt:Date.now()}));
+ try{localStorage.setItem(KEY,str);}catch(e){}
+ if(ACC.state==='ready'&&ACC.profile){cloudPending=str;clearTimeout(cloudTimer);setSync('pending');cloudTimer=setTimeout(flushCloud,1200);}
+ else setSync('local');
+}
+async function flushCloud(){
+ if(cloudBusy||!cloudPending||wiped||!ACC.profile)return;
+ cloudBusy=true;const str=cloudPending;cloudPending=null;
+ try{await ACC.be.saveSet(str);ACC.cloud={state:str};setSync(cloudPending?'pending':'saved');}
+ catch(e){
+  if(e&&e.code==='unavailable'){if(!cloudPending)cloudPending=str;setSync('retry');setTimeout(()=>{cloudBusy=false;flushCloud();},2000+Math.random()*2000);return;}
+  if(e&&e.code==='unauthenticated'){signedOut('로그인이 만료됐어요. 다시 로그인하면 계정 저장이 이어집니다.');}
+  else setSync(e&&e.code==='quota_exceeded'?'full':'error');
+ }
+ cloudBusy=false;if(cloudPending)cloudTimer=setTimeout(flushCloud,800);
+}
+function parseSave(str){try{const d=typeof str==='string'?JSON.parse(str):str;if(d&&Array.isArray(d.records))return d;}catch(e){}return null;}
+function localSave(){try{return parseSave(localStorage.getItem(KEY));}catch(e){return null;}}
+function loadSave(){
+ const local=localSave();
+ const cloud=ACC.cloud?parseSave(ACC.cloud.state):null;
+ if(ACC.state==='ready'&&ACC.profile){if(cloud&&local)return (local.savedAt||0)>(cloud.savedAt||0)?local:cloud;return cloud||local;}
+ return local;
+}
+function wipeSave(){
+ wiped=true;cloudPending=null;clearTimeout(cloudTimer);
+ try{localStorage.removeItem(KEY);}catch(e){}
+ ACC.cloud=null;
+ if(ACC.state==='ready'&&ACC.profile)return ACC.be.saveDel().catch(()=>{});
+ return Promise.resolve();
+}
+function profUpdate(patch){
+ if(ACC.state!=='ready'||!ACC.profile)return;
+ Object.assign(ACC.profile,patch);
+ profChain=profChain.then(()=>ACC.be.profUpdate(patch)).catch(()=>{});
+}
+function addEver(id){if(!ACC.profile)return;const ev=ACC.profile.ever||[];if(ev.indexOf(id)<0)profUpdate({ever:ev.concat([id])});}
+function addEnding(k){
+ if(ACC.profile){const en=ACC.profile.endings||[];if(en.indexOf(k)<0)profUpdate({endings:en.concat([k])});}
+ try{const l=JSON.parse(localStorage.getItem('ruins-record-endings')||'[]');if(l.indexOf(k)<0){l.push(k);localStorage.setItem('ruins-record-endings',JSON.stringify(l));}}catch(e){}
+}
+function localLoops(){try{return +localStorage.getItem('ruins-record-loop')||0;}catch(e){return 0;}}
+function localEndings(){try{return JSON.parse(localStorage.getItem('ruins-record-endings')||'[]');}catch(e){return [];}}
+function getLoops(){if(ACC.profile&&typeof ACC.profile.loops==='number')return ACC.profile.loops;return localLoops();}
+function addLoop(){const n=getLoops()+1;try{localStorage.setItem('ruins-record-loop',String(n));}catch(e){}profUpdate({loops:n});return n-1;}
+function setSync(st){
+ const el=$('sync');if(!el)return;
+ el.textContent={pending:'· 계정에 저장 중',saved:'· 계정에 저장됨',retry:'· 서버 연결 재시도 중',local:'· 이 브라우저에 저장',error:'· 저장 실패 (이 브라우저에만 저장됨)',full:'· 저장 공간 부족'}[st]||'';
+}
+
+/* --- ① claude.ai 계정 --- */
+async function claudeBackend(){
+ if(!window.claude||typeof window.claude.use!=='function')return null;
+ const r=await Promise.all([window.claude.use('db'),window.claude.use('user')]);
+ const db=r[0],user=r[1];if(!db||!user)return null;
+ const uid=await user.id();if(!uid)return null;
+ const profDoc=db.doc('data/users/'+uid+'/profile'),saveDoc=db.doc('data/users/'+uid+'/save');
+ const g=await Promise.all([profDoc.get(),saveDoc.get()]);
+ return {
+  profile:g[0].exists?Object.assign({},g[0].data()):null, cloud:g[1].exists?g[1].data():null,
+  be:{
+   saveSet:str=>saveDoc.set({state:str,savedAt:Date.now()}),
+   saveDel:()=>saveDoc.delete(),
+   profUpdate:patch=>profDoc.update(patch),
+   create:async name=>{const prof={name,created:Date.now(),loops:localLoops(),ever:(localSave()||{records:[]}).records.slice(),endings:localEndings()};await profDoc.set(prof);return prof;}
+  }
+ };
+}
+
+/* --- ② 직접 만든 서버 --- */
+function getToken(){try{return localStorage.getItem(TOKEN_KEY)||'';}catch(e){return '';}}
+function setToken(t){try{if(t)localStorage.setItem(TOKEN_KEY,t);else localStorage.removeItem(TOKEN_KEY);}catch(e){}}
+async function api(method,path,body,auth){
+ const h={'Content-Type':'application/json'};
+ if(auth!==false){const t=getToken();if(t)h.Authorization='Bearer '+t;}
+ let res;
+ try{res=await fetch(SERVER_URL+path,{method,headers:h,body:body===undefined?undefined:JSON.stringify(body)});}
+ catch(e){throw {code:'unavailable'};}
+ let data=null;try{data=await res.json();}catch(e){}
+ if(res.ok)return data||{};
+ const code=res.status===401?'unauthenticated':res.status===413?'quota_exceeded':(res.status===429||res.status>=500)?'unavailable':((data&&data.error)||'error');
+ throw {code,message:data&&data.message};
+}
+const serverBe={
+ saveSet:str=>api('PUT','/api/save',{state:str,savedAt:Date.now()}),
+ saveDel:()=>api('DELETE','/api/save'),
+ profUpdate:patch=>api('PATCH','/api/profile',patch)
+};
+async function serverInit(){
+ if(!getToken())return {profile:null,cloud:null};
+ try{const r=await api('GET','/api/me');return {profile:r.profile||null,cloud:r.save||null};}
+ catch(e){if(e.code==='unauthenticated')setToken('');return {profile:null,cloud:null,err:e.code};}
+}
+async function serverAuth(kind){
+ const n=$('accName'),pw=$('accPw'),msg=$('accMsg');
+ const name=(n.value||'').trim(),pass=pw.value||'';
+ if(!name){msg.textContent='기록자 이름을 적어 주세요.';n.focus();return;}
+ if(pass.length<6){msg.textContent='비밀번호는 6자 이상이어야 해요.';pw.focus();return;}
+ document.querySelectorAll('#acc button').forEach(b=>b.disabled=true);msg.textContent=kind==='register'?'계정을 만드는 중…':'로그인 중…';
+ try{
+  const r=await api('POST',kind==='register'?'/api/register':'/api/login',{name,password:pass},false);
+  setToken(r.token);ACC.profile=r.profile;ACC.cloud=r.save||null;
+  if(kind==='register'){
+   const local=localSave();
+   const patch={loops:localLoops(),ever:local?local.records.slice():[],endings:localEndings()};
+   try{await api('PATCH','/api/profile',patch);Object.assign(ACC.profile,patch);}catch(e){}
+   if(local){try{await api('PUT','/api/save',{state:JSON.stringify(local),savedAt:Date.now()});ACC.cloud={state:JSON.stringify(local)};}catch(e){}}
+   toast('기록자 '+name+' 계정을 만들었어요. 이제 진행이 서버에 저장됩니다.');
+  } else toast('기록자 '+ACC.profile.name+'(으)로 로그인했어요.');
+ }catch(e){
+  const t={name_taken:'이미 쓰고 있는 기록자 이름이에요.',bad_credentials:'이름 또는 비밀번호가 틀렸어요.',invalid_name:'이름은 1~12자로 적어 주세요.',invalid_password:'비밀번호는 6~72자로 적어 주세요.',unavailable:'서버에 연결하지 못했어요. 잠시 후 다시 시도해 주세요.'};
+  msg.textContent=t[e.code]||e.message||'요청을 처리하지 못했어요.';
+  document.querySelectorAll('#acc button').forEach(b=>b.disabled=false);return;
+ }
+ accountUI();
+}
+async function serverLogout(){
+ try{await api('POST','/api/logout');}catch(e){}
+ signedOut('로그아웃했어요. 진행은 이 브라우저에만 저장됩니다.');
+}
+function signedOut(msg){
+ setToken('');ACC.profile=null;ACC.cloud=null;cloudPending=null;clearTimeout(cloudTimer);
+ setSync('local');if(msg)toast(msg);accountUI();
+}
+
+/* --- ② Firebase --- */
+const FB_CFG=(window.RUINS_FIREBASE&&typeof window.RUINS_FIREBASE==='object')?window.RUINS_FIREBASE:null;
+let FB=null;
+async function loadFirebaseModules(){
+ if(window.__RUINS_FB_MODULES)return window.__RUINS_FB_MODULES;
+ const base='https://www.gstatic.com/firebasejs/10.12.2/';
+ const r=await Promise.all([import(base+'firebase-app.js'),import(base+'firebase-auth.js'),import(base+'firebase-firestore.js')]);
+ return {app:r[0],auth:r[1],fs:r[2]};
+}
+const FB_CODES={'unavailable':'unavailable','deadline-exceeded':'unavailable','auth/network-request-failed':'unavailable','unauthenticated':'unauthenticated','permission-denied':'unauthenticated',
+ 'resource-exhausted':'quota_exceeded','auth/email-already-in-use':'name_taken','auth/invalid-credential':'bad_credentials','auth/invalid-login-credentials':'bad_credentials','auth/wrong-password':'bad_credentials',
+ 'auth/user-not-found':'bad_credentials','auth/weak-password':'invalid_password','auth/too-many-requests':'rate_limited','auth/unauthorized-domain':'unauthorized_domain','auth/operation-not-allowed':'provider_off',
+ 'auth/popup-closed-by-user':'cancelled','auth/cancelled-popup-request':'cancelled','auth/popup-blocked':'popup_blocked'};
+function fbErr(e){const c=(e&&e.code)||'';return {code:FB_CODES[c]||c||'error'};}
+const wrapFb=fn=>async(...a)=>{try{return await fn(...a);}catch(e){throw fbErr(e);}};
+async function fbLoadUser(u){
+ const fs=FB.fs;FB.pref=fs.doc(FB.db,'users',u.uid);FB.sref=fs.doc(FB.db,'users',u.uid,'data','save');
+ const g=await Promise.all([fs.getDoc(FB.pref),fs.getDoc(FB.sref)]);
+ ACC.fbUser=u;ACC.profile=g[0].exists()?Object.assign({},g[0].data()):null;ACC.cloud=g[1].exists()?g[1].data():null;
+}
+const fbBe={
+ saveSet:wrapFb(str=>FB.fs.setDoc(FB.sref,{state:str,savedAt:Date.now()})),
+ saveDel:wrapFb(()=>FB.fs.deleteDoc(FB.sref)),
+ profUpdate:wrapFb(patch=>FB.fs.updateDoc(FB.pref,patch)),
+ create:wrapFb(async name=>{const prof={name,created:Date.now(),loops:localLoops(),ever:(localSave()||{records:[]}).records.slice(),endings:localEndings()};await FB.fs.setDoc(FB.pref,prof);return prof;})
+};
+async function firebaseInit(){
+ const m=await loadFirebaseModules();
+ const app=m.app.initializeApp(FB_CFG);
+ FB={m,auth:m.auth.getAuth(app),db:m.fs.getFirestore(app),fs:m.fs};
+ try{FB.auth.languageCode='ko';}catch(e){}
+ const u=await new Promise(res=>{const un=m.auth.onAuthStateChanged(FB.auth,x=>{un();res(x);});});
+ if(u){try{await fbLoadUser(u);}catch(e){ACC.fbUser=u;ACC.profile=null;ACC.serverDown=true;}}
+}
+const AUTH_MSG={name_taken:'이미 가입된 이메일이에요. 로그인해 주세요.',bad_credentials:'이메일 또는 비밀번호가 틀렸어요.',invalid_password:'비밀번호는 6자 이상이어야 해요.',invalid_email:'이메일 형식이 올바르지 않아요.',
+ rate_limited:'시도가 너무 많아요. 잠시 후 다시 해 주세요.',unavailable:'서버에 연결하지 못했어요. 잠시 후 다시 시도해 주세요.',unauthorized_domain:'이 주소가 Firebase의 승인된 도메인에 없어요. 콘솔에서 추가해 주세요.',
+ provider_off:'Firebase 콘솔에서 이 로그인 방법을 켜 주세요.',popup_blocked:'팝업이 차단됐어요. 팝업을 허용하고 다시 눌러 주세요.',user_disabled:'사용이 중지된 계정이에요.'};
+FB_CODES['auth/invalid-email']='invalid_email';FB_CODES['auth/missing-email']='invalid_email';FB_CODES['auth/missing-password']='invalid_password';FB_CODES['auth/user-disabled']='user_disabled';
+const EMAIL_RE=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+let fbForm='login';
+async function fbAuth(kind){
+ const msg=$('accMsg');
+ let email='',pass='',name='';
+ if(kind!=='google'){
+  email=($('accEmail').value||'').trim();pass=$('accPw').value||'';
+  if(kind==='register'){name=($('accName').value||'').trim();
+   if(!name||name.length>12){msg.textContent='기록자 이름은 1~12자로 적어 주세요.';$('accName').focus();return;}}
+  if(!EMAIL_RE.test(email)){msg.textContent='이메일을 정확히 적어 주세요.';$('accEmail').focus();return;}
+  if(pass.length<6){msg.textContent='비밀번호는 6자 이상이어야 해요.';$('accPw').focus();return;}
+  if(kind==='register'&&pass!==($('accPw2').value||'')){msg.textContent='비밀번호 확인이 일치하지 않아요.';$('accPw2').focus();return;}
+ }
+ const btns=document.querySelectorAll('#acc button');btns.forEach(b=>b.disabled=true);
+ msg.textContent=kind==='register'?'계정을 만드는 중…':'로그인 중…';
+ try{
+  const A=FB.m.auth;
+  if(kind==='google')await A.signInWithPopup(FB.auth,new A.GoogleAuthProvider());
+  else if(kind==='register'){const cred=await A.createUserWithEmailAndPassword(FB.auth,email,pass);
+   try{if(A.sendEmailVerification)await A.sendEmailVerification((cred&&cred.user)||FB.auth.currentUser);}catch(e){}}
+  else await A.signInWithEmailAndPassword(FB.auth,email,pass);
+  await fbLoadUser(FB.auth.currentUser);
+  if(!ACC.profile&&kind==='register'){
+   ACC.profile=await fbBe.create(name);
+   const local=localSave();if(local){try{await fbBe.saveSet(JSON.stringify(local));ACC.cloud={state:JSON.stringify(local)};}catch(e){}}
+   toast('기록자 '+name+' 계정을 만들었어요. '+email+'로 인증 메일을 보냈어요.');
+  } else if(ACC.profile)toast('기록자 '+ACC.profile.name+'(으)로 로그인했어요.');
+ }catch(e){
+  const er=(e&&e.code&&FB_CODES[e.code])?fbErr(e):(e&&e.code&&e.code.indexOf('/')<0?e:fbErr(e));
+  btns.forEach(b=>b.disabled=false);
+  msg.textContent=er.code==='cancelled'?'':(AUTH_MSG[er.code]||'로그인하지 못했어요. ('+er.code+')');
+  return;
+ }
+ fbForm='login';accountUI();
+}
+async function fbReset(){
+ const msg=$('accMsg'),email=($('accEmail').value||'').trim();
+ if(!EMAIL_RE.test(email)){msg.textContent='비밀번호를 재설정할 이메일을 먼저 적어 주세요.';$('accEmail').focus();return;}
+ try{await FB.m.auth.sendPasswordResetEmail(FB.auth,email);msg.textContent=email+'로 비밀번호 재설정 메일을 보냈어요. 메일함(스팸함 포함)을 확인해 주세요.';}
+ catch(e){const er=fbErr(e);msg.textContent=AUTH_MSG[er.code]||'메일을 보내지 못했어요. ('+er.code+')';}
+}
+async function fbLogout(){try{await FB.m.auth.signOut(FB.auth);}catch(e){}ACC.fbUser=null;signedOut('로그아웃했어요. 진행은 이 브라우저에만 저장됩니다.');}
+
+async function initAccount(){
+ try{
+  const c=await claudeBackend();
+  if(c){ACC.mode='claude';ACC.be=c.be;ACC.profile=c.profile;ACC.cloud=c.cloud;ACC.state='ready';accountUI();return;}
+ }catch(e){}
+ if(FB_CFG){
+  ACC.mode='firebase';ACC.be=fbBe;
+  try{await firebaseInit();ACC.state='ready';}catch(e){ACC.mode='off';ACC.state='off';ACC.fbFail=true;}
+  accountUI();return;
+ }
+ if(SERVER_URL){
+  ACC.mode='server';ACC.be=serverBe;
+  const r=await serverInit();ACC.profile=r.profile;ACC.cloud=r.cloud;ACC.state='ready';
+  if(r.err==='unavailable')ACC.serverDown=true;
+  accountUI();return;
+ }
+ ACC.mode='off';ACC.state='off';accountUI();
+}
+async function registerAccount(){
+ const inp=$('accName');const name=(inp.value||'').trim().slice(0,12);
+ if(!name){$('accMsg').textContent='기록자 이름을 적어 주세요.';inp.focus();return;}
+ $('accReg').disabled=true;$('accMsg').textContent='등록 중…';
+ try{
+  const prof=await ACC.be.create(name);ACC.profile=prof;
+  const local=localSave();
+  if(local){await ACC.be.saveSet(JSON.stringify(local));ACC.cloud={state:JSON.stringify(local)};}
+  toast('기록자 '+name+' 등록 완료. 이제 진행이 계정에 저장됩니다.');
+ }catch(e){$('accMsg').textContent=e&&e.code==='quota_exceeded'?'저장 공간이 가득 차 등록하지 못했어요.':'등록하지 못했어요. 잠시 후 다시 시도해 주세요.';$('accReg').disabled=false;return;}
+ accountUI();
+}
+function stopKeys(el,onEnter){el.addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter'&&onEnter)onEnter();});el.addEventListener('keyup',e=>e.stopPropagation());}
+function accountUI(){
+ const box=$('acc');if(!box)return;
+ if(ACC.state==='loading'){box.innerHTML='<div class="acc-k">기록자 계정 확인 중…</div>';}
+ else if(ACC.state==='off'){box.innerHTML=ACC.fbFail?'<div class="acc-k">Firebase에 연결하지 못했어요</div><div class="acc-s">firebaseConfig 값과 인터넷 연결을 확인해 주세요. 지금은 이 브라우저에만 저장됩니다.</div>':'<div class="acc-k">이 브라우저에만 저장돼요</div><div class="acc-s">연결된 계정 서버가 없어서 진행은 이 기기의 이 브라우저에만 남아요.</div>';}
+ else if(ACC.mode==='firebase'&&!ACC.fbUser){
+  const su=fbForm==='signup';
+  box.innerHTML='<div class="acc-k">'+(su?'기록자 계정 만들기':'기록자 로그인')+'</div><div class="acc-s">로그인하면 진행과 평생 기록이 계정에 보관돼요. 다른 기기에서도 이어서 할 수 있어요.</div>'+
+   '<div class="acc-row"><button id="accG" class="google">Google 계정으로 로그인</button></div><div class="acc-s dim">또는 이메일로'+(su?' 가입':' 로그인')+'</div>'+
+   '<div class="acc-row col">'+(su?'<input id="accName" maxlength="12" placeholder="기록자 이름 (게임에서 쓸 이름)" autocomplete="nickname">':'')+
+   '<input id="accEmail" type="email" maxlength="120" placeholder="이메일" autocomplete="email" inputmode="email">'+
+   '<input id="accPw" type="password" maxlength="72" placeholder="비밀번호 (6자 이상)" autocomplete="'+(su?'new-password':'current-password')+'">'+
+   (su?'<input id="accPw2" type="password" maxlength="72" placeholder="비밀번호 확인" autocomplete="new-password">':'')+'</div>'+
+   '<div class="acc-row"><button id="accMain">'+(su?'계정 만들기':'로그인')+'</button><button id="accSwap" class="ghost">'+(su?'이미 계정이 있어요':'계정 만들기')+'</button></div>'+
+   (su?'':'<div class="acc-row"><button id="accReset" class="link">비밀번호를 잊었어요</button></div>')+
+   '<div class="acc-s" id="accMsg"></div>';
+  $('accG').onclick=()=>fbAuth('google');
+  $('accMain').onclick=()=>fbAuth(su?'register':'login');
+  $('accSwap').onclick=()=>{const em=$('accEmail').value;fbForm=su?'login':'signup';accountUI();$('accEmail').value=em;};
+  if(!su)$('accReset').onclick=fbReset;
+  const ids=su?['accName','accEmail','accPw','accPw2']:['accEmail','accPw'];
+  ids.forEach((id,k)=>stopKeys($(id),k<ids.length-1?()=>$(ids[k+1]).focus():()=>fbAuth(su?'register':'login')));
+ }
+ else if(!ACC.profile&&ACC.mode==='server'){
+  const fb=false;
+  box.innerHTML='<div class="acc-k">기록자 계정</div><div class="acc-s">로그인하면 진행과 평생 기록이 계정에 보관돼요. 다른 기기에서도 이어서 할 수 있어요.'+(ACC.serverDown?'<br>지금은 서버에 연결되지 않아요.':'')+'</div>'+
+   (fb?'<div class="acc-row"><button id="accG" class="google">Google 계정으로 로그인</button></div><div class="acc-s dim">또는 기록자 이름과 비밀번호로</div>':'')+
+   '<div class="acc-row col"><input id="accName" maxlength="12" placeholder="기록자 이름" autocomplete="username"><input id="accPw" type="password" maxlength="72" placeholder="비밀번호 (6자 이상)" autocomplete="current-password"></div>'+
+   '<div class="acc-row"><button id="accLogin">로그인</button><button id="accSign" class="ghost">계정 만들기</button></div><div class="acc-s" id="accMsg"></div>';
+  const go=fb?fbAuth:serverAuth;
+  $('accLogin').onclick=()=>go('login');$('accSign').onclick=()=>go('register');if(fb)$('accG').onclick=()=>fbAuth('google');
+  stopKeys($('accName'),()=>$('accPw').focus());stopKeys($('accPw'),()=>go('login'));
+ }
+ else if(!ACC.profile){
+  const fb=ACC.mode==='firebase';
+  box.innerHTML='<div class="acc-k">'+(fb?'기록자 이름 정하기':'기록자 계정 만들기')+'</div><div class="acc-s">'+(fb?'로그인했어요. 게임에서 쓸 기록자 이름을 정해 주세요.':'계정을 만들면 진행과 평생 기록이 claude.ai 계정에 보관돼요. 다른 기기에서도 이어서 할 수 있고, 나만 볼 수 있어요.')+'</div>'+
+   '<div class="acc-row"><input id="accName" maxlength="12" placeholder="기록자 이름" autocomplete="off"><button id="accReg">기록자 등록</button></div><div class="acc-s" id="accMsg"></div>'+
+   (fb?'<div class="acc-row"><button id="accOut" class="ghost">로그아웃</button></div>':'');
+  $('accReg').onclick=registerAccount;stopKeys($('accName'),registerAccount);if(fb)$('accOut').onclick=fbLogout;
+ } else {
+  const p=ACC.profile,ev=(p.ever||[]).filter(id=>R[id]).length,en=(p.endings||[]).length;
+  box.innerHTML='<div class="acc-k">기록자 <b></b></div><div class="acc-s">평생 기록 '+ev+' / '+TOTAL+' · 본 엔딩 '+en+' / 4 · 관측 회차 '+(6+(p.loops||0))+'</div><div class="acc-s dim">진행은 계정에 자동 저장돼요. 새로 기록하기를 누르면 진행만 초기화되고, 평생 기록과 엔딩은 남아요.</div>'+
+   (ACC.mode==='server'||ACC.mode==='firebase'?'<div class="acc-row"><button id="accOut" class="ghost">로그아웃</button></div>':'');
+  box.querySelector('b').textContent=p.name||'';
+  if(ACC.mode==='server')$('accOut').onclick=serverLogout;else if(ACC.mode==='firebase')$('accOut').onclick=fbLogout;
+ }
+ const bc=$('btnCont');if(bc)bc.classList.toggle('hidden',!loadSave());
+}
+let cinema=false;
+function busy(){return !started||!!dlg||arcOpen||kpOpen||endOpen||transitioning||cinema;}
+
+function tile(x,y){
+ const m=MAPS[S.area];
+ if(x<0||y<0||x>=m.w||y>=m.h)return '#';
+ const t=m.g[y][x];
+ if(S.area==='city'){if(t==='G'&&S.flags.gateOpen)return 'g';return t;}
+ if(S.area==='nl'){if(t==='h')return S.flags.roadOpen?'N':'V';return t;}
+ if(S.area==='lab'){if(t==='J')return S.flags.restored?'j':'J';if(t==='Q')return S.flags.codeOK?'q':'Q';return t;}
+ if(S.area==='factory'){if(t==='L')return S.flags.power?'l':'L';if(t==='K')return S.flags.power?'k':'K';return t;}
+ if(x===18&&y===15)return S.past?'M':(S.flags.cleared?'H':'r');
+ if(!S.past&&RUBBLE_S.has(x+','+y))return 'r';
+ return t;
+}
+
+/* ================= OBJECTS ================= */
+const OBJ={
+ city:[
+  {id:'news',x:16,y:11,t:'stand',rec:'news',solid:1},
+  {id:'phone',x:13,y:26,t:'phone',rec:'phone',solid:1,tall:1},
+  {id:'photo',x:10,y:15,t:'carrec',rec:'photo'},
+  {id:'graffiti',x:26,y:6,t:'graffiti',rec:'graffiti'},
+  {id:'radio',x:34,y:6,t:'radio',rec:'radio'},
+  {id:'map',x:23,y:17,t:'busstop',rec:'map',solid:1,tall:1},
+  {id:'diary',x:4,y:6,t:'mailbox',rec:'diary'},
+  {id:'keypad',x:22,y:0,t:'keypad',act:keypadAct},
+  {id:'exitdoor',x:6,y:24,t:'exitdoor',act:exitDoorAct}
+ ],
+ school:[
+  {id:'roll',x:4,y:4,t:'book',desk:1,rec:'roll',solid:1,when:'present'},
+  {id:'board',x:6,y:2,t:'board',rec:'board',when:'present'},
+  {id:'video',x:15,y:5,t:'camera',rec:'video',solid:1,when:'present',act:videoAct},
+  {id:'log',x:23,y:5,t:'docs',rec:'log',solid:1,when:'present'},
+  {id:'diary2',x:9,y:18,t:'book',rec:'diary2',when:'present'},
+  {id:'speaker',x:11,y:11,t:'speaker',act:speakerAct,when:'present'},
+  {id:'fuse',x:17,y:18,t:'fuse',act:fuseAct,solid:1,when:'present'},
+  {id:'nuri',x:19,y:18,t:'memo',rec:'nuri',solid:1,when:'present'},
+  {id:'console',x:30,y:4,t:'console',act:consoleAct,solid:1,when:'present'},
+  {id:'hatch',x:18,y:20,t:'hatch',act:hatchAct,when:'present'},
+  {id:'rubble',x:18,y:15,t:'none',act:rubbleAct,when:'present',show:()=>!S.flags.cleared},
+  {id:'mural',x:18,y:15,t:'none',act:muralAct,when:'past'},
+  {id:'g1',x:8,y:13,t:'ghost',when:'past',act:()=>say([{s:'과거의 학생',t:'동아리실 앞 벽화 봤어? 우리 동아리가 그린 거야.'},{s:'과거의 학생',t:'근데 그 벽 뒤에 비밀 방이 있대. 벽화 아래 틈에서 바람이 나와.'}])},
+  {id:'g2',x:22,y:13,t:'ghost',when:'past',act:()=>say([{s:'과거의 학생',t:'어? 너 몇 반이야?'},{s:'과거의 학생',t:'명찰에… "기록자"? 이름 특이하다. 우리 반 출석부에선 못 본 것 같은데.'}])},
+  {id:'g3',x:27,y:18,t:'ghost',when:'past',act:()=>say([{s:'과거의 학생',t:'5시에 대피 훈련 방송 한대.'},{s:'과거의 학생',t:'근데 훈련인데 왜 공장 사람들이 방송실에 들어가는 거지?'}])},
+  {id:'g4',x:4,y:5,t:'ghost',when:'past',act:()=>say([{s:'과거의 학생',t:'아까 출석 부를 때 이상하지 않았어?'},{s:'과거의 학생',t:'우리 반 30명인데, 선생님이 31번까지 불렀잖아.'}])}
+ ],
+ factory:[
+  {id:'cctv',x:6,y:4,t:'monitor',rec:'cctv',solid:1,when:'present',act:cctvAct},
+  {id:'govdoc',x:4,y:8,t:'docs',rec:'govdoc',solid:1,when:'present'},
+  {id:'worklog',x:13,y:5,t:'docs',rec:'worklog',solid:1,when:'present'},
+  {id:'resdiary',x:16,y:8,t:'book',desk:1,rec:'resdiary',solid:1,when:'present'},
+  {id:'manual',x:20,y:8,t:'docs',rec:'manual',solid:1,when:'present'},
+  {id:'sign',x:19,y:11,t:'sign',act:()=>say(['노란 경고판.','"PROJECT NURI 제3구역. 허가자 외 출입 금지."'])},
+  {id:'lvA',x:21,y:2,t:'lever',L:'A',act:leverAct,when:'present'},
+  {id:'lvB',x:23,y:2,t:'lever',L:'B',act:leverAct,when:'present'},
+  {id:'lvC',x:25,y:2,t:'lever',L:'C',act:leverAct,when:'present'},
+  {id:'pvA',x:21,y:2,t:'lever',L:'A',n:3,act:leverPastAct,when:'past'},
+  {id:'pvB',x:23,y:2,t:'lever',L:'B',n:1,act:leverPastAct,when:'past'},
+  {id:'pvC',x:25,y:2,t:'lever',L:'C',n:2,act:leverPastAct,when:'past'},
+  {id:'coat',x:23,y:5,t:'coat',when:'past',act:()=>say(['흰 코트를 입은 사람. 얼굴은 화면의 노이즈에 가려 보이지 않는다.','레버를 하나 당길 때마다 노트에 무언가를 적는다.','…어딘가 익숙한 뒷모습이다.'])},
+  {id:'worker',x:18,y:16,t:'ghost',when:'past',act:()=>say([{s:'과거의 작업자',t:'17시 전에 제3구역을 비워! NURI 팀이 반응로를 연다고!'},{s:'과거의 작업자',t:'레버실엔 그 사람 말고 아무도 들어가지 마.'}])},
+  {id:'gen',x:6,y:25,t:'gen',act:genAct,solid:1,when:'present'},
+  {id:'device',x:31,y:5,t:'device',act:deviceAct,solid:1,when:'present'},
+  {id:'nuriel',x:33,y:8,t:'memo',rec:'nuriel',solid:1,when:'present'},
+  {id:'stairs',x:29,y:26,t:'none',act:stairsAct,when:'present'}
+ ],
+ lab:[
+  {id:'archive',x:7,y:2,t:'terminal',act:archiveAct,solid:1},
+  {id:'server',x:32,y:3,t:'term',rec:'server',solid:1},
+  {id:'accesslog',x:5,y:12,t:'term',rec:'accesslog',solid:1},
+  {id:'recorder',x:9,y:14,t:'recorder',rec:'recorder',solid:1},
+  {id:'portal',x:17,y:13,w:2,t:'portal',act:portalAct,solid:1},
+  {id:'notfirst',x:29,y:12,t:'tank',rec:'notfirst',solid:1},
+  {id:'codepad',x:33,y:10,w:2,t:'codepad',act:codepadAct,show:()=>!S.flags.codeOK},
+  {id:'irondoor',x:21,y:38,w:3,t:'irondoor',act:ironDoorAct,sy:-50}
+ ],
+ nl:[
+  {id:'tower',x:13,y:16,w:2,t:'tower',act:towerAct,solid:1},
+  {id:'card',x:11,y:21,t:'card',act:()=>say(['요즘 유행하는 카드다. 정체 불명의 기운이 느껴진다.'])},
+  {id:'c0400',x:24,y:17,t:'clock',pole:1,h:4,m:0,rim:'#c9c6c0',rec:'c0400',solid:1,tall:1},
+  {id:'nphone',x:9,y:22,t:'nphone',act:nphoneAct,solid:1,tall:1},
+  {id:'nstop',x:17,y:22,t:'nstop',solid:1,tall:1,act:()=>say(['같은 버스 정류장. 같은 도시 안내도.','…이 안내도에는 붉은 X가 없다. 탈출구라는 것이 처음부터 없었던 것처럼.'])},
+  {id:'sd1',x:5,y:16,t:'schooldoor',act:doorAct,to:[33,16.5],pre:['한결중학교 현관. 폐교가 아니라 방금 칠한 것처럼 깨끗하다.'],post:['문을 열었다. …학교 복도가 아니다.','바람이 분다. 여기는 어느 건물의 옥상이다.']},
+  {id:'up',x:20,y:16,t:'upstair',act:doorAct,to:[32,7.5],pre:['위층으로 올라가는 계단.'],post:['계단을 올라갔다. 한 층, 두 층, 세 층.','그런데 벽의 표지판에는 "B3"라고 적혀 있다.','위로 올라왔는데, 지하다.']},
+  {id:'kiosk',x:22,y:22,t:'kiosk',act:doorAct,to:[38.5,33.3],solid:1,pre:['공중전화 부스만 한 작은 가건물이다.'],post:['문을 열자… 끝이 보이지 않는 거대한 홀이 펼쳐졌다.','밖에서 본 건물보다, 안이 훨씬 크다.']},
+  {id:'c1650',x:35,y:2,t:'clock',pole:1,h:16,m:50,rim:'#b9e4cf',rec:'c1650',solid:1,tall:1},
+  {id:'down',x:31,y:2,t:'downstair',act:doorAct,to:[37,18.4],solid:1,pre:['아래층으로 내려가는 계단.'],post:['계단을 한참 내려갔다.','문을 열자 하늘이 보인다. 내려왔는데, 옥상이다.']},
+  {id:'sd2',x:39,y:3,t:'schooldoor',act:doorAct,to:[32,25],pre:['한결중학교 현관. …광장에서 본 것과 똑같은 건물이 지하에 있다.'],post:['같은 현관을 지났는데, 이번에는 거대한 홀이다.']},
+  {id:'c1658',x:40,y:14,t:'clock',pole:1,h:16,m:58,rim:'#bfd0f6',rec:'c1658',solid:1,tall:1},
+  {id:'sd3',x:32,y:14,t:'schooldoor',act:doorAct,to:[6,17.6],pre:['또 한결중학교 현관. 옥상 위에 학교 현관이 있다.'],post:['문을 열자, 처음의 광장이다.']},
+  {id:'c1500',x:44,y:23,t:'clock',h:15,m:0,rim:'#f6dfa8',rec:'c1500',solid:1},
+  {id:'seoyun',x:38,y:27,t:'person',c:'#34406e',act:seoyunAct,solid:1},
+  {id:'p1',x:33,y:27,t:'person',c:'#e89aa8',solid:1,act:()=>say([{s:'누리느엘의 사람',t:'오늘도 10월 14일이야. 좋은 날이지.'}])},
+  {id:'p2',x:35,y:31,t:'person',c:'#8fcfb3',solid:1,act:()=>say(['작업복 차림의 남자. 움직이지 않는다. 입가에 웃음이 걸려 있다.'])},
+  {id:'p3',x:42,y:26,t:'person',c:'#f2c46f',solid:1,act:()=>say([{s:'누리느엘의 사람',t:'밖? 밖에 뭐가 있는데? 여기엔 전부 있잖아.'}])},
+  {id:'p4',x:44,y:31,t:'person',c:'#a9b8f0',solid:1,act:()=>say([{s:'누리느엘의 사람',t:'당신, 기록자죠? 이번엔 오래 있다 가요.'}])},
+  {id:'p5',x:46,y:27,t:'person',c:'#d2b5ee',solid:1,act:()=>say(['아이를 안은 여자. 눈동자에 하얀 빛이 맴돈다.','…아파트 일기를 쓴 사람일까.'])},
+  {id:'p6',x:36,y:24,t:'person',c:'#f0a882',solid:1,act:()=>say([{s:'누리느엘의 사람',t:'곧 5시 방송이 나올 거야. 늘 그렇듯이.'}])},
+  {id:'hallexit',x:38,y:34,t:'hallexit',act:doorAct,to:[22.5,21.4],pre:['들어왔던 작은 문.'],post:['문을 열자 광장이다. 등 뒤의 가건물은 여전히 전화 부스만 하다.']},
+  {id:'core',x:13,y:3,w:2,t:'core',act:coreAct,solid:1},
+  {id:'nlcore',x:7,y:4,t:'pedestal',rec:'nlcore',solid:1},
+  {id:'retgate',x:20,y:4,t:'retgate',act:retAct,solid:1},
+  {id:'chair31',x:17,y:4,t:'chair31',solid:1,act:()=>say(['서른 개의 의자에서 조금 떨어진 곳에, 하얀 의자 하나.','등받이에 이름이 새겨져 있다. "기록자"','31번째 자리. 비어 있다.'])}
+ ]
+};
+function objs(){
+ return OBJ[S.area].filter(o=>{
+  if(o.when==='present'&&S.past)return false;
+  if(o.when==='past'&&!S.past)return false;
+  if(o.show&&!o.show())return false;
+  return true;
+ });
+}
+function solidAt(tx,ty){
+ if(SOLID.has(tile(tx,ty)))return true;
+ const l=objs();for(let i=0;i<l.length;i++){const o=l[i];if(o.solid&&o.y===ty&&tx>=o.x&&tx<o.x+(o.w||1))return true;}
+ return false;
+}
+function hit(x,y){
+ const pts=[[x-7,y-7],[x+7,y-7],[x-7,y+1],[x+7,y+1]];
+ return pts.some(p=>solidAt(Math.floor(p[0]/TS),Math.floor(p[1]/TS)));
+}
+function unstuck(){
+ if(!hit(P.x,P.y))return;
+ const tx=Math.floor(P.x/TS),ty=Math.floor(P.y/TS);
+ for(let r=1;r<7;r++)for(let dy=-r;dy<=r;dy++)for(let dx=-r;dx<=r;dx++){
+  const nx=(tx+dx+.5)*TS,ny=(ty+dy+.6)*TS;
+  if(!hit(nx,ny)){P.x=nx;P.y=ny;return;}
+ }
+ const sp={city:[5.5,27.6],school:[27,24.2],factory:[19,26.6],lab:[18,3.4],nl:[6,21.5]}[S.area];
+ if(sp){P.x=sp[0]*TS;P.y=sp[1]*TS;}
+}
+function findNear(){
+ let best=null,bd=1e9;const cx=P.x,cy=P.y-8;
+ objs().forEach(o=>{const ox=(o.x+(o.w||1)/2)*TS,oy=(o.y+.5)*TS;const d=Math.hypot(ox-cx,oy-cy);if(d<TS*1.35&&d<bd){bd=d;best=o;}});
+ return best;
+}
+
+/* ================= DIALOG ================= */
+let dlg=null,typeTimer=null;
+const dEl=$('dialog'),dSpk=$('dSpk'),dTxt=$('dTxt'),dCh=$('dCh'),dNext=$('dNext');
+function say(pages,onDone){
+ pages=pages.map(p=>typeof p==='string'?{t:p}:p);
+ dlg={pages,i:0,onDone,typing:false};showPage();document.body.classList.add('busy');
+}
+function showPage(){
+ const p=dlg.pages[dlg.i];
+ dEl.classList.remove('hidden');
+ dSpk.textContent=p.s||'';dSpk.style.display=p.s?'block':'none';
+ dCh.innerHTML='';dNext.style.visibility='hidden';
+ const txt=p.t;let n=0;dlg.typing=true;dTxt.textContent='';
+ clearInterval(typeTimer);
+ typeTimer=setInterval(()=>{n+=2;dTxt.textContent=txt.slice(0,n);if(n>=txt.length)finishType();},28);
+}
+function finishType(){
+ clearInterval(typeTimer);if(!dlg)return;
+ const p=dlg.pages[dlg.i];dTxt.textContent=p.t;dlg.typing=false;
+ if(p.c){p.c.forEach((c,i)=>{const b=document.createElement('button');b.textContent=(i+1)+'. '+c.l;b.onclick=e=>{e.stopPropagation();pick(i);};dCh.appendChild(b);});}
+ else dNext.style.visibility='visible';
+}
+function pick(i){
+ if(!dlg||dlg.typing)return;const p=dlg.pages[dlg.i];if(!p.c||!p.c[i])return;
+ const f=p.c[i].f;closeDlg();if(f)f();
+}
+function closeDlg(){clearInterval(typeTimer);dlg=null;dEl.classList.add('hidden');refreshBusy();}
+function advance(){
+ if(!dlg)return;if(dlg.typing){finishType();return;}
+ const p=dlg.pages[dlg.i];if(p.c)return;
+ dlg.i++;
+ if(dlg.i>=dlg.pages.length){const d=dlg.onDone;closeDlg();if(d)d();}else showPage();
+}
+dEl.addEventListener('click',advance);
+function refreshBusy(){document.body.classList.toggle('busy',busy());document.body.classList.toggle('playing',started);}
+
+let toastTimer=null;
+function toast(msg,col){const t=$('toast');t.textContent=msg;t.style.borderLeftColor=col||'#e7e3da';t.classList.add('on');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('on'),2800);}
+
+/* ================= INTERACTIONS ================= */
+function readRecord(o,after){
+ const r=R[o.rec];const first=!has(o.rec);
+ const pages=r.pages||r.text.split('\n\n').map(t=>({s:r.type,t}));
+ say(pages,()=>{if(first)collect(o.rec);if(after)after();});
+}
+function collect(id){
+ if(has(id))return;S.records.push(id);addEver(id);
+ const r=R[id];toast('기록 획득 · '+r.title,COL[r.color]);alog('USER 기록 획득 · '+r.title);
+ save();
+ if(S.records.length===1)setTimeout(()=>toast(isTouch?'오른쪽 위 "기록 보관함"에서 모은 기록을 다시 볼 수 있다':'Tab 키 또는 "기록 보관함"에서 모은 기록을 다시 볼 수 있다'),3000);
+ else if(S.records.length===3&&S.contra.length===0)setTimeout(()=>toast('기록 보관함에서 두 기록을 비교하면 모순을 찾을 수 있다'),3000);
+}
+const OBJ_NAME={keypad:'정문 키패드',exitdoor:'철문',hatch:'철제 해치',lever:'레버',gen:'발전기',device:'하얀 장치',console:'방송 콘솔',ghost:'과거의 사람',coat:'흰 코트의 사람',terminal:'ARCHIVE 컴퓨터',codepad:'코드 패널',irondoor:'비상 탈출구',portal:'고리 장치',speaker:'스피커',fuse:'선반',none:'잔해',sign:'경고판',tower:'시계탑',clock:'시계',nphone:'공중전화',nstop:'정류장',schooldoor:'한결중학교 현관',kiosk:'가건물',upstair:'위층 계단',downstair:'아래층 계단',person:'사람',core:'빛의 핵',retgate:'하얀 고리',chair31:'빈 의자',hallexit:'작은 문',pedestal:'받침대',card:'정체 불명의 카드'};
+function interact(o){alog('USER 조사 · '+(o.rec?R[o.rec].title:(o.t==='lever'?o.L+' 레버':(OBJ_NAME[o.t]||'대상'))));if(o.act)o.act(o);else if(o.rec)readRecord(o);}
+const feedLines=[];let stepAcc=0,idleT=0,idleLogged=false,lastRoom='';
+function alog(msg){
+ if(!S.flags.archiveOn)return;
+ feedLines.push('['+fmt(S.time)+'] '+msg);if(feedLines.length>6)feedLines.shift();
+ const f=$('feed');f.classList.remove('hidden');
+ f.innerHTML='<div class="fh">ARCHIVE · RECORDING</div>'+feedLines.map(l=>'<div>'+l.replace(/</g,'&lt;')+'</div>').join('');
+}
+function roomLabel(){
+ if(S.area==='nl'){const tx=Math.floor(P.x/TS),ty=Math.floor(P.y/TS);for(const r of NL_ZONES)if(tx>=r[1]&&tx<r[1]+r[3]&&ty>=r[2]&&ty<r[2]+r[4])return r[0];return '누리느엘';}
+ if(S.area!=='lab')return AREA_NAME[S.area].split('· ')[1]+(S.past?' (과거)':'');
+ const tx=Math.floor(P.x/TS),ty=Math.floor(P.y/TS);
+ for(const r of LAB_ROOMS)if(tx>=r[1]&&tx<r[1]+r[3]&&ty>=r[2]&&ty<r[2]+r[4])return r[0];
+ return 'B3';
+}
+
+function keypadAct(o){
+ if(S.flags.gateOpen){say(['정문은 이미 열려 있다. 북쪽으로 가면 폐교다.']);return;}
+ const ask=()=>say([{t:'정문 옆 키패드. 네 자리 비밀번호를 입력해야 한다.',c:[{l:'비밀번호를 입력한다',f:openKeypad},{l:'그만둔다'}]}]);
+ if(!has('memo')){say(['녹슨 정문 옆, 경비실 유리창에 메모 한 장이 붙어 있다.'],()=>readRecord({rec:'memo'},ask));}
+ else ask();
+}
+function videoAct(o){
+ const choose=()=>say([{t:'테이프를 재생하면, 영상 속 그날의 복도가 눈앞에 겹쳐 보일 것 같다.',c:[{l:'영상 속 과거로 들어간다',f:enterPast},{l:'지금은 그만둔다'}]}]);
+ if(!has('video'))readRecord(o,choose);else choose();
+}
+function speakerAct(){
+ if(S.flags.broadcastDone)say(['스피커는 침묵하고 있다. 그런데 누군가 이쪽을 듣고 있는 느낌이 든다.']);
+ else if(S.flags.powered)say(['스피커에서 낮은 잡음이 흘러나온다. 방송실 콘솔이 켜져 있다.']);
+ else say(['작동하지 않는 방송 스피커.','방송실 쪽 전원이 끊겨 있는 것 같다.']);
+}
+function fuseAct(){
+ if(S.flags.hasFuse){say(['비어 있는 선반. 먼지 위에 퓨즈 상자 자국만 남았다.']);return;}
+ say(['먼지 쌓인 선반 위, 노란 경고 라벨이 붙은 상자.','"방송실 예비 퓨즈 — 석말공장 측정 장비용"','퓨즈를 챙겼다.'],()=>{S.flags.hasFuse=true;save();toast('물건 획득 · 방송실 예비 퓨즈',COL.yellow);});
+}
+function muralAct(){
+ say(['동아리실 앞 복도의 벽화. 붉은 원과 하얀 소용돌이, 그리고 손을 맞잡은 아이들.','벽화 아래쪽 틈에서 차가운 바람이 새어 나온다.','이 벽 뒤에 방이 있다. 현재의 이 자리를 조사해 보자.'],()=>{if(!S.flags.knowMural){S.flags.knowMural=true;save();toast('단서 · 벽화 뒤의 방',COL.blue);}});
+}
+function rubbleAct(){
+ if(!S.flags.knowMural){say(['무너진 잔해가 복도 벽을 막고 있다. 그저 잔해로 보인다.','…이 벽이 원래 어떤 모습이었는지 알 수 있다면.']);return;}
+ say(['과거의 벽화가 있던 자리다. 잔해 틈으로 차가운 바람이 새어 나온다.',{t:'잔해를 치울까?',c:[{l:'잔해를 치운다',f:()=>{S.flags.cleared=true;save();shakeT=.5;say(['콘크리트 조각을 하나씩 걷어내자, 벽화의 흔적과 함께 좁은 문이 드러났다.']);}},{l:'그만둔다'}]}]);
+}
+function consoleAct(){
+ if(S.flags.broadcastDone){say([{s:'ARCHIVE SYSTEM',t:'USER: 기록자\nSTATUS: RECORDING'},'…화면은 여전히 나를 기록하고 있다.']);return;}
+ if(!S.flags.powered){
+  if(!S.flags.hasFuse){say(['방송실 콘솔. 전원이 들어오지 않는다.','뒤판의 퓨즈 슬롯이 비어 있다. 누군가 빼 간 것 같다.']);return;}
+  say(['뒤판 퓨즈 슬롯에 예비 퓨즈를 끼웠다.','딸깍. 꺼져 있던 모니터에 노란빛이 번진다.'],()=>{S.flags.powered=true;save();login();});
+  return;
+ }
+ login();
+}
+function login(){
+ const deny=n=>()=>say([{s:'SYSTEM',t:'USER: '+n+'\nACCESS DENIED\n해당 사용자의 기록은 이미 종료되었습니다.'},'…"종료"라니. 무슨 뜻이지?']);
+ const opts=['강민재','한서윤','황지우'].map(n=>({l:n,f:deny(n)}));
+ if(S.flags.nameKnown)opts.push({l:'기록자',f:granted});
+ else opts.push({l:'잘 모르겠다',f:()=>say(['출석부의 이름으로는 안 될 것 같다.','이 학교에 있었지만, 출석부에는 없는 누군가. 기록들을 서로 비교해 보자.'])});
+ say([{s:'SYSTEM',t:'NURI BROADCAST CONSOLE\n마지막 송출 기록을 재생하려면 사용자 이름을 입력하십시오.',c:opts}]);
+}
+function granted(){
+ say([
+  {s:'SYSTEM',t:'USER: 기록자\nACCESS GRANTED'},
+  {s:'SYSTEM',t:'…다시 오신 것을 환영합니다.'},
+  '다시? 나는 이곳에 처음 왔는데.',
+  {s:'대피 방송 · 2011.10.14 17:02',t:'전교생은 즉시 지하 대피소로 이동하십시오. 대피소 입구는 공장 방향 지하 통로에 있습니다.'},
+  {s:'대피 방송 · 2011.10.14 17:02',t:'문을 열지 마십시오. 반복합니다. 어떤 문도 열지 마십시오.'},
+  '방송이 끝나자, 복도의 모든 스피커가 동시에 켜지는 소리가 들렸다.'
+ ],()=>{collect('broadcast');S.flags.broadcastDone=true;save();setTimeout(runArchiveScene,1400);});
+}
+
+function cctvAct(o){
+ const choose=()=>say([{t:'모니터 속 흑백 화면이 흔들린다. 그날 16시 58분의 공장이 눈앞에 겹쳐 보일 것 같다.',c:[{l:'영상 속 과거로 들어간다',f:enterPast},{l:'지금은 그만둔다'}]}]);
+ if(!has('cctv'))readRecord(o,choose);else choose();
+}
+function hatchAct(){
+ if(!S.flags.broadcastDone){say(['바닥의 철제 해치. 안쪽에서 단단히 잠겨 있다.','해치 옆에 작은 스피커 구멍이 뚫려 있다. 방송과 연결된 장치일까?']);return;}
+ say([{t:'잠금이 풀린 철제 해치. 좁은 사다리가 아래로 이어진다. 방송이 말한 공장 방향의 지하 통로다.',c:[{l:'내려간다',f:()=>goArea('factory',19*TS,26.6*TS)},{l:'그만둔다'}]}]);
+}
+let leverSeq=[],alarmT=0;const LEVER_ORDER=['B','C','A'];
+function leverAct(o){
+ if(S.flags.power){say(['레버는 모두 내려가 있다. 제3발전기가 낮게 울리고 있다.']);return;}
+ const st=leverSeq.indexOf(o.L)>=0?'이미 내려가 있다.':'녹슨 손잡이가 위로 올라가 있다.';
+ if(leverSeq.indexOf(o.L)>=0){say([o.L+' 레버. '+st]);return;}
+ say([{t:o.L+' 레버. '+st,c:[{l:'레버를 당긴다',f:()=>pull(o.L)},{l:'그만둔다'}]}]);
+}
+function pull(L){
+ leverSeq.push(L);shakeT=.15;const i=leverSeq.length-1;
+ if(leverSeq[i]!==LEVER_ORDER[i]){
+  const manual=leverSeq[0]==='A';leverSeq=[];shakeT=.6;alarmT=2.2;S.flags.leverFails=(S.flags.leverFails||0)+1;save();
+  const lines=['덜컹. 천장의 경고등이 붉게 번쩍인다.',{s:'경고 방송',t:'과부하 감지. 전원 계통을 초기화합니다.'},'내려갔던 레버가 모두 위로 튕겨 올라갔다.'];
+  if(manual)lines.push('정비 매뉴얼의 순서대로 당겼는데… 매뉴얼이 틀린 걸까?');
+  if(S.flags.leverFails>=2)lines.push(has('cctv')?'CCTV 영상 속 과거에서, 그날 누군가 레버를 당긴 순서를 확인해 보자.':'이 공장 어딘가에 그날 레버실을 찍은 기록이 남아 있을지도 모른다.');
+  say(lines);return;
+ }
+ if(leverSeq.length<3){say(['쿵. '+L+' 레버가 내려갔다. 어딘가에서 기계가 한 단계 깨어나는 소리가 난다.']);return;}
+ S.flags.power=true;leverSeq=[];save();shakeT=.8;flash(COL.yellow);
+ say(['마지막 레버가 내려가자, 공장 전체가 깊게 숨을 들이쉬었다.','천장의 경고등이 하나씩 노랗게 켜진다. 제3발전기가 돌아간다.','멀리서 잠겨 있던 문들이 열리는 소리가 들린다.']);
+}
+function leverPastAct(o){
+ say([{s:'CCTV 속 과거',t:'흰 코트의 사람이 '+o.L+' 레버를 '+['첫','두','세'][o.n-1]+' 번째로 당긴다.'}]);
+}
+function genAct(){
+ if(!S.flags.power){say(['멈춰 있는 제3발전기. 거대한 날개가 먼지를 뒤집어쓰고 있다.','레버실에서 전원 계통을 올려야 움직일 것 같다.']);return;}
+ if(!has('power')){say(['돌아가는 발전기 옆, 제어 패널에 배분표가 떠 있다.'],()=>readRecord({rec:'power'}));return;}
+ readRecord({rec:'power'});
+}
+function deviceAct(){
+ say(['실험실 한가운데 떠 있는 장치. 하얀 빛이 맥박처럼 뛴다.','손을 가까이 대자, 머릿속에 낯선 풍경이 스친다.','먼지 하나 없는 거리. 서로 다른 시간을 가리키는 시계들. 계속 걸어도 같은 자리로 돌아오는 길.','…이건 폐허가 아니다. 이건, 어딘가 다른 곳이다.'],()=>{if(!S.flags.touched){S.flags.touched=true;save();toast('단서 · 하얀 빛의 풍경',COL.nuri);}});
+}
+function stairsAct(){
+ say([{t:'더 깊은 곳으로 이어지는 계단. 벽의 안내판에는 "B3 지하 연구시설".',c:[{l:'내려간다',f:()=>goArea('lab',18*TS,3.4*TS)},{l:'공장을 더 조사한다'}]}]);
+}
+const QUIZ=[
+ {q:'질문 1. 2011년 10월 14일, 한결중학교는 휴교였는가?',o:['휴교였다','휴교가 아니었다'],a:1},
+ {q:'질문 2. 그날 도시에 무언가가 일어난 시각은?',o:['04:00','16:50','17:02'],a:2},
+ {q:'질문 3. PROJECT NURI의 관측 대상은 몇 명이었는가?',o:['30명','31명','1명'],a:1},
+ {q:'질문 4. 출석부에 없는 관측 대상의 이름은?',o:['한서윤','황지우','기록자'],a:2}
+];
+function archiveAct(){
+ if(!S.flags.archiveOn){
+  say(['방 한가운데, 유일하게 불이 켜진 컴퓨터가 있다.',{s:'ARCHIVE SYSTEM',t:'ARCHIVE SYSTEM\n\nUSER: UNKNOWN\nSTATUS: RECORDING'},'화면 아래로 글자가 흘러간다. 내가 한 걸음 움직이자, 한 줄이 늘어났다.',{s:'ARCHIVE SYSTEM',t:'USER 이동.\nUSER 화면 응시.\nUSER 호흡 불규칙.'},'…이 시스템은 나를 기록하고 있다.','내가 기록을 모으는 동안, 누군가는 줄곧 나를 기록하고 있었다.'],
+   ()=>{S.flags.archiveOn=true;save();alog('USER 인식 · 이름 미등록');alog('STATUS: RECORDING');collect('archive');});
+  return;
+ }
+ if(!S.flags.restored){
+  say([{s:'ARCHIVE SYSTEM',t:'삭제된 연구 자료 3건.\n복구하려면 기록 검증 프로토콜을 통과하십시오.\n\nUSER가 수집한 기록 중 진실인 것만 답이 됩니다.',c:[{l:'검증을 시작한다',f:quiz},{l:'그만둔다'}]}]);
+  return;
+ }
+ say([{s:'ARCHIVE SYSTEM',t:'USER: 기록자\nSTATUS: RECORDING\n\n복구 완료 자료 3건. 기록을 계속하십시오.'}]);
+}
+function quiz(i){
+ i=i||0;
+ if(i>=QUIZ.length){
+  say([{s:'ARCHIVE SYSTEM',t:'검증 완료.\n삭제된 연구 자료를 복구합니다.'},{s:'ARCHIVE SYSTEM',t:'복구 1/3 · PROJECT NURI 최종 보고\n복구 2/3 · 비상 탈출구 최종 잠금 해제 코드\n복구 3/3 · 폐쇄된 실험실 출입 권한'},'어딘가에서 잠금이 풀리는 소리가 났다. 폐쇄된 실험실 쪽이다.'],
+   ()=>{S.flags.restored=true;save();collect('deleted');collect('code');updateHUD(true);});
+  return;
+ }
+ const q=QUIZ[i];
+ say([{s:'기록 검증 프로토콜',t:q.q,c:q.o.map((l,j)=>({l,f:()=>{alog('USER 응답 · '+l);if(j===q.a)quiz(i+1);else say([{s:'ARCHIVE SYSTEM',t:'검증 실패.\nUSER가 신뢰할 수 없는 기록을 선택했습니다.'},'어떤 기록이 진실이었는지, 보관함에서 다시 비교해 보자.']);}}))}]);
+}
+function codepadAct(){
+ if(!has('code')){say(['비상 통로를 막은 두꺼운 문. 네 자리 코드 패널이 붙어 있다.','"최종 잠금 해제 코드를 입력하십시오."','ARCHIVE 시스템의 지워진 자료 중에 코드가 있을지도 모른다.']);return;}
+ say([{t:'비상 통로의 코드 패널. 최종 잠금 해제 코드가 필요하다.',c:[{l:'코드를 입력한다',f:()=>openKeypad(LAB_KP)},{l:'그만둔다'}]}]);
+}
+function truthReady(){return ESC.every(e=>has(e.id))&&['deleted','notfirst','nuriel'].every(has)&&S.contra.length>=10;}
+function trueReady(){return S.records.length>=TOTAL&&S.contra.length>=15;}
+function ironDoorAct(){
+ const k=S.flags.preserved&&has('nlcore');
+ if(S.flags.preserved&&!k){say(['철문은 굳게 닫혔다. 틈새마다 붉은 봉인등이 켜져 있다.','위층 장치실 쪽에서 하얀 빛이 새어 나온다.']);return;}
+ const first=!S.flags.sawIron;if(first){S.flags.sawIron=true;save();}
+ alog('USER 탈출구 도달');
+ const openC={l:'문을 연다',f:()=>say([{t:'문을 열면 기록 '+S.records.length+'개가 모두 지워진다. 정말 열까?',c:[{l:'연다',f:()=>{alog('USER 선택 · 문을 연다');if(truthReady())endTruth();else endForget();}},{l:'그만둔다'}]}])};
+ const allC={l:'모든 기록을 가져간다',f:()=>{
+  if(!has('nlcore')){say(['손잡이에 손을 얹자 경고등이 깜박인다.',{s:'ARCHIVE SYSTEM',t:'조건 미충족.\n누리느엘의 기록이 없습니다.'},'…모든 기록을 가져가려면, 아직 가 보지 않은 곳의 기록이 필요하다.']);return;}
+  if(trueReady()){alog('USER 선택 · 모든 기록을 가져간다');say([{s:'ARCHIVE SYSTEM',t:'USER: 기록자\n기록 '+TOTAL+' / '+TOTAL+'\n조건 충족.'},'철문이 처음으로, 경고음 없이 열리기 시작했다.'],endTrue);}
+  else say(['손잡이에 손을 얹자 경고등이 깜박인다.',{s:'ARCHIVE SYSTEM',t:'조건 미충족.\n기록 '+S.records.length+' / '+TOTAL+'\n발견한 모순 '+S.contra.length+' / 15 이상\n\n모든 기록을 완성한 기록자만 선택할 수 있습니다.'}]);
+ }};
+ const lines=[];
+ if(k)lines.push('봉인등이 하나씩 꺼진다. 누리느엘의 기록에 반응한 걸까.','철문이 다시 선택을 기다리고 있다.');
+ else lines.push(first?'가장 깊은 지하. 거대한 철문이 앞을 막고 있다. 문틈으로 바깥 공기가 스며든다.':'거대한 철문 앞이다.');
+ lines.push({s:'철문',t:'EMERGENCY EXIT\n\nWARNING\nOPENING THIS DOOR WILL ERASE\nALL ARCHIVED RECORDS.'});
+ lines.push({t:'이곳이 진짜 탈출구다. 선택해야 한다.',c:k?[openC,allC,{l:'돌아선다'}]:[openC,{l:'기록을 보존한다',f:preserve},allC]});
+ say(lines);
+}
+function preserve(){
+ say([{t:'기록을 보존하면 이 문은 닫히고, 다시 열리지 않을지도 모른다. 그래도 보존할까?',c:[{l:'보존한다',f:()=>{S.flags.preserved=true;save();shakeT=1;flash('#ffffff');alog('USER 선택 · 기록 보존');
+   say(['철문이 굉음을 내며 닫힌다. 틈새마다 붉은 봉인등이 켜진다.','그 순간, 위층 어딘가에서 하얀 빛이 터져 나왔다.','장치실이다.']);}},{l:'그만둔다'}]}]);
+}
+function portalAct(){
+ if(!S.flags.preserved){say(['고리 모양의 거대한 장치. 표면에 하얀 먼지 같은 빛이 희미하게 맴돈다.','전원이 부족한 것 같다. 가장 깊은 곳, 탈출구 쪽 전원과 연결되어 있는 걸까?']);return;}
+ if(S.flags.nlVisited){say([{t:'고리 안에서 색들이 소용돌이친다. 너머로 누리느엘의 광장이 보인다.',c:[{l:'누리느엘로 간다',f:runNuriel},{l:'그만둔다'}]}]);return;}
+ say(['장치가 깨어났다. 고리 안에서 본 적 없는 색들이 천천히 소용돌이친다.','흑백의 도시에서는 한 번도 본 적 없는 색이다.',{t:'고리 너머로 먼지 하나 없는 거리가 보인다.',c:[{l:'빛 속으로 들어간다',f:runNuriel},{l:'아직은 이곳에 남는다'}]}]);
+}
+function warp(x,y,after){
+ transitioning=true;refreshBusy();$('fade').classList.add('on');
+ setTimeout(()=>{P.x=x;P.y=y;unstuck();save();$('fade').classList.remove('on');
+  setTimeout(()=>{transitioning=false;refreshBusy();if(after)after();},420);},450);
+}
+function doorAct(o){
+ const go=()=>warp(o.to[0]*TS,o.to[1]*TS,()=>{const k='d_'+o.id;if(!S.flags[k]){S.flags[k]=1;save();if(o.post)say(o.post);}alog('USER 이동 · '+roomLabel());});
+ if(o.pre)say(o.pre.concat([{t:'들어갈까?',c:[{l:'들어간다',f:go},{l:'그만둔다'}]}]));else go();
+}
+const TRUE_ORDER=['c1500','c1650','c1658','c1702'];
+function towerAct(){
+ if(S.flags.roadOpen){say(['시계탑의 바늘은 17시 02분에 멈춰 있다.','북쪽으로, 없던 길이 나 있다.']);return;}
+ const got=CLOCKS.filter(has).length;
+ const pre=['광장 한가운데의 시계탑. 바늘 다섯 개가 제멋대로 돌고 있다.','받침대에 새겨진 글. "그날을 순서대로 되돌려라. 거짓의 시간은 빼고."'];
+ if(TRUE_ORDER.some(id=>!has(id))){say(pre.concat(['누리느엘 곳곳의 시계를 아직 다 보지 못했다. ('+got+' / 5)']));return;}
+ say(pre.concat([{t:'시계탑의 바늘을 맞출까?',c:[{l:'바늘을 맞춘다',f:()=>towerStep(0,[])},{l:'그만둔다'}]}]));
+}
+function towerStep(i,chosen){
+ if(i>=TRUE_ORDER.length){
+  S.flags.roadOpen=true;save();shakeT=.8;flash('#ffffff');alog('USER 추론 · 그날의 순서');
+  say(['마지막 바늘이 17시 02분에 맞춰지자, 누리느엘의 모든 시계가 동시에 같은 시간을 가리켰다.','광장 북쪽, 방금 전까지 아무것도 없던 곳에 길이 생겨났다.']);updateHUD(true);return;
+ }
+ const opts=CLOCKS.filter(id=>has(id)&&chosen.indexOf(id)<0).map(id=>({l:R[id].date+' · '+R[id].title,f:()=>{
+  if(id===TRUE_ORDER[i])towerStep(i+1,chosen.concat([id]));
+  else if(id==='c0400')say(['바늘이 04시에 걸리자 시계탑이 삐걱이며 멈췄다.','그 시각에는 아무 일도 없었다. 그건 신문이 만든 시간이다.','바늘이 처음으로 돌아간다.']);
+  else say(['순서가 틀렸다. 시계탑의 바늘이 처음으로 돌아간다.','그날 일어난 일을 시간 순서대로 떠올려 보자.']);
+ }}));
+ say([{s:'시계탑',t:(i+1)+'번째 바늘. 그날의 '+['첫','두','세','네'][i]+' 번째 시간은?'+(chosen.length?'\n\n지금까지: '+chosen.map(id=>R[id].date).join(' → '):''),c:opts}]);
+}
+function nphoneAct(){
+ if(has('phone2')){say(['수화기는 조용하다. 해야 할 말은 이미 했다.']);return;}
+ readRecord({rec:'phone2'});
+}
+function seoyunAct(){
+ readRecord({rec:'seoyun'},()=>{if(!has('c1702'))say(['서윤의 손목에서 멈춘 시계가 눈에 들어온다.'],()=>readRecord({rec:'c1702'}));});
+}
+function coreAct(){
+ say(['누리느엘의 중심. 하얀 빛의 핵이 천천히 숨 쉬고 있다.','빛 속에서 수많은 얼굴이 떠올랐다 사라진다. 축제의 아이들, 공장의 작업자들, 도시의 사람들.',{t:'이 빛에 닿으면 돌아올 수 없을 것 같다.',c:[{l:'빛에 닿는다',f:endC},{l:'물러선다'}]}]);
+}
+function retAct(){
+ say([{t:'작은 하얀 고리. 너머로 연구시설의 장치실이 보인다.',c:[{l:'연구시설로 돌아간다',f:()=>goArea('lab',18*TS,15.3*TS)},{l:'그만둔다'}]}]);
+}
+function exitDoorAct(){
+ const n=S.records.length;
+ say([
+  '건물 벽에 박힌 거대한 철문. 이 도시에서 처음 눈을 뜬 곳 바로 옆이다.',
+  {s:'철문',t:'EMERGENCY EXIT\n\nWARNING\nOPENING THIS DOOR WILL ERASE\nALL ARCHIVED RECORDS.'},
+  {t:(n?'이 문을 열면 도시를 떠날 수 있다. 대신, 지금까지 모은 기록 '+n+'개가 모두 지워진다.':'이 문을 열면 도시를 떠날 수 있다. 아직 모은 기록은 하나도 없다.'),
+   c:[{l:'문을 연다',f:()=>say([{t:'정말 문을 열까? 되돌릴 수 없다.',c:[{l:'연다',f:endForget},{l:'그만둔다'}]}])},
+      {l:'기록을 보존한다',f:()=>say(['손을 거뒀다. 철문은 굳게 닫힌 채 그대로다.','아직 이 도시에 대해 아는 것이 없다.'])},
+      {l:'모든 기록을 가져간다',f:()=>say(['손잡이에 손을 얹었지만, 아무 일도 일어나지 않는다.','"모든 기록을 완성한 기록자만 선택할 수 있습니다."','…아직 기록이 부족하다.'])}]}
+ ]);
+}
+
+/* ================= PAST VIEW ================= */
+function canPast(){return (S.area==='school'&&has('video'))||(S.area==='factory'&&has('cctv'));}
+function enterPast(){
+ if(!canPast()||S.past)return;
+ const tx=Math.floor(P.x/TS),ty=Math.floor(P.y/TS);
+ if(tx>=15&&tx<=21&&ty>=15&&ty<=21){say(['이 방은 영상 속 과거에서는 벽 너머에 있었다. 복도로 나가서 시도하자.']);return;}
+ if(arcOpen)closeArchive();
+ flash(COL.blue);S.past=true;unstuck();alog('USER 과거 접속');
+ const ik='pastIntro_'+S.area;
+ if(!S.flags[ik]){S.flags[ik]=1;save();
+  const back=isTouch?'(현재로 돌아가려면 오른쪽 위 버튼을 누른다)':'(현재로 돌아가려면 F 키 또는 오른쪽 위 버튼)';
+  const pg=S.area==='factory'?['…멈춰 있던 기계들이 일제히 돌아가기 시작했다. 증기, 경보음, 뛰어가는 발소리.','2011년 10월 14일 16시 58분. CCTV 속 그 순간이다.','레버실로 들어간 흰 코트의 사람을 따라가 보자.',back]:['…복도에 빛이 돌아왔다. 웃음소리, 발소리, 축제 음악.','15년 전, 2011년 10월 14일. 영상 속 그날이다.','현재와 무엇이 다른지 살펴보자.',back];
+  setTimeout(()=>say(pg),500);}
+ updateHUD(true);
+}
+function exitPast(){if(!S.past)return;flash('#ffffff');S.past=false;unstuck();updateHUD(true);}
+function togglePast(){if(busy())return;if(S.past)exitPast();else if(canPast())enterPast();}
+function flash(c){const f=$('flash');f.style.background=c;f.classList.remove('go');void f.offsetWidth;f.classList.add('go');}
+
+/* ================= AREA ================= */
+function goArea(a,x,y){
+ transitioning=true;refreshBusy();$('fade').classList.add('on');
+ setTimeout(()=>{
+  S.area=a;S.past=false;P.x=x;P.y=y;save();updateHUD(true);
+  $('fade').classList.remove('on');
+  setTimeout(()=>{transitioning=false;refreshBusy();
+   if(a==='school'&&!S.flags.schoolIntro){S.flags.schoolIntro=1;save();
+    say(['…정문을 지나 폐교 안으로 들어섰다.','공기가 다르다. 도시보다 더 조용하고, 더 차갑다.','복도 저편에서 누군가 나를 보고 있는 것 같다.']);}
+   if(a==='nl'&&!S.flags.nlIntro){S.flags.nlIntro=1;save();
+    say(['빛을 지나자, 먼지 하나 없는 거리가 펼쳐졌다.','색이 있다. 하늘도, 벽도, 나무도. 흑백인 건 나 하나뿐이다.','…그런데 여기는, 내가 처음 눈을 뜬 거리와 똑같이 생겼다.','광장의 시계들이 저마다 다른 시간을 가리키고 있다.']);}
+   if(a==='lab'&&!S.flags.labIntro){S.flags.labIntro=1;save();
+    say(['계단은 끝없이 이어졌다. 공장의 소음이 완전히 사라질 즈음, 문이 나타났다.','B3 지하 연구시설. 공기에서 쇠와 오존 냄새가 난다.','벽을 따라 흐르는 빛의 색이… 조금 이상하다. 흑백이 아니다.']);}
+   if(a==='factory'&&!S.flags.factoryIntro){S.flags.factoryIntro=1;save();
+    say(['좁은 사다리를 한참 내려가자, 습한 지하 통로가 이어졌다.','통로 끝에서 거대한 공장이 입을 벌리고 있다. 기계는 모두 멈췄는데, 어딘가에서 증기가 새어 나온다.','벽에 붙은 이름. 석말공장.']);}
+  },450);
+ },500);
+}
+
+/* ================= KEYPAD ================= */
+let kpVal='';
+(function buildKp(){
+ const g=$('kpGrid');['1','2','3','4','5','6','7','8','9','지움','0','확인'].forEach(k=>{
+  const b=document.createElement('button');b.textContent=k;if(k.length>1)b.style.fontSize='14px';
+  b.onclick=()=>kpPress(k==='지움'?'back':k==='확인'?'ok':k);g.appendChild(b);});
+ $('kpClose').onclick=closeKeypad;
+})();
+let kpCfg=null;
+const GATE_KP={title:'한결중학교 정문',msg:'학교에 마지막으로 사람이 있었던 날 (월일 4자리)',code:'1014',
+ ok:()=>{S.flags.gateOpen=true;save();shakeT=.4;say(['삐빅. 잠금이 풀렸다.','녹슨 정문이 비명 같은 소리를 내며 열린다.',S.flags.dateTruth?'신문이 아니라 사진이 옳았다. 그날, 학교에는 사람이 있었다.':'그날, 학교에는 사람이 있었다.']);},
+ wrong:v=>v==='1013'?'삐— 틀렸다. 신문의 휴교령을 믿는다면 13일이 마지막이었겠지만… 신문은 믿을 만한가?':(wrongTries>=2?'삐— 틀렸다. 기록 보관함에서 두 기록을 비교해 모순을 찾아보자.':'삐— 비밀번호가 틀렸다.')};
+const LAB_KP={title:'B3 비상 통로',msg:'최종 잠금 해제 코드 (4자리)',code:'3102',
+ ok:()=>{S.flags.codeOK=true;save();shakeT=.5;alog('USER 코드 입력 · 승인');say(['삐빅. 비상 통로의 잠금이 풀렸다.','문 너머로 아래를 향한 긴 통로가 이어진다. 바깥 공기 같은 차가운 바람이 올라온다.']);},
+ wrong:v=>v==='3017'||v==='3117'?'삐— 틀렸다. 개방 시각 전체가 아니라 "분"만 필요하다.':(v==='3002'?'삐— 틀렸다. 출석부의 인원이 아니라, 관측 대상의 수다.':'삐— 틀렸다. 관측 대상의 수, 그리고 누리느엘이 열린 시각의 분.')};
+function openKeypad(cfg){kpCfg=(cfg&&cfg.code)?cfg:GATE_KP;kpOpen=true;kpVal='';renderKp();$('kpTitle').textContent=kpCfg.title;$('kpMsg').textContent=kpCfg.msg;$('keypad').classList.remove('hidden');refreshBusy();}
+function closeKeypad(){kpOpen=false;$('keypad').classList.add('hidden');refreshBusy();}
+function renderKp(){$('kpScreen').textContent=(kpVal+'____').slice(0,4);}
+function kpPress(k){
+ if(k==='back'){kpVal=kpVal.slice(0,-1);renderKp();return;}
+ if(k==='ok'){checkKp();return;}
+ if(kpVal.length<4){kpVal+=k;renderKp();}
+ if(kpVal.length===4)setTimeout(checkKp,150);
+}
+function checkKp(){
+ if(kpVal.length<4)return;
+ const scr=$('kpScreen');
+ if(kpVal===kpCfg.code){closeKeypad();kpCfg.ok();return;}
+ wrongTries++;
+ scr.classList.remove('bad');void scr.offsetWidth;scr.classList.add('bad');
+ $('kpMsg').textContent=kpCfg.wrong(kpVal);
+ setTimeout(()=>{kpVal='';renderKp();},500);
+}
+
+/* ================= ARCHIVE ================= */
+let arcSel=null,cmpMode=false,cmpSel=[],arcTab='rec';
+function openArchive(){if(!started||dlg||kpOpen||endOpen||transitioning)return;arcOpen=true;cmpMode=false;cmpSel=[];if(!arcSel||!has(arcSel))arcSel=S.records[S.records.length-1]||null;renderArchive();$('archive').classList.remove('hidden');refreshBusy();}
+function closeArchive(){arcOpen=false;$('archive').classList.add('hidden');$('cmpResult').classList.add('hidden');refreshBusy();}
+function renderArchive(){
+ document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===arcTab));
+ $('arcRec').classList.toggle('hidden',arcTab!=='rec');$('arcDed').classList.toggle('hidden',arcTab!=='ded');
+ const list=$('arcList');list.innerHTML='';
+ if(!S.records.length)list.innerHTML='<div class="empty">아직 모은 기록이 없다.<br>빛나는 물건에 다가가 조사해 보자.</div>';
+ S.records.forEach(id=>{
+  const r=R[id];const b=document.createElement('button');
+  b.className='card c-'+r.color+(cmpMode?(cmpSel.indexOf(id)>=0?' sel':''):(arcSel===id?' on':''));
+  b.innerHTML='<span class="d"></span><span><div class="ct"></div><div class="cm"></div></span>';
+  b.querySelector('.ct').textContent=r.title;b.querySelector('.cm').textContent=r.type+', '+r.date;
+  b.onclick=()=>{
+   if(cmpMode){const i=cmpSel.indexOf(id);if(i>=0)cmpSel.splice(i,1);else{if(cmpSel.length>=2)cmpSel.shift();cmpSel.push(id);}}
+   arcSel=id;renderArchive();
+  };
+  list.appendChild(b);
+ });
+ $('cmpToggle').classList.toggle('on',cmpMode);$('cmpToggle').textContent=cmpMode?'비교 취소':'두 기록 비교';
+ $('cmpGo').classList.toggle('hidden',!cmpMode);$('cmpGo').disabled=cmpSel.length!==2;
+ $('cmpHint').textContent=cmpMode?('비교할 기록 두 개를 고르세요 ('+cmpSel.length+'/2)'):'서로 맞지 않는 두 기록을 찾으면 진실에 가까워진다.';
+ const d=$('arcDetail');d.innerHTML='';
+ if(arcSel){
+  const r=R[arcSel];d.className='arc-detail c-'+r.color;
+  d.innerHTML='<div class="stripe"></div><div class="dm"></div><h3></h3>';
+  d.querySelector('.dm').textContent=r.type+' / '+r.place+' / '+r.date;d.querySelector('h3').textContent=r.title;
+  r.text.split('\n\n').forEach(t=>{const p=document.createElement('p');p.textContent=t;d.appendChild(p);});
+  if(r.past){
+   const b=document.createElement('button');b.className='pastgo';
+   if(S.past){b.textContent='현재로 돌아간다';b.onclick=()=>{closeArchive();exitPast();};}
+   else if(S.area===r.pastArea){b.textContent='이 기록의 과거로 들어간다';b.onclick=()=>{closeArchive();enterPast();};}
+   else{b.textContent='기록된 장소('+(r.pastArea==='school'?'폐교':'거대 공장')+')에서만 과거를 볼 수 있다';b.disabled=true;b.style.opacity=.5;}
+   d.appendChild(b);
+  }
+ } else d.innerHTML='<div class="empty">기록을 선택하면 내용이 여기에 표시된다.</div>';
+ const ded=$('arcDed');let h='<h4>발견한 모순 '+S.contra.length+' / '+CONTRA.length+'</h4>';
+ CONTRA.forEach((c,i)=>{if(S.contra.indexOf(i)>=0)h+='<div class="ded"><b>'+c.title+'</b><span>'+c.text.replace(/\n/g,'<br>')+'</span></div>';});
+ const left=CONTRA.length-S.contra.length;for(let i=0;i<left;i++)h+='<div class="ded lock"><b>발견하지 못한 모순</b><span>어딘가의 두 기록이 서로 다른 말을 하고 있다.</span></div>';
+ const en=ESC.filter(e=>e.id&&has(e.id)).length;
+ h+='<h4 style="margin-top:28px">탈출구 추적 '+en+' / 4</h4>';
+ ESC.forEach(e=>{const ok=e.id&&has(e.id);h+='<div class="esc"><span class="m" style="color:'+(ok?COL.red:'#57544f')+'">'+(ok?'■':'□')+'</span><span style="color:'+(ok?'#e7e3da':'#6e6b64')+'">'+(ok?e.l:'??? 기록')+'</span><span class="a">'+e.a+'</span></div>';});
+ ded.innerHTML=h;
+}
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{arcTab=b.dataset.tab;renderArchive();});
+$('cmpToggle').onclick=()=>{cmpMode=!cmpMode;cmpSel=[];renderArchive();};
+$('cmpGo').onclick=compare;
+$('arcClose').onclick=closeArchive;
+$('arcBtn').onclick=()=>{arcOpen?closeArchive():openArchive();};
+function compare(){
+ if(cmpSel.length!==2)return;const a=cmpSel[0],b=cmpSel[1];
+ const idx=CONTRA.findIndex(c=>(c.a===a&&c.b===b)||(c.a===b&&c.b===a));
+ const box=$('cmpResult');let html;
+ if(idx<0){html='<div class="cmp-in"><div class="cmp-k no">모순 없음</div><h3>두 기록은 서로 부딪히지 않는다</h3><p>'+R[a].title+'와 '+R[b].title+' 사이에서는 어긋나는 점을 찾지 못했다. 다른 조합을 시도해 보자.</p><button id="cmpOk">돌아가기</button></div>';}
+ else{
+  const c=CONTRA[idx];const already=S.contra.indexOf(idx)>=0;
+  if(!already){S.contra.push(idx);if(c.flag)S.flags[c.flag]=true;save();alog('USER 추론 · '+c.title);}
+  html='<div class="cmp-in"><div class="cmp-k">'+(already?'이미 발견한 모순':'모순 발견')+'</div><h3>'+c.title+'</h3><p>'+c.text+'</p><button id="cmpOk">추론을 기록한다</button></div>';
+ }
+ box.innerHTML=html;box.classList.remove('hidden');
+ $('cmpOk').onclick=()=>{box.classList.add('hidden');cmpMode=false;cmpSel=[];renderArchive();updateHUD(true);};
+}
+
+/* ================= HUD ================= */
+let hudCache='';
+function objective(){
+ const f=S.flags;
+ if(S.area==='city'){
+  if(f.gateOpen)return '북쪽 정문을 지나 폐교로 들어가자.';
+  if(!has('memo'))return '텅 빈 도시를 조사하자. 도로 북쪽 끝에 학교 정문이 있다.';
+  if(!f.dateTruth)return '정문 비밀번호는 학교에 마지막으로 사람이 있던 날. 믿을 수 있는 기록은 어느 쪽일까?';
+  return '정문 키패드에 비밀번호를 입력하자.';
+ }
+ if(S.area==='nl'){
+  if(!f.roadOpen){const cc=CLOCKS.filter(has).length;return TRUE_ORDER.some(id=>!has(id))?'누리느엘의 시계를 찾자. 모든 시계가 서로 다른 시간을 가리킨다. ('+cc+' / 5)':'광장의 시계탑에서 그날의 시간을 순서대로 맞추자.';}
+  if(!has('nlcore'))return '북쪽에 생긴 길을 따라 누리느엘의 중심부로 가자.';
+  return '중심의 빛에 닿거나, 하얀 고리로 연구시설에 돌아가 탈출구 앞에 서자.';
+ }
+ if(S.area==='lab'){
+  if(!f.archiveOn)return 'B3 지하 연구시설. 유일하게 켜진 컴퓨터를 찾자.';
+  if(!f.restored)return 'ARCHIVE 시스템의 삭제된 자료를 복구하자. 진실인 기록만 답이 된다.';
+  if(!has('notfirst'))return '문이 열린 폐쇄 실험실을 조사하자.';
+  if(!f.codeOK)return '최종 잠금 해제 코드로 동쪽 비상 통로를 열자.';
+  if(!f.sawIron)return '비상 통로를 따라 가장 깊은 곳까지 내려가자.';
+  if(!f.preserved)return '탈출구 앞에서 선택해야 한다.';
+  return has('nlcore')?'가장 깊은 곳의 탈출구로 가자. 이번에는 모든 기록을 가지고.':'하얀 빛이 새어 나오는 장치실로 가자.';
+ }
+ if(S.area==='factory'){
+  if(S.past)return '그날 16시 58분의 공장이다. 흰 코트의 사람은 레버를 어떤 순서로 당겼나?';
+  if(!f.power&&!has('cctv'))return '멈춘 공장을 조사하자. 그날의 기록이 어딘가 남아 있다.';
+  if(!f.power)return '레버실에서 제3발전기 전원을 올리자. 어떤 순서를 믿어야 할까?';
+  if(!has('power'))return '발전기실에서 전력 공급 기록을 확인하자.';
+  if(!has('nuriel'))return '문이 열린 폐쇄 실험실을 조사하자.';
+  return '계단실을 통해 B3 지하 연구시설로 내려가자.';
+ }
+ if(S.past)return '과거의 학교를 살펴보자. 지금의 폐교와 무엇이 다른가?';
+ if(!has('video'))return '폐교 곳곳에 남은 기록을 찾자.';
+ if(!f.knowMural)return '축제 영상 속 과거로 들어가 보자. 파란 기록은 과거를 보여준다.';
+ if(!f.cleared)return '과거에 벽화가 있던 자리를 현재에서 조사하자.';
+ if(!f.hasFuse)return '숨겨진 방을 조사하자.';
+ if(!f.powered)return '방송실 콘솔에 전원을 넣자.';
+ if(!f.nameKnown)return '콘솔이 사용자 이름을 요구한다. 출석부와 어긋나는 기록이 있을까?';
+ if(!f.broadcastDone)return '방송실 콘솔에 접속하자.';
+ return '숨겨진 방의 철제 해치로 공장 방향 지하 통로에 들어가자.';
+}
+function updateHUD(force){
+ document.body.classList.toggle('bright',S.area==='nl');
+ const an=AREA_NAME[S.area]+(S.past?(S.area==='factory'?' · 2011년 10월 14일 16:58':' · 2011년 10월 14일'):'');
+ const ob=objective();
+ let pb='';if(S.past)pb='현재로 돌아가기';else if(canPast())pb='과거 보기';
+ const key=an+ob+pb+S.records.length;
+ if(!force&&key===hudCache)return;hudCache=key;
+ $('areaName').textContent=an;$('objective').textContent=ob;
+ $('recCount').textContent=' '+S.records.length+'/'+TOTAL;
+ const b=$('pastBtn');b.classList.toggle('hidden',!pb);b.textContent=pb+(isTouch?'':' (F)');
+}
+$('pastBtn').onclick=togglePast;
+function fmt(t){t=Math.floor(t);const h=Math.floor(t/3600),m=Math.floor(t/60)%60,s=t%60;return [h,m,s].map(v=>String(v).padStart(2,'0')).join(':');}
+
+/* ================= INPUT ================= */
+const keys={};
+/* 키 이름 통일: 한글 입력 상태(ㅈㅁㄴㅇ)나 대문자여도 WASD가 동작하도록 실제 키 위치(e.code) 기준으로 읽음 */
+const HANGUL_KEY={'ㅈ':'w','ㅉ':'w','ㅁ':'a','ㄴ':'s','ㅇ':'d','ㄷ':'e','ㄸ':'e','ㄹ':'f','ㄱ':'r','ㄲ':'r','ㅂ':'q','ㅃ':'q'};
+function normKey(e){
+ const c=e.code||'';
+ if(/^Key[A-Z]$/.test(c))return c.slice(3).toLowerCase();
+ if(/^Digit[0-9]$/.test(c))return c.slice(5);
+ if(/^Numpad[0-9]$/.test(c))return c.slice(6);
+ if(c==='Space')return ' ';
+ if(c==='ShiftLeft'||c==='ShiftRight')return 'shift';
+ if(c==='Enter'||c==='NumpadEnter')return 'enter';
+ const k=(e.key||'').toLowerCase();
+ return HANGUL_KEY[k]||k;
+}
+window.addEventListener('keydown',e=>{
+ const k=normKey(e);
+ if(k==='tab'){e.preventDefault();if(arcOpen)closeArchive();else openArchive();return;}
+ if(kpOpen){if(/^[0-9]$/.test(k))kpPress(k);else if(k==='backspace')kpPress('back');else if(k==='enter')kpPress('ok');else if(k==='escape')closeKeypad();return;}
+ if(k==='escape'){if(arcOpen)closeArchive();return;}
+ if(dlg){
+  if(e.repeat)return;
+  const p=dlg.pages[dlg.i];
+  if(p.c&&!dlg.typing&&/^[1-9]$/.test(k)){pick(+k-1);return;}
+  if(k==='e'||k===' '||k==='enter'){e.preventDefault();advance();}
+  return;
+ }
+ if(arcOpen)return;
+ if(['arrowup','arrowdown','arrowleft','arrowright',' '].indexOf(k)>=0)e.preventDefault();
+ keys[k]=true;
+ if(e.repeat)return;
+ if(k==='e'||k===' '||k==='enter')action();
+ if(k==='f')togglePast();
+});
+window.addEventListener('keyup',e=>{keys[normKey(e)]=false;});
+window.addEventListener('blur',()=>{for(const k in keys)keys[k]=false;});
+function action(){if(dlg){advance();return;}if(busy())return;if(near)interact(near);}
+$('btnAct').addEventListener('click',e=>{e.preventDefault();action();});
+
+const joy={id:null,ox:0,oy:0,dx:0,dy:0,len:0};
+const jz=$('joyzone'),jb=$('joyBase'),jk=$('joyKnob');
+function joyMove(e){
+ const r=jb.getBoundingClientRect();let dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2);
+ const l=Math.hypot(dx,dy),mx=r.width*.38;if(l>mx){dx*=mx/l;dy*=mx/l;}
+ joy.dx=dx/mx;joy.dy=dy/mx;joy.len=Math.min(1,l/mx);jk.style.transform='translate('+dx+'px,'+dy+'px)';
+}
+jz.addEventListener('pointerdown',e=>{e.preventDefault();joy.id=e.pointerId;jb.classList.add('on');try{jz.setPointerCapture(e.pointerId);}catch(_){}joyMove(e);});
+jz.addEventListener('pointermove',e=>{if(e.pointerId!==joy.id)return;joyMove(e);});
+function joyEnd(e){if(e.pointerId!==joy.id)return;joy.id=null;joy.dx=joy.dy=joy.len=0;jk.style.transform='';jb.classList.remove('on');}
+let runHeld=false;const rb=$('btnRun');
+rb.addEventListener('pointerdown',e=>{e.preventDefault();runHeld=true;rb.classList.add('on');try{rb.setPointerCapture(e.pointerId);}catch(_){}});
+['pointerup','pointercancel','lostpointercapture'].forEach(ev=>rb.addEventListener(ev,()=>{runHeld=false;rb.classList.remove('on');}));
+rb.addEventListener('click',e=>e.preventDefault());
+$('runKey').textContent=isTouch?'':'Shift';
+jz.addEventListener('pointerup',joyEnd);jz.addEventListener('pointercancel',joyEnd);
+
+/* ================= UPDATE ================= */
+function update(dt){
+ if(started&&!endOpen)S.time+=dt;
+ if(busy()){P.moving=false;P.running=false;P.vx=P.vy=0;near=null;return;}
+ let vx=0,vy=0,mag=0;
+ if(keys['a']||keys['arrowleft'])vx-=1;if(keys['d']||keys['arrowright'])vx+=1;
+ if(keys['w']||keys['arrowup'])vy-=1;if(keys['s']||keys['arrowdown'])vy+=1;
+ if(vx||vy){const l=Math.hypot(vx,vy);vx/=l;vy/=l;mag=1;}
+ if(joy.len>.12){const l=Math.hypot(joy.dx,joy.dy)||1;vx=joy.dx/l;vy=joy.dy/l;mag=Math.min(1,joy.len);}
+ const wantRun=(keys['shift']||runHeld)&&mag>0;
+ if(wantRun&&!P.tired&&P.sta>0){P.running=true;P.sta=Math.max(0,P.sta-dt*.36);if(P.sta<=0)P.tired=true;}
+ else{P.running=false;P.sta=Math.min(1,P.sta+dt*(mag>0?.2:.34));if(P.tired&&P.sta>.35)P.tired=false;}
+ const top=(P.running?210:122)*Math.max(.45,mag);
+ const k=1-Math.exp(-dt*(mag>0?(P.running?8:11):15));
+ P.vx+=(vx*(mag>0?top:0)-P.vx)*k;P.vy+=(vy*(mag>0?top:0)-P.vy)*k;
+ const spd=Math.hypot(P.vx,P.vy);
+ const ox=P.x,oy=P.y;
+ if(spd>3){
+  const nx=P.x+P.vx*dt,ny=P.y+P.vy*dt;
+  if(!hit(nx,P.y))P.x=nx;else P.vx*=.3;
+  if(!hit(P.x,ny))P.y=ny;else P.vy*=.3;
+  if(mag>0){P.fx=vx;P.fy=vy;
+   if(Math.abs(vx)>Math.abs(vy)*1.15)P.face=vx>0?'r':'l';else if(Math.abs(vy)>Math.abs(vx)*1.15)P.face=vy>0?'d':'u';}
+ } else {P.vx=P.vy=0;}
+ const moved=Math.hypot(P.x-ox,P.y-oy);
+ P.moving=moved>.05;
+ const ww=P.moving?Math.min(1,moved/dt/90):0;
+ P.walkW+=(ww-P.walkW)*(1-Math.exp(-dt*(ww>P.walkW?9:12)));
+ P.runW+=((P.running&&P.moving?1:0)-P.runW)*(1-Math.exp(-dt*6));
+ const stepLen=36+10*P.runW;
+ const prev=P.phase;
+ if(P.moving)P.phase+=moved*Math.PI/stepLen;
+ else if(P.walkW>.02){const tgt=Math.round(P.phase/Math.PI)*Math.PI;P.phase+=(tgt-P.phase)*(1-Math.exp(-dt*10));}
+ P.anim=P.phase;
+ if(P.runW>.5)for(const off of [0,Math.PI]){if(Math.cos(prev+off)>0&&Math.cos(P.phase+off)<=0){
+  const sx=P.face==='l'?-1:P.face==='r'?1:0;DUST.push({x:P.x+(off?-2:2)*(sx?0:1)+sx*Math.sin(P.phase+off)*7,y:P.y+1,t:0});}}
+ rb.style.setProperty('--st',P.sta.toFixed(3));rb.classList.toggle('tired',P.tired);
+ if(S.area==='city'&&S.flags.gateOpen&&P.y<TS*.9)goArea('school',27*TS,24.2*TS);
+ else if(S.area==='school'&&P.y>TS*25.2)goArea('city',20*TS,1.9*TS);
+ else if(S.area==='factory'&&P.y>TS*28.2)goArea('school',18.5*TS,19.7*TS);
+ else if(S.area==='lab'&&P.y<TS*1.9)goArea('factory',28.5*TS,24.9*TS);
+ if(S.area==='nl'){
+  let w=0;const onSt=P.y>18*TS&&P.y<21*TS;if(onSt&&P.x>27.5*TS&&P.x<29*TS){P.x=.7*TS;w=1;}else if(onSt&&P.x<.5*TS){P.x=27.3*TS;w=1;}
+  if(w){S.flags.loops=(S.flags.loops||0)+1;const n=S.flags.loops;alog('USER 이동 · 같은 거리 '+n+'회');
+   toast(n===1?'…다시 같은 거리다.':n===2?'계속 걸어도 같은 장소로 돌아온다.':'이 길은 어디로도 이어지지 않는다. 다른 길을 찾아야 한다.',COL.nuri);}
+  if(!S.flags.centerIntro&&roomLabel()==='중심부'){S.flags.centerIntro=1;save();
+   say(['길 끝에, 하얀 빛이 숨 쉬는 광장이 있었다.','서른 개의 의자가 빛을 향해 놓여 있다. 모두 비어 있다.','누리느엘의 중심부다.']);}
+ }
+ if(S.flags.archiveOn){
+  if(P.moving){stepAcc+=120*dt;idleT=0;idleLogged=false;S.steps=(S.steps||0)+120*dt/20;if(stepAcc>TS*12){stepAcc=0;alog('USER 이동 · 누적 '+Math.floor(S.steps)+'걸음');}}
+  else{idleT+=dt;if(idleT>6&&!idleLogged){idleLogged=true;alog('USER 정지 · 망설임 '+Math.floor(idleT)+'초');}}
+  const rl=roomLabel();if(rl!==lastRoom){if(lastRoom)alog('USER 위치 · '+rl);lastRoom=rl;}
+ }
+ near=findNear();
+ $('btnAct').classList.toggle('ready',!!near);
+}
+
+/* ================= RENDER ================= */
+let DPR=1,Z=2,VW=0,VH=0;
+function resize(){
+ DPR=Math.min(window.devicePixelRatio||1,2);
+ cv.width=Math.round(innerWidth*DPR);cv.height=Math.round(innerHeight*DPR);
+ Z=Math.max(1.1,Math.min(3,Math.min(innerWidth/(15*TS),innerHeight/(10*TS))));
+ VW=innerWidth/Z;VH=innerHeight/Z;
+}
+window.addEventListener('resize',resize);resize();
+function h2(x,y){let n=(x*374761393+y*668265263)|0;n=Math.imul(n^(n>>>13),1274126177);return ((n^(n>>>16))>>>0)/4294967295;}
+function hexA(h,a){const n=parseInt(h.slice(1),16);return 'rgba('+((n>>16)&255)+','+((n>>8)&255)+','+(n&255)+','+a+')';}
+function fr(c,x,y,w,h){ctx.fillStyle=c;ctx.fillRect(x,y,w,h);}
+function isWall(t){return t==='#'||t==='G'||t==='g'||t==='M'||t==='L'||t==='K'||t==='Q'||t==='J';}
+let NOW=0;
+const PAST=['#f4b6c2','#b9e4cf','#bfd0f6','#f6dfa8','#d8c6f1','#ffd1b3'];
+function pastel(x,y){return PAST[Math.floor(h2(Math.floor(x/3)+7,Math.floor(y/3)+3)*PAST.length)%PAST.length];}
+function drawHands(cx,cy,h,m,r){ctx.strokeStyle='#2a2a33';ctx.lineWidth=1.5;const ha=((h%12)+m/60)/12*Math.PI*2-Math.PI/2,ma=m/60*Math.PI*2-Math.PI/2;
+ ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(ha)*r*.55,cy+Math.sin(ha)*r*.55);ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(ma)*r*.85,cy+Math.sin(ma)*r*.85);ctx.stroke();}
+function labHue(x,y){return 'hsla('+Math.round(195+55*Math.sin(NOW*.45+x*.35+y*.2))+',55%,72%,';}
+function drawLabFloor(x,y,px,py,r){fr((x+y)%2?'#1c1e21':'#1a1c1f',px,py,TS,TS);fr('#16181b',px,py,TS,1);fr('#16181b',px,py,1,TS);if(r>.9)fr('#23262a',px+8,py+8,16,2);}
+function drawMetal(x,y,px,py,r){
+ const p=S.past;fr(p?'#6f7272':'#282a2a',px,py,TS,TS);ctx.fillStyle=p?'#636666':'#212323';
+ for(let i=4;i<TS;i+=8){ctx.fillRect(px+i,py,1,TS);ctx.fillRect(px,py+i,TS,1);}
+ if(!p&&r>.86)fr('#1c1d1d',px+Math.floor(r*18),py+10,8,5);
+}
+
+function drawGround(x,y,px,py,r){
+ fr(r<.5?'#3a3a3a':'#383838',px,py,TS,TS);fr('#313131',px,py,TS,1);fr('#313131',px,py,1,TS);
+ if(r>.82){ctx.strokeStyle='#2a2a2a';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(px+4,py+6+r*10);ctx.lineTo(px+14,py+14);ctx.lineTo(px+26,py+12+r*8);ctx.stroke();}
+ if(r<.1)fr('#464646',px+10,py+18,3,2);
+}
+function drawRoad(x,y,px,py,r){
+ fr('#252525',px,py,TS,TS);
+ for(let i=0;i<3;i++)fr('#2d2d2d',px+Math.floor((r*97+i*37)%30),py+Math.floor((r*53+i*19)%30),2,2);
+ const inX=x>=18&&x<=21,inY=y>=13&&y<=16;
+ if(y===15&&!inX&&x%2===0)fr('#5c5b57',px+4,py-1,24,2);
+ if(x===20&&!inY&&y%2===0)fr('#5c5b57',px-1,py+4,2,24);
+}
+function drawFloor(x,y,px,py,r){
+ if(S.past){fr((x+y)%2?'#7a7a77':'#727270',px,py,TS,TS);fr('#6a6a67',px,py,TS,1);}
+ else{fr((x+y)%2?'#2f2f2e':'#2b2b2a',px,py,TS,TS);if(r>.7)fr('#262625',px+Math.floor(r*20),py+Math.floor(r*13),6,3);if(r<.12)fr('#3a3a38',px+6,py+20,2,2);}
+}
+function drawRubbleOn(px,py,r){
+ fr('#4a4a4a',px+2+r*3,py+14,13,11);fr('#565656',px+11,py+5+r*4,15,12);fr('#3f3f3f',px+17,py+18,12,10);
+ fr('#2a2a2a',px+2+r*3,py+24,13,2);fr('#606060',px+13,py+6+r*4,6,2);fr('#333',px+6,py+9,4,4);
+}
+function drawWallTile(x,y,px,py,r){
+ const below=tile(x,y+1);const face=!isWall(below);
+ if(S.area==='city'){
+  if(face){fr('#2b2b2b',px,py,TS,TS);fr('#222',px,py,TS,4);
+   const w1=r<.3?'#0f0f0f':'#171717',w2=r>.75?'#0e0e0e':'#171717';
+   fr(w1,px+5,py+9,8,12);fr(w2,px+19,py+9,8,12);fr('#383838',px+5,py+21,8,1);fr('#383838',px+19,py+21,8,1);
+   if(r<.3){ctx.strokeStyle='#3a3a3a';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(px+5,py+12);ctx.lineTo(px+10,py+15);ctx.lineTo(px+8,py+21);ctx.stroke();}
+   fr('#1a1a1a',px,py+TS-2,TS,2);
+  } else {fr(r<.5?'#1b1b1b':'#1d1d1d',px,py,TS,TS);if(r>.85)fr('#252525',px+6,py+6,10,8);}
+ } else if(S.area==='lab'){
+  if(face){fr('#22252a',px,py,TS,TS);fr('#2a2e33',px,py,TS,2);fr('#15171a',px,py+TS-5,TS,5);fr(labHue(x,y)+'.45)',px,py+11,TS,2);if(r<.25)fr('#1b1e22',px+Math.floor(r*60),py+16,6,10);}
+  else fr('#0b0c0e',px,py,TS,TS);
+ } else if(S.area==='factory'){
+  if(face){
+   fr(S.past?'#7d8080':'#272929',px,py,TS,TS);fr(S.past?'#8d9090':'#303333',px,py,TS,2);
+   if(r<.3)fr(S.past?'#6a6d6d':'#1f2121',px,py+10,TS,4);
+   const hz=S.past?'#b3b3a6':(S.flags.power?'#6b5a1a':'#3b3414');
+   for(let i=0;i<TS;i+=8){fr(hz,px+i,py+TS-6,4,6);fr('#141414',px+i+4,py+TS-6,4,6);}
+  } else fr(S.past?'#3a3d3d':'#101111',px,py,TS,TS);
+ } else {
+  if(face){
+   if(S.past){fr('#8a8a86',px,py,TS,TS);fr('#5d5d5a',px,py+TS-5,TS,5);fr('#9a9a96',px,py,TS,3);
+    if(y===11){ctx.fillStyle=(x%2)?'#c9c9c4':'#6a6a67';ctx.beginPath();ctx.moveTo(px,py+5);ctx.lineTo(px+TS,py+5);ctx.lineTo(px+16,py+14);ctx.fill();}}
+   else{fr('#2e2e2d',px,py,TS,TS);fr('#1f1f1e',px,py+TS-5,TS,5);fr('#363635',px,py,TS,2);
+    if(r<.35)fr('#262625',px+Math.floor(r*40),py+8,5,14);}
+  } else fr(S.past?'#3b3b39':'#121212',px,py,TS,TS);
+ }
+}
+function drawTile(t,x,y){
+ const px=x*TS,py=y*TS,r=h2(x,y);
+ switch(t){
+  case ',':drawGround(x,y,px,py,r);break;
+  case '.':drawRoad(x,y,px,py,r);break;
+  case '#':drawWallTile(x,y,px,py,r);break;
+  case 'r':if(S.area==='city')drawGround(x,y,px,py,r);else drawFloor(x,y,px,py,r);drawRubbleOn(px,py,r);break;
+  case 'c':drawRoad(x,y,px,py,r);fr('#1a1a1a',px+3,py+24,26,4);fr('#474747',px+2,py+7,28,19);fr('#3b3b3b',px+2,py+7,28,3);
+   fr('#1c1c1c',px+7,py+10,8,13);fr('#1c1c1c',px+22,py+10,5,13);fr('#555',px+16,py+10,5,13);if(r<.5)fr('#3a3a3a',px+4,py+18,3,4);break;
+  case 'T':drawGround(x,y,px,py,r);fr('rgba(0,0,0,.3)',px+8,py+26,16,4);ctx.strokeStyle='#121212';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(px+16,py+28);ctx.lineTo(px+16,py+8);ctx.stroke();
+   ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(px+16,py+16);ctx.lineTo(px+6,py+6);ctx.moveTo(px+16,py+12);ctx.lineTo(px+26,py+3);ctx.moveTo(px+16,py+9);ctx.lineTo(px+12,py);ctx.moveTo(px+21,py+7);ctx.lineTo(px+28,py+10);ctx.stroke();break;
+  case 'G':drawRoad(x,y,px,py,r);fr('#555',px,py+4,TS,3);for(let i=2;i<TS;i+=6)fr('#6b6b6b',px+i,py+4,2,TS-4);break;
+  case 'g':drawRoad(x,y,px,py,r);fr('#6b6b6b',x===19?px:px+TS-4,py,4,TS);break;
+  case 'f':drawFloor(x,y,px,py,r);break;
+  case 'd':drawFloor(x,y,px,py,r);{const tilt=!S.past&&r<.4?3:0;
+   fr(S.past?'#4e4e4b':'#1c1c1b',px+6,py+22,20,4);fr(S.past?'#a3a39e':'#454543',px+5,py+7+tilt,22,15);fr(S.past?'#b5b5b0':'#4f4f4d',px+5,py+7+tilt,22,3);}break;
+  case 'E':if(S.area==='factory')drawMetal(x,y,px,py,r);else drawFloor(x,y,px,py,r);fr('rgba(230,230,220,.07)',px,py,TS,TS);break;
+  case 'm':drawMetal(x,y,px,py,r);break;
+  case 'V':fr('#e9edf5',px,py,TS,TS);if(Math.sin(NOW*1.3+r*40)>.8)fr('rgba(255,255,255,.95)',px+Math.floor(r*28),py+Math.floor((r*97)%28),2,2);break;
+  case 'w':fr((x+y)%2?'#f7f5f1':'#f2efe9',px,py,TS,TS);fr('#e6e2da',px,py,TS,1);fr('#e6e2da',px,py,1,TS);if(r<.07)fr(pastel(x*5,y*3),px+12,py+12,5,5);break;
+  case 'o':fr('#dcdae6',px,py,TS,TS);if(y===19&&x%2===0)fr('#ffffff',px+4,py+15,24,2);break;
+  case 'N':fr('#dcdae6',px,py,TS,TS);if(y%2===0)fr('#ffffff',px+15,py+4,2,24);fr('hsla('+Math.round((NOW*40+y*30)%360)+',80%,75%,.6)',px,py,2,TS);fr('hsla('+Math.round((NOW*40+y*30+180)%360)+',80%,75%,.6)',px+TS-2,py,2,TS);break;
+  case 'B':{const c=pastel(x,y);const face=tile(x,y+1)!=='B';
+   if(face){fr(c,px,py,TS,TS);fr('rgba(255,255,255,.4)',px,py,TS,3);fr('#ffffff',px+4,py+8,10,13);fr('#ffffff',px+18,py+8,10,13);fr('#cfe3f7',px+5,py+9,8,11);fr('#cfe3f7',px+19,py+9,8,11);fr('rgba(0,0,0,.08)',px,py+TS-3,TS,3);}
+   else{fr(c,px,py,TS,TS);fr('rgba(0,0,0,.1)',px,py,TS,TS);}break;}
+  case 'Y':fr((x+y)%2?'#3d3656':'#38324f',px,py,TS,TS);fr('#2f2a44',px,py,TS,1);if(r<.15)fr('#6fd3c8',px,py+6,TS,2);if(r>.9)fr('#f0a882',px+10,py,2,TS);break;
+  case 'R':fr((x+y)%2?'#ece6da':'#e6dfd2',px,py,TS,TS);if(tile(x,y-1)==='V')fr('#b9b3a8',px,py,TS,3);if(tile(x+1,y)==='V')fr('#b9b3a8',px+TS-3,py,3,TS);if(tile(x-1,y)==='V')fr('#b9b3a8',px,py,3,TS);if(tile(x,y+1)==='V')fr('#b9b3a8',px,py+TS-3,TS,3);break;
+  case 'W':fr((x+y)%2?'#faf3ea':'#f3eadf',px,py,TS,TS);if(x%4===0)fr('#eadbb8',px,py,1,TS);if(y%4===0)fr('#eadbb8',px,py,TS,1);break;
+  case 'C':{fr((x+y)%2?'#f7f5f1':'#f2efe9',px,py,TS,TS);const c=PAST[(x+y*3)%PAST.length];fr('rgba(0,0,0,.08)',px+8,py+24,16,3);fr(c,px+8,py+4,16,5);fr(c,px+8,py+12,16,8);fr('rgba(0,0,0,.15)',px+9,py+20,2,5);fr('rgba(0,0,0,.15)',px+21,py+20,2,5);break;}
+  case 'n':case 'q':case 'j':drawLabFloor(x,y,px,py,r);if(t!=='n'){fr('#0b0c0e',px,py,TS,TS);fr(t==='q'?COL.red:'#8fa6c8',px,py,2,TS);fr(t==='q'?COL.red:'#8fa6c8',px+TS-2,py,2,TS);}break;
+  case 'U':for(let i=0;i<6;i++)fr('rgb('+(62-i*6)+','+(64-i*6)+','+(70-i*6)+')',px,py+(5-i)*5.4,TS,5.4);break;
+  case 'S':drawLabFloor(x,y,px,py,r);fr('#0f1113',px+3,py-6,26,TS+4);fr('#1a1d21',px+3,py-6,26,3);for(let i=0;i<6;i++)fr('#23272c',px+6,py-1+i*4.4,20,2);break;
+  case 'Q':case 'J':fr('#1b1d20',px,py,TS,TS);fr('#2a2e33',px+2,py+2,28,TS-2);fr(t==='Q'?COL.red:hexA(COL.nuri,.5+.3*Math.sin(NOW*2)),t==='Q'?px+26:px+15,py+12,2,t==='Q'?3:14);break;
+  case 'v':drawMetal(x,y,px,py,r);fr('#0f1010',px+6,py+9,20,14);for(let i=0;i<4;i++)fr('#2d2f2f',px+7,py+11+i*3,18,1);break;
+  case 'X':{const p=S.past;fr(p?'#8a8d8d':'#393b3b',px,py,TS,TS);fr(p?'#9a9d9d':'#444747',px,py,TS,3);fr('#232525',px,py+TS-3,TS,3);
+   fr('#565959',px+3,py+6,2,2);fr('#565959',px+27,py+6,2,2);fr('#565959',px+3,py+24,2,2);fr('#565959',px+27,py+24,2,2);
+   if(r>.6)fr(p?'#7a7d7d':'#2e3030',px+12,py,7,TS);
+   if(r<.3)for(let i=0;i<TS;i+=6){fr(p?'#b3b3a6':(S.flags.power?'#8a7420':'#3b3414'),px+i,py+12,3,5);}
+   if(r>.45&&r<.75)fr((S.flags.power||p)&&Math.sin(NOW*4+x*2+y)>0?COL.yellow:'#262210',px+22,py+8,3,3);
+   break;}
+  case 'L':fr('#1d1e1f',px,py,TS,TS);fr('#34373a',px+3,py+2,26,TS-2);fr(hexA(COL.nuri,.35+.25*Math.sin(NOW*2)),px+15,py+4,2,TS-6);fr(COL.red,px+24,py+14,2,2);break;
+  case 'l':fr('#0d0e0f',px,py,TS,TS);fr('#34373a',px,py,3,TS);fr('#34373a',px+TS-3,py,3,TS);fr(hexA(COL.nuri,.12),px+3,py,TS-6,TS);break;
+  case 'K':fr('#1d1e1f',px,py,TS,TS);fr('#303232',px+3,py+2,26,TS-2);fr('#3b3414',px+8,py+8,16,3);fr(COL.red,px+24,py+16,2,2);break;
+  case 'k':fr('#0d0e0f',px,py,TS,TS);fr(COL.yellow,px,py,3,TS);fr(COL.yellow,px+TS-3,py,3,TS);break;
+  case 'Z':for(let i=0;i<6;i++)fr('rgb('+(58-i*9)+','+(60-i*9)+','+(60-i*9)+')',px,py+i*5.4,TS,5.4);break;
+  case 'H':fr('#0c0c0c',px,py,TS,TS);fr('#2b2b2a',px,py,3,TS);fr('#2b2b2a',px+TS-3,py,3,TS);break;
+  case 'M':fr('#8a8a86',px,py,TS,TS);fr('#5d5d5a',px,py+TS-5,TS,5);
+   ctx.strokeStyle=COL.red;ctx.lineWidth=3;ctx.beginPath();ctx.arc(px+16,py+13,8,0,Math.PI*2);ctx.stroke();
+   ctx.strokeStyle='#f4f4f0';ctx.lineWidth=1.5;ctx.beginPath();for(let a=0;a<12;a+=.3){const rr=a*.55;ctx.lineTo(px+16+Math.cos(a)*rr,py+13+Math.sin(a)*rr);}ctx.stroke();
+   fr('#2c4f8f',px+2,py+18,3,7);fr('#2c4f8f',px+27,py+18,3,7);fr('#111',px+14,py+TS-5,5,4);break;
+  default:fr('#000',px,py,TS,TS);
+ }
+}
+
+function objGlowColor(o){
+ if(o.rec)return has(o.rec)?null:COL[R[o.rec].color];
+ switch(o.id){
+  case 'keypad':return S.flags.gateOpen?null:COL.yellow;
+  case 'fuse':return S.flags.hasFuse?null:COL.yellow;
+  case 'console':return S.flags.broadcastDone?null:COL.yellow;
+  case 'rubble':return S.flags.knowMural?COL.red:null;
+  case 'mural':return S.flags.knowMural?null:COL.red;
+  case 'exitdoor':return COL.red;
+  case 'hatch':return S.flags.broadcastDone&&!S.flags.factoryIntro?COL.yellow:null;
+  case 'lvA':case 'lvB':case 'lvC':return S.flags.power?null:COL.yellow;
+  case 'gen':return S.flags.power&&!has('power')?COL.yellow:null;
+  case 'device':return S.flags.touched?null:COL.nuri;
+  case 'stairs':return S.flags.power?COL.red:null;
+  case 'coat':return COL.nuri;
+  case 'archive':return !S.flags.archiveOn?COL.nuri:(!S.flags.restored?COL.yellow:null);
+  case 'codepad':return has('code')&&!S.flags.codeOK?COL.yellow:null;
+  case 'irondoor':return (!S.flags.preserved||has('nlcore'))?COL.red:null;
+  case 'tower':return S.flags.roadOpen?null:COL.nuri;
+  case 'nphone':return has('phone2')?null:COL.red;
+  case 'seoyun':return has('seoyun')&&has('c1702')?null:COL.nuri;
+  case 'core':return COL.nuri;
+  case 'retgate':return COL.nuri;
+  case 'portal':return S.flags.preserved?COL.nuri:null;
+  case 'sign':return null;
+ }
+ if(o.t==='ghost')return COL.blue;
+ return null;
+}
+function drawDesk(px,py){fr('#1c1c1b',px+5,py+22,22,4);fr('#454543',px+4,py+8,24,15);fr('#4f4f4d',px+4,py+8,24,3);}
+function drawObj(o,t){
+ const px=o.x*TS,py=o.y*TS;
+ switch(o.t){
+  case 'stand':fr('rgba(0,0,0,.35)',px+4,py+25,26,5);fr('#454545',px+4,py+6,24,20);fr('#2e2e2e',px+4,py+22,24,4);fr('#b9b5ac',px+7,py+9,18,11);fr(COL.red,px+7,py+9,18,3);fr('#7a776f',px+9,py+14,14,1);fr('#7a776f',px+9,py+17,10,1);break;
+  case 'phone':fr('rgba(0,0,0,.35)',px+4,py+26,26,5);fr('#2f2f2f',px+5,py-12,22,40);fr('#4c4c4c',px+4,py-14,24,4);fr('#151515',px+8,py-8,16,28);fr('#6d6d6d',px+12,py,8,10);fr('#9a9a9a',px+13,py+2,6,2);break;
+  case 'carrec':fr('#d6d0c4',px+9,py+14,5,4);break;
+  case 'graffiti':ctx.strokeStyle=COL.red;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(px-6,py+12);ctx.lineTo(px+2,py+19);ctx.lineTo(px+8,py+11);ctx.lineTo(px+16,py+20);ctx.lineTo(px+22,py+10);ctx.lineTo(px+30,py+19);ctx.lineTo(px+38,py+12);ctx.stroke();
+   ctx.fillStyle=COL.red;ctx.font='bold 6px sans-serif';ctx.fillText('기록은 거짓말을 한다',px-12,py+28);break;
+  case 'radio':fr('#1b2020',px+3,py+7,26,19);ctx.strokeStyle='#555';ctx.lineWidth=1;ctx.strokeRect(px+3.5,py+7.5,25,18);fr('#575757',px+8,py+15,16,9);fr(COL.yellow,px+10,py+17,3,3);fr('#333',px+15,py+17,7,1);fr('#333',px+15,py+20,7,1);break;
+  case 'busstop':fr('rgba(0,0,0,.35)',px+8,py+26,16,4);fr('#5a5a5a',px+14,py-6,3,33);fr('#a9a59c',px+5,py-12,22,16);ctx.strokeStyle=COL.red;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(px+13,py-8);ctx.lineTo(px+19,py-2);ctx.moveTo(px+19,py-8);ctx.lineTo(px+13,py-2);ctx.stroke();fr('#777',px+7,py-10,5,1);fr('#777',px+7,py-6,4,1);break;
+  case 'mailbox':fr('#3e3e3e',px+8,py+10,16,15);fr('#272727',px+10,py+14,12,2);fr('#cfcac0',px+12,py+11,7,5);break;
+  case 'keypad':fr('#262626',px+9,py+10,14,17);for(let i=0;i<3;i++)for(let j=0;j<3;j++)fr('#4a4a4a',px+11+i*4,py+16+j*3,2,2);fr(S.flags.gateOpen?'#6f6f6f':COL.yellow,px+11,py+12,10,2);break;
+  case 'book':if(o.desk)drawDesk(px,py);fr('#bdb8ad',px+9,py+10,14,10);fr('#7d786e',px+15,py+10,1,10);break;
+  case 'board':fr('#555',px-14,py+3,60,22);fr('#1d221e',px-12,py+5,56,18);for(let i=0;i<4;i++)fr('#9d9d98',px-9,py+8+i*4,40-((i*13)%17),1);break;
+  case 'camera':drawDesk(px,py);fr('#343434',px+9,py+6,15,10);fr('#262626',px+9,py+6,15,2);fr(COL.blue,px+22,py+9,4,4);fr('#555',px+12,py+16,8,2);break;
+  case 'docs':drawDesk(px,py);fr('#c9c4b9',px+8,py+9,11,13);fr('#b0aba0',px+13,py+11,12,10);fr('#7d786e',px+15,py+14,7,1);fr('#7d786e',px+15,py+17,5,1);break;
+  case 'speaker':fr('#3d3d3d',px+9,py+6,14,11);for(let i=0;i<4;i++)fr('#222',px+11,py+8+i*2,10,1);break;
+  case 'fuse':fr('#303030',px+2,py+14,28,12);fr('#1d1d1d',px+2,py+24,28,3);if(!S.flags.hasFuse){fr('#4d4d4d',px+10,py+6,12,10);fr(COL.yellow,px+10,py+9,12,2);}break;
+  case 'memo':drawDesk(px,py);fr('#e8eef8',px+8,py+9,12,14);fr('#dbe4f3',px+13,py+11,12,11);fr('#9aa4b5',px+15,py+14,7,1);fr('#9aa4b5',px+15,py+17,6,1);break;
+  case 'console':fr('#333',px+1,py+11,30,17);fr('#232323',px+1,py+25,30,3);fr('#101010',px+5,py+1,22,13);
+   if(S.flags.powered){fr('#3a3214',px+6,py+2,20,11);fr(COL.yellow,px+8,py+5,10,1);fr(COL.yellow,px+8,py+8,14,1);}
+   for(let i=0;i<5;i++)fr('#4b4b4b',px+5+i*5,py+16,3,3);break;
+  case 'monitor':drawDesk(px,py);fr('#101010',px+5,py+1,10,9);fr('#101010',px+17,py+1,10,9);
+   fr(has('cctv')?'#1c2436':'#2a3a5a',px+6,py+2,8,7);fr('#141820',px+18,py+2,8,7);
+   for(let i=0;i<3;i++)fr('rgba(255,255,255,.08)',px+6,py+3+i*2,8,1);break;
+  case 'sign':fr('#1a1a1a',px+7,py+7,18,14);fr(S.flags.power?COL.yellow:'#6b5a1a',px+8,py+8,16,12);fr('#111',px+15,py+10,2,5);fr('#111',px+15,py+16,2,2);break;
+  case 'lever':{fr('#2b2d2d',px+8,py+5,16,22);fr('#1a1b1b',px+10,py+8,12,16);
+   const down=S.flags.power||leverSeq.indexOf(o.L)>=0||(S.past&&o.n);
+   ctx.strokeStyle='#8a8a8a';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(px+16,py+16);ctx.lineTo(px+16,down?py+23:py+9);ctx.stroke();
+   fr(down?'#6b6b6b':COL.red,px+14,down?py+22:py+7,4,4);
+   ctx.fillStyle='#9a968e';ctx.font='bold 7px sans-serif';ctx.fillText(o.L,px+3,py+12);
+   if(S.past&&o.n){ctx.fillStyle='#dfe9ff';ctx.beginPath();ctx.arc(px+27,py+8,5,0,Math.PI*2);ctx.fill();ctx.fillStyle='#1a2a4a';ctx.font='bold 8px sans-serif';ctx.fillText(String(o.n),px+25,py+11);}
+   break;}
+  case 'gen':fr('#2f3131',px-12,py+2,56,26);fr('#3c3f3f',px-12,py+2,56,3);fr('#1b1c1c',px-12,py+25,56,3);
+   ctx.strokeStyle='#474a4a';ctx.lineWidth=1;ctx.beginPath();ctx.arc(px+16,py+15,9,0,Math.PI*2);ctx.stroke();
+   {const a=S.flags.power?NOW*8:0;ctx.beginPath();for(let i=0;i<4;i++){const q=a+i*Math.PI/2;ctx.moveTo(px+16,py+15);ctx.lineTo(px+16+Math.cos(q)*8,py+15+Math.sin(q)*8);}ctx.stroke();}
+   fr(S.flags.power?COL.yellow:'#262210',px-8,py+7,4,4);fr(S.flags.power?'#5c8a4a':'#1d221b',px+36,py+7,4,4);break;
+  case 'device':{const pul=.5+.5*Math.sin(NOW*2.2);const gg=ctx.createRadialGradient(px+16,py+12,0,px+16,py+12,20);
+   gg.addColorStop(0,hexA(COL.nuri,.55+.3*pul));gg.addColorStop(1,hexA(COL.nuri,0));ctx.fillStyle=gg;ctx.fillRect(px-6,py-10,44,44);
+   fr('#2a2c2e',px+8,py+22,16,6);ctx.fillStyle='#f6f9ff';ctx.beginPath();ctx.arc(px+16,py+12,5,0,Math.PI*2);ctx.fill();
+   ctx.strokeStyle=hexA('#dfe8ff',.7);ctx.lineWidth=1;ctx.beginPath();ctx.ellipse(px+16,py+12,11,4,NOW*.8,0,Math.PI*2);ctx.stroke();
+   ctx.beginPath();ctx.ellipse(px+16,py+12,4,11,-NOW*.6,0,Math.PI*2);ctx.stroke();break;}
+  case 'coat':{const a=.6+.15*Math.sin(NOW*3);ctx.globalAlpha=a;const x=px+16,y=py+30;
+   fr('#1a1a1a',x-5,y-8,4,8);fr('#1a1a1a',x+1,y-8,4,8);fr('#eef2fa',x-7,y-21,14,15);fr('#cfd6e4',x-1,y-21,1,14);
+   fr('#8c93a0',x+6,y-17,3,6);fr('#e2ddd3',x-5,y-29,10,9);fr('#1a1a1a',x-5,y-30,10,9);
+   for(let i=0;i<4;i++)fr('rgba(255,255,255,.5)',x-6+Math.random()*10,y-29+Math.random()*8,3,1);
+   ctx.globalAlpha=1;break;}
+  case 'hatch':fr('#1f1f1e',px+5,py+5,22,22);fr(S.flags.broadcastDone?'#4a4a47':'#353533',px+7,py+7,18,18);fr('#1a1a19',px+7,py+15,18,2);
+   fr(S.flags.broadcastDone?'#7a7a75':'#2a2a28',px+14,py+9,4,4);break;
+  case 'exitdoor':fr('#141414',px+1,py+1,30,31);fr('#403b39',px+3,py+5,26,27);fr('#35302e',px+15,py+5,2,27);
+   for(let i=0;i<26;i+=6){fr(COL.red,px+3+i,py+2,3,3);fr('#222',px+6+i,py+2,3,3);}
+   fr('#6a6560',px+11,py+18,3,4);fr('#6a6560',px+18,py+18,3,4);
+   ctx.fillStyle=COL.red;ctx.font='bold 5px sans-serif';ctx.fillText('EXIT',px+11,py+12);break;
+  case 'terminal':fr('#15171a',px-8,py+10,48,18);fr('#23262b',px-8,py+10,48,3);fr('#0a0b0d',px-4,py-10,40,22);
+   fr(S.flags.archiveOn?'#18202e':'#1d2b44',px-2,py-8,36,18);
+   for(let i=0;i<5;i++)fr('rgba(210,225,255,'+(.25+.2*((i+Math.floor(NOW*3))%5===0))+')',px,py-6+i*3.3,10+((i*11+Math.floor(NOW*2))%20),1);
+   if(S.flags.archiveOn&&Math.sin(NOW*4)>0)fr(COL.red,px+28,py-6,3,3);break;
+  case 'term':fr('#15171a',px+3,py+12,26,15);fr('#0a0b0d',px+6,py+2,20,13);fr('#1b2536',px+7,py+3,18,11);
+   for(let i=0;i<3;i++)fr('rgba(210,225,255,.3)',px+9,py+5+i*3,8+i*3,1);break;
+  case 'recorder':fr('#15171a',px+4,py+14,24,12);fr('#3c3f44',px+8,py+10,16,9);ctx.strokeStyle='#777';ctx.lineWidth=1;
+   ctx.beginPath();ctx.arc(px+12,py+14,2.5,0,Math.PI*2);ctx.moveTo(px+22.5,py+14);ctx.arc(px+20,py+14,2.5,0,Math.PI*2);ctx.stroke();break;
+  case 'tank':{fr('#15171a',px+4,py+24,24,6);const g2=ctx.createLinearGradient(px,py-8,px,py+24);g2.addColorStop(0,'rgba(170,210,235,.12)');g2.addColorStop(1,'rgba(170,210,235,.32)');
+   ctx.fillStyle=g2;ctx.fillRect(px+7,py-8,18,32);ctx.strokeStyle='rgba(200,225,245,.5)';ctx.strokeRect(px+7.5,py-7.5,17,31);
+   fr('rgba(20,24,30,.7)',px+13,py+2,6,14);fr('rgba(20,24,30,.7)',px+14,py-3,4,5);break;}
+  case 'codepad':fr('#111',px+22,py+8,20,16);fr(has('code')?COL.yellow:'#5a4c18',px+24,py+10,16,3);for(let i=0;i<3;i++)for(let j=0;j<2;j++)fr('#3a3a3a',px+25+i*5,py+16+j*4,3,2);break;
+  case 'portal':{const cx=px+TS,cy=py+10,on=S.flags.preserved;fr('#15171a',cx-22,py+20,44,10);
+   if(on){for(let k=0;k<5;k++){ctx.strokeStyle='hsla('+Math.round((NOW*60+k*72)%360)+',85%,72%,.75)';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(cx,cy,18-k*2.5,20-k*2.5,NOW*(k%2?.7:-.5),0,Math.PI*2);ctx.stroke();}
+    const gg=ctx.createRadialGradient(cx,cy,0,cx,cy,16);gg.addColorStop(0,'rgba(255,255,255,.9)');gg.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=gg;ctx.fillRect(cx-16,cy-16,32,32);}
+   else{ctx.strokeStyle='rgba(190,200,215,'+(.35+.15*Math.sin(NOW*1.5))+')';ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(cx,cy,18,20,0,0,Math.PI*2);ctx.stroke();ctx.lineWidth=1;ctx.strokeStyle='#333';ctx.beginPath();ctx.ellipse(cx,cy,13,15,0,0,Math.PI*2);ctx.stroke();}
+   break;}
+  case 'irondoor':{const W=TS*3;fr('#0d0d0d',px-6,py-44,W+12,TS+44);fr('#3a3533',px-2,py-40,W+4,TS+40);fr('#2e2a28',px+W/2-1,py-40,2,TS+40);
+   for(let i=0;i<W+4;i+=8){fr(COL.red,px-2+i,py-40,4,4);fr('#1a1a1a',px+2+i,py-40,4,4);}
+   for(let i=0;i<6;i++){fr('#57504c',px+4,py-30+i*11,2,2);fr('#57504c',px+W-6,py-30+i*11,2,2);}
+   ctx.fillStyle=COL.red;ctx.font='bold 7px sans-serif';ctx.textAlign='center';ctx.fillText('EMERGENCY EXIT',px+W/2,py-24);ctx.fillStyle='#b9b2aa';ctx.font='5px sans-serif';ctx.fillText('OPENING THIS DOOR WILL ERASE ALL ARCHIVED RECORDS',px+W/2,py-15);ctx.textAlign='left';
+   fr(S.flags.preserved?COL.red:(Math.sin(NOW*3)>0?COL.red:'#3a1210'),px+W/2-3,py-6,6,4);
+   if(S.flags.preserved)for(let i=0;i<3;i++)fr('#5a1c1a',px,py-34+i*14,W,3);break;}
+  case 'clock':{const cx=px+16,cy=o.pole?py-6:py+12;if(o.pole){fr('#9aa3b5',px+15,py-2,3,30);fr('#7d8699',px+11,py+26,11,3);}
+   ctx.fillStyle='#ffffff';ctx.beginPath();ctx.arc(cx,cy,9,0,Math.PI*2);ctx.fill();ctx.strokeStyle=o.rim||'#f4b6c2';ctx.lineWidth=2.5;ctx.stroke();drawHands(cx,cy,o.h,o.m,8);break;}
+  case 'tower':{const W=TS*2;fr('rgba(0,0,0,.08)',px,py+TS-4,W,4);fr('#d8c6f1',px+10,py-44,W-20,TS+44);fr('#c4afe6',px+10,py-44,W-20,4);
+   ctx.fillStyle='#bfa6e3';ctx.beginPath();ctx.moveTo(px+6,py-44);ctx.lineTo(px+W/2,py-64);ctx.lineTo(px+W-6,py-44);ctx.fill();
+   const cx=px+W/2,cy=py-24;ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(cx,cy,14,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#8f7ac2';ctx.lineWidth=2;ctx.stroke();
+   if(S.flags.roadOpen)drawHands(cx,cy,17,2,13);else for(let i=0;i<5;i++){const a=NOW*(0.6+i*.55)*(i%2?1:-1);ctx.strokeStyle=['#e89aa8','#8fcfb3','#8fa9e6','#f2c46f','#2a2a33'][i];ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(a)*(8+i),cy+Math.sin(a)*(8+i));ctx.stroke();}
+   fr('#ffffff',px+26,py+6,12,TS-6);break;}
+  case 'nphone':fr('rgba(0,0,0,.08)',px+4,py+26,26,4);fr('#e87a8a',px+5,py-12,22,40);fr('#f29aa6',px+4,py-14,24,4);fr('#e6f3ff',px+8,py-8,16,28);fr('#b0525f',px+12,py,8,10);break;
+  case 'nstop':fr('#9aa3b5',px+14,py-6,3,33);fr('#bfd0f6',px+5,py-12,22,16);fr('#fff',px+7,py-10,18,12);fr('#bfd0f6',px+9,py-6,10,1);break;
+  case 'schooldoor':fr('#f7f5f1',px+1,py+2,30,30);fr('#e2ddd2',px+1,py+2,30,3);fr('#8fa9d6',px+8,py+11,16,21);fr('#ffffff',px+15,py+11,2,21);ctx.fillStyle='#5a5a66';ctx.font='bold 5px sans-serif';ctx.fillText('한결중학교',px+4,py+9);break;
+  case 'kiosk':fr('rgba(0,0,0,.08)',px+3,py+27,28,4);fr('#b9e4cf',px+4,py-6,24,34);fr('#8fcfb3',px+2,py-9,28,4);fr('#ffffff',px+11,py+8,10,20);fr('#8fcfb3',px+18,py+17,2,2);break;
+  case 'upstair':case 'downstair':fr('#ffffff',px+5,py+6,22,26);fr('#e2ddd2',px+5,py+6,22,2);ctx.fillStyle='#5a5a66';ctx.font='bold 12px sans-serif';ctx.textAlign='center';ctx.fillText(o.t==='upstair'?'↑':'↓',px+16,py+23);ctx.textAlign='left';break;
+  case 'hallexit':fr('#d9c7a3',px+4,py+18,24,10);fr('#ffffff',px+8,py+20,16,6);break;
+  case 'person':{const x=px+16,y=py+30,sh=Math.sin(NOW*2+o.x)*.08;ctx.globalAlpha=.9+sh;
+   fr('rgba(0,0,0,.1)',x-8,y-2,16,3);fr('#3a3a44',x-5,y-8,4,8);fr('#3a3a44',x+1,y-8,4,8);fr(o.c,x-7,y-21,14,14);fr('rgba(255,255,255,.25)',x-7,y-21,14,2);
+   fr('#f1dccb',x-5,y-29,10,9);fr(o.id==='seoyun'?'#2a2a33':'#6b5a4e',x-5,y-30,10,4);if(o.id==='seoyun')fr('#e89aa8',x-6,y-15,12,2);
+   fr('rgba(255,255,255,.8)',x-3,y-25,1,1);fr('rgba(255,255,255,.8)',x+2,y-25,1,1);ctx.globalAlpha=1;break;}
+  case 'core':{const cx=px+TS,cy=py+6;for(let k=0;k<7;k++){ctx.strokeStyle='hsla('+Math.round((NOW*50+k*51)%360)+',85%,70%,.7)';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(cx,cy,28-k*3,22-k*2,NOW*(k%2?.4:-.3)+k,0,Math.PI*2);ctx.stroke();}
+   const gg=ctx.createRadialGradient(cx,cy,0,cx,cy,20);gg.addColorStop(0,'rgba(255,255,255,1)');gg.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=gg;ctx.fillRect(cx-20,cy-20,40,40);break;}
+  case 'pedestal':fr('rgba(0,0,0,.08)',px+6,py+27,20,3);fr('#ffffff',px+8,py+12,16,16);fr('#e2ddd2',px+8,py+12,16,2);fr('#c9b28a',px+9,py+6,14,7);fr('#a88f63',px+15,py+6,1,7);break;
+  case 'retgate':{const cx=px+16,cy=py+10;for(let k=0;k<3;k++){ctx.strokeStyle='hsla('+Math.round((NOW*60+k*120)%360)+',70%,65%,.8)';ctx.lineWidth=1.5;ctx.beginPath();ctx.ellipse(cx,cy,10-k*2,12-k*2,NOW*.5*(k%2?1:-1),0,Math.PI*2);ctx.stroke();}fr('#9aa3b5',px+10,py+24,12,4);break;}
+  case 'card':{const cx=px+16,cy=py+18;ctx.save();ctx.translate(cx,cy);ctx.rotate(-.35);
+   fr('rgba(0,0,0,.12)',-6,-8,13,17);fr('#ffffff',-7,-10,13,17);
+   const g3=ctx.createLinearGradient(-6,-9,5,6);g3.addColorStop(0,'hsl('+Math.round((NOW*40)%360)+',70%,70%)');g3.addColorStop(1,'hsl('+Math.round((NOW*40+140)%360)+',70%,65%)');
+   ctx.fillStyle=g3;ctx.fillRect(-6,-9,11,15);fr('#ffffff',-3,-5,5,5);ctx.restore();
+   if(Math.sin(NOW*2.5)>.6)fr('rgba(255,255,255,.95)',px+22,py+8,2,2);break;}
+  case 'chair31':fr('rgba(0,0,0,.08)',px+8,py+24,16,3);fr('#ffffff',px+8,py+4,16,5);fr('#ffffff',px+8,py+12,16,8);fr('#d6d3cb',px+9,py+20,2,5);fr('#d6d3cb',px+21,py+20,2,5);fr('#2a2a33',px+12,py+6,8,1);break;
+  case 'ghost':{const a=.45+.18*Math.sin(t*2+o.x);ctx.globalAlpha=a;ctx.fillStyle='#b4cbf2';
+   ctx.beginPath();ctx.arc(px+16,py+5,6,0,Math.PI*2);ctx.fill();
+   ctx.beginPath();ctx.moveTo(px+9,py+12);ctx.lineTo(px+23,py+12);ctx.lineTo(px+24,py+30);ctx.lineTo(px+20,py+27);ctx.lineTo(px+16,py+31);ctx.lineTo(px+12,py+27);ctx.lineTo(px+8,py+30);ctx.closePath();ctx.fill();
+   ctx.globalAlpha=1;break;}
+ }
+}
+function limb(pts,w,c){ctx.strokeStyle=c;ctx.lineWidth=w;ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i][0],pts[i][1]);ctx.stroke();}
+function drawPlayer(){
+ const x=P.x,y=P.y,ph=P.phase,W=P.walkW,Rn=P.runW;
+ const C={coat:'#bdb8ad',coatD:'#9a958a',coatF:'#8a857a',coatL:'#d5d0c5',pant:'#232323',pantF:'#141414',shoe:'#0c0c0c',skin:'#e4dfd5',skinD:'#cdc7bc',hair:'#161616',book:'#5c5850'};
+ const amp=W*(3.4+2.2*Rn), lift=W*(1.6+2.4*Rn);
+ const bob=W*(0.9+1.6*Rn)*(1-Math.cos(2*ph))/2;
+ const headBob=W*(0.9+1.6*Rn)*(1-Math.cos(2*ph-.7))/2;
+ const breathe=(1-W)*Math.sin(NOW*2.2)*.35;
+ const by=-bob+breathe, hy=-headBob+breathe;
+ const f=P.face,side=f==='l'?-1:f==='r'?1:0,back=f==='u';
+ ctx.save();ctx.translate(x,y);ctx.scale(1.4,1.4);
+ ctx.fillStyle='rgba(0,0,0,'+(.42-bob*.04)+')';ctx.beginPath();ctx.ellipse(0,.2,8.4-bob*.5,2.9,0,0,Math.PI*2);ctx.fill();
+ if(side){
+  const s=side;
+  const leg=p=>{const fw=Math.sin(p)*amp,lf=Math.max(0,Math.cos(p))*lift;const foot=[s*fw,-.9-lf];const hip=[s*.2,-9+by*.6];
+   const kx=(hip[0]+foot[0])/2+s*(.9+lf*.55),ky=(hip[1]+foot[1])/2-lf*.15;return {hip,knee:[kx,ky],foot,lf};};
+  const arm=(p,far)=>{const a=-Math.sin(p)*(.35+.55*Rn)*W,bend=.25+1.25*Rn;const sh=[s*(far?-.6:.6),-18.6+by];
+   const el=[sh[0]+Math.sin(a)*4.4*s,sh[1]+Math.cos(a)*4.4];const hd=[el[0]+Math.sin(a+bend)*4*s,el[1]+Math.cos(a+bend)*4];return [sh,el,hd];};
+  const L1=leg(ph+Math.PI),L0=leg(ph);
+  limb([L1.hip,L1.knee,L1.foot],3.3,C.pantF);limb([L1.foot,[L1.foot[0]+s*2.4,L1.foot[1]+.2]],2.4,C.shoe);
+  const A1=arm(ph+Math.PI,1);limb(A1,2.7,C.coatF);
+  ctx.save();ctx.translate(0,-9);ctx.rotate(s*(.05*W+.13*Rn));ctx.translate(0,9);
+  limb([L0.hip,L0.knee,L0.foot],3.4,C.pant);limb([L0.foot,[L0.foot[0]+s*2.5,L0.foot[1]+.2]],2.5,C.shoe);
+  const tail=-s*(.6+1.6*Rn)*W+Math.sin(ph*2)*.4*Rn;
+  ctx.fillStyle=C.coat;ctx.beginPath();ctx.moveTo(-4.4,-21+by);ctx.lineTo(4.4,-21+by);ctx.lineTo(4.8+(s<0?tail*-1:0)*0+ (s>0?0:tail),-8.2+by);ctx.lineTo(-4.8+(s>0?tail:0),-8.2+by);ctx.closePath();ctx.fill();
+  fr(C.coatL,-4.4,-21+by,8.8,1.6);fr(C.coatD,s>0?-4.4:3.4,-20+by,1,11);fr(C.coatD,-4.6,-9.6+by,9.4,1.4);
+  const A0=arm(ph,0);limb(A0,2.8,C.coatD);ctx.fillStyle=C.skin;ctx.beginPath();ctx.arc(A0[2][0],A0[2][1],1.3,0,Math.PI*2);ctx.fill();
+  fr(C.book,A0[2][0]-(s>0?.5:3.5),A0[2][1]-1.8,4,4.6);
+  fr(C.skin,-4.5,-30+hy,9,9);fr(C.skinD,-4.5,-21.6+hy,9,.8);
+  fr(C.hair,-4.6,-31+hy,9.2,3.6);fr(C.hair,s>0?-4.6:2.6,-29+hy,2,5);fr(C.hair,s>0?1.8:-2.8,-26+hy,1,2);fr(C.skinD,s>0?4.2:-5.2,-25+hy,1,1.2);
+  ctx.restore();
+ } else {
+  const sway=Math.sin(ph)*.45*W;
+  const flift=W*(2.4+2.4*Rn);const leg=(p,lx)=>{const c=Math.cos(p),lf=Math.max(0,c)*flift,plant=Math.max(0,-c)*W*.5;const hip=[lx,-9+by*.6];const foot=[lx+(lx<0?-.3:.3),-.9-lf+plant*(back?-1:1)];const knee=[lx+(lx<0?-.5-lf*.25:.5+lf*.25),-5.2-lf*.75];return {hip,knee,foot};};
+  const LL=leg(ph,-2.3),LR=leg(ph+Math.PI,2.3);
+  limb([LL.hip,LL.knee,LL.foot],3.4,C.pant);limb([LR.hip,LR.knee,LR.foot],3.4,C.pant);
+  if(!back){limb([[LL.foot[0]-.6,LL.foot[1]+.3],[LL.foot[0]+.6,LL.foot[1]+.3]],2.8,C.shoe);limb([[LR.foot[0]-.6,LR.foot[1]+.3],[LR.foot[0]+.6,LR.foot[1]+.3]],2.8,C.shoe);}
+  else{fr(C.shoe,LL.foot[0]-1.4,LL.foot[1]-.6,2.8,1.6);fr(C.shoe,LR.foot[0]-1.4,LR.foot[1]-.6,2.8,1.6);}
+  const armF=(p,sx)=>{const sw=Math.sin(p)*W*(1.8+1.4*Rn)*(back?-1:1);const sh=[sx*5.4+sway,-18.6+by];const el=[sx*(6.3+.4*Rn)+sway,-14.4+by+sw*.5-Rn*.8];const hd=[sx*(6-1.8*Rn)+sway,-10.4+by+sw-Rn*2.2];return [sh,el,hd];};
+  const AL=armF(ph+Math.PI,-1),AR=armF(ph,1);
+  ctx.save();ctx.translate(sway,0);
+  const flare=Math.sin(ph*2)*.35*Rn;
+  ctx.fillStyle=C.coat;ctx.beginPath();ctx.moveTo(-5.4,-21+by);ctx.lineTo(5.4,-21+by);ctx.lineTo(6+flare,-8.2+by);ctx.lineTo(-6-flare,-8.2+by);ctx.closePath();ctx.fill();
+  fr(C.coatL,-5.4,-21+by,10.8,1.6);fr(C.coatD,-6,-9.6+by,12,1.4);
+  if(!back){fr(C.coatD,-.5,-19.4+by,1,10);fr('#7e796f',-2.6,-15+by,1,1);fr('#7e796f',1.6,-15+by,1,1);fr('#7e796f',-2.6,-12+by,1,1);fr('#7e796f',1.6,-12+by,1,1);}
+  else fr(C.coatD,-5.4,-21+by,10.8,.8);
+  ctx.restore();
+  limb(AL,2.8,C.coatD);limb(AR,2.8,C.coatD);
+  ctx.fillStyle=C.skin;[AL,AR].forEach(a=>{ctx.beginPath();ctx.arc(a[2][0],a[2][1],1.3,0,Math.PI*2);ctx.fill();});
+  if(!back)fr(C.book,AR[2][0]-1,AR[2][1]-1.2,4,4.6);
+  const hx=sway*.6;
+  fr(C.skin,-4.5+hx,-30+hy,9,9);fr(C.skinD,-4.5+hx,-21.6+hy,9,.8);
+  if(back){fr(C.hair,-4.6+hx,-31+hy,9.2,9);fr('#232323',-4.6+hx,-23.4+hy,9.2,1);}
+  else{fr(C.hair,-4.6+hx,-31+hy,9.2,3.8);fr(C.hair,-4.6+hx,-29+hy,1.5,4);fr(C.hair,3.1+hx,-29+hy,1.5,4);
+   const blink=(Math.floor(NOW*10)%37===0);fr(C.hair,-2.4+hx,-25.6+hy,1,blink?.4:1.9);fr(C.hair,1.4+hx,-25.6+hy,1,blink?.4:1.9);}
+ }
+ ctx.restore();
+}
+function drawDust(dt){
+ for(let i=DUST.length-1;i>=0;i--){const d=DUST[i];d.t+=dt;if(d.t>.45){DUST.splice(i,1);continue;}
+  const a=(1-d.t/.45)*.35,r=2+d.t*10;ctx.fillStyle=S.area==='nl'?'rgba(150,140,170,'+a+')':'rgba(170,166,158,'+a+')';ctx.beginPath();ctx.arc(d.x,d.y-d.t*6,r,0,Math.PI*2);ctx.fill();}
+}
+const gc=document.createElement('canvas');gc.width=gc.height=128;
+(function(){const g=gc.getContext('2d');const d=g.createImageData(128,128);for(let i=0;i<d.data.length;i+=4){const v=Math.random()*255;d.data[i]=d.data[i+1]=d.data[i+2]=v;d.data[i+3]=255;}g.putImageData(d,0,0);})();
+let grainPat=null;
+
+function draw(t){
+ NOW=t;ctx.setTransform(1,0,0,1,0,0);ctx.imageSmoothingEnabled=false;
+ fr(S.area==='nl'?'#e9edf5':'#000',0,0,cv.width,cv.height);
+ const m=MAPS[S.area],mw=m.w*TS,mh=m.h*TS;
+ let camX=mw<VW?(mw-VW)/2:Math.max(0,Math.min(mw-VW,P.x-VW/2));
+ let camY=mh<VH?(mh-VH)/2:Math.max(0,Math.min(mh-VH,P.y-12-VH/2));
+ if(shakeT>0){camX+=(Math.random()-.5)*6;camY+=(Math.random()-.5)*6;}
+ const k=Z*DPR;
+ ctx.setTransform(k,0,0,k,Math.round(-camX*k),Math.round(-camY*k));
+ const x0=Math.max(0,Math.floor(camX/TS)),y0=Math.max(0,Math.floor(camY/TS)),x1=Math.min(m.w-1,Math.ceil((camX+VW)/TS)),y1=Math.min(m.h-1,Math.ceil((camY+VH)/TS));
+ for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++)drawTile(tile(x,y),x,y);
+ drawDust(Math.min(.05,t-(draw.lt||t)));draw.lt=t;
+ const vis=objs();
+ const items=vis.map(o=>({y:o.sy?o.y*TS+o.sy:(o.y+1)*TS-(o.t==='ghost'?1:0),f:()=>drawObj(o,t)}));
+ items.push({y:P.y,f:drawPlayer});
+ items.sort((a,b)=>a.y-b.y).forEach(i=>i.f());
+ const pcx=P.x,pcy=P.y-12;
+ if(S.past){
+  ctx.globalCompositeOperation='color';ctx.globalAlpha=.62;fr('#3f6fcf',camX,camY,VW,VH);
+  ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;
+ }
+ VENTS.length&&S.area==='factory'&&VENTS.forEach(v=>{
+  const vx=(v[0]+.5)*TS,vy=(v[1]+.5)*TS;
+  for(let i=0;i<4;i++){const ph=((NOW*.35+i*.25+v[0]*.13)%1);ctx.fillStyle='rgba(220,220,215,'+(.22*(1-ph))+')';
+   ctx.beginPath();ctx.arc(vx+Math.sin(ph*6+i)*6,vy-ph*44,5+ph*12,0,Math.PI*2);ctx.fill();}
+ });
+ let rad,dark;
+ if(S.area==='city'){rad=TS*6;dark=.62;}
+ else if(S.area==='lab'){rad=TS*5.2*(1+.02*Math.sin(t*5));dark=.82;}
+ else if(S.area==='nl'){const inB=P.x>29*TS&&P.x<43*TS&&P.y<11*TS;rad=TS*5.5;dark=inB?.5:0;}
+ else if(S.area==='factory'){if(S.past){rad=TS*9;dark=.3;}else if(S.flags.power){rad=TS*6.5;dark=.62;}else{rad=TS*4.6*(1+.03*Math.sin(t*7));dark=.88;}}
+ else if(S.past){rad=TS*9;dark=.3;}
+ else{rad=TS*4.3*(1+.03*Math.sin(t*9))*(Math.random()<.008?.8:1);dark=.9;}
+ const g=ctx.createRadialGradient(pcx,pcy,rad*.2,pcx,pcy,rad);
+ g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(1,'rgba(0,0,0,'+dark+')');
+ ctx.fillStyle=g;ctx.fillRect(camX-10,camY-10,VW+20,VH+20);
+ if(S.area==='nl'){
+  const bg=ctx.createRadialGradient(pcx,pcy,TS*3,pcx,pcy,Math.max(VW,VH)*.75);bg.addColorStop(0,'rgba(255,255,255,0)');bg.addColorStop(1,'rgba(255,255,255,.42)');
+  ctx.fillStyle=bg;ctx.fillRect(camX-10,camY-10,VW+20,VH+20);
+  ctx.fillStyle='hsla('+Math.round((t*18)%360)+',70%,75%,.06)';ctx.fillRect(camX,camY,VW,VH);
+ }
+ if(S.area==='lab'){
+  for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){const tt=tile(x,y);
+   if(tt==='#'&&!isWall(tile(x,y+1)))fr(labHue(x,y)+'.3)',x*TS,y*TS+11,TS,2);
+   else if(tt==='S'){for(let i=0;i<6;i++){const on=Math.sin(NOW*(2+i)+x*3+y)>.2;if(on)fr(i%3?'rgba(120,200,160,.8)':'rgba(140,170,255,.8)',x*TS+24,y*TS-1+i*4.4,2,2);}}}
+ }
+ if(S.area==='factory'&&S.flags.power&&!S.past){ctx.fillStyle=hexA(COL.yellow,.03+.03*Math.sin(t*3));ctx.fillRect(camX,camY,VW,VH);}
+ if(alarmT>0){ctx.fillStyle=hexA(COL.red,(Math.sin(t*18)>0?.22:.06)*Math.min(1,alarmT));ctx.fillRect(camX,camY,VW,VH);}
+ vis.forEach(o=>{let c=objGlowColor(o);if(!c)return;if(S.area==='nl'&&c===COL.nuri)c='#9d7ae6';const cx=(o.x+(o.w||1)/2)*TS,cy=(o.y+.5)*TS-(o.tall?8:0);
+  const a=(c===COL.white?.16:.3)+.12*Math.sin(t*3+o.x);const gg=ctx.createRadialGradient(cx,cy,0,cx,cy,24);
+  gg.addColorStop(0,hexA(c,a));gg.addColorStop(1,hexA(c,0));ctx.fillStyle=gg;ctx.fillRect(cx-24,cy-24,48,48);
+  fr(hexA(c,.9),cx-1,cy-1,2,2);});
+ if(near&&!busy()){
+  const cx=(near.x+(near.w||1)/2)*TS,cy=near.y*TS-(near.tall?18:near.sy?48:4)+Math.sin(t*4)*1.5;
+  const label=isTouch?'조사':'E';ctx.font='bold 9px "Nanum Gothic Coding",monospace';const w=ctx.measureText(label).width+10;
+  fr('rgba(0,0,0,.8)',cx-w/2,cy-12,w,13);ctx.strokeStyle='#e7e3da';ctx.lineWidth=1;ctx.strokeRect(cx-w/2+.5,cy-11.5,w-1,12);
+  ctx.fillStyle='#e7e3da';ctx.textAlign='center';ctx.fillText(label,cx,cy-2.5);ctx.textAlign='left';
+ }
+ ctx.setTransform(1,0,0,1,0,0);
+ if(!grainPat)grainPat=ctx.createPattern(gc,'repeat');
+ ctx.globalAlpha=S.area==='nl'?.03:.07;const ox=Math.floor(Math.random()*128),oy=Math.floor(Math.random()*128);
+ ctx.translate(-ox,-oy);ctx.fillStyle=grainPat;ctx.fillRect(0,0,cv.width+ox,cv.height+oy);ctx.setTransform(1,0,0,1,0,0);ctx.globalAlpha=1;
+ if(S.past){const sy=((t*80)%(cv.height+60))-30;fr('rgba(200,220,255,.05)',0,sy,cv.width,18*DPR);for(let y=0;y<cv.height;y+=4*DPR)fr('rgba(0,0,0,.07)',0,y,cv.width,DPR);}
+}
+
+let last=performance.now(),hudT=0;
+function loop(now){
+ const dt=Math.min(.05,(now-last)/1000);last=now;
+ if(shakeT>0)shakeT-=dt;if(alarmT>0)alarmT-=dt;
+ update(dt);draw(now/1000);
+ hudT+=dt;if(hudT>.25&&started){hudT=0;updateHUD();$('recTime').textContent=fmt(S.time);}
+ requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+/* ================= TITLE / END ================= */
+$('tCtl').innerHTML=isTouch?'화면 왼쪽을 끌어 이동하고, 조사 버튼으로 기록을 살핍니다.':'WASD 또는 방향키로 이동 · E 또는 Space로 조사<br>Tab으로 기록 보관함 · F로 과거 보기';
+accountUI();initAccount();
+$('btnNew').onclick=()=>{
+ if(!loadSave()){beginNew();return;}
+ const bt=$('tBtns');const keep=bt.innerHTML;
+ bt.innerHTML='<div class="t-confirm">지금까지의 진행이 초기화됩니다.'+(ACC.profile?'<br>평생 기록과 본 엔딩은 계정에 남아요.':'')+'</div><button id="cfY">초기화하고 새로 기록하기</button><button id="cfN">취소</button>';
+ $('cfY').onclick=()=>{bt.innerHTML=keep;bindTitle();beginNew();};
+ $('cfN').onclick=()=>{bt.innerHTML=keep;bindTitle();};
+};
+const newHandler=$('btnNew').onclick;
+function bindTitle(){$('btnNew').onclick=newHandler;$('btnCont').onclick=contHandler;$('btnCont').classList.toggle('hidden',!loadSave());}
+function beginNew(){
+ wipeSave();wiped=false;
+ S=fresh();P.x=S.x;P.y=S.y;P.fx=0;P.fy=1;
+ const seq=$('tSeq');seq.classList.remove('hidden');
+ const loopN=getLoops();
+ seq.innerHTML='<div class="t-day">DAY 1</div>'+(loopN?'<div class="t-loop">관측 회차 '+(6+loopN)+'</div>':'');
+ setTimeout(()=>{
+  seq.innerHTML='<div class="t-q">기록을 시작하시겠습니까?</div><div class="t-yn"><button id="yY">YES</button><button id="yN">NO</button></div>';
+  $('yY').onclick=startGame;$('yY').focus();
+  $('yN').onclick=()=>{seq.innerHTML='<div class="t-q">……기록은 이미 시작되었습니다.</div>';setTimeout(startGame,1900);};
+ },1800);
+};
+$('btnCont').onclick=()=>{
+ const d=loadSave();if(!d)return;S=Object.assign(fresh(),d,{past:false});P.x=S.x;P.y=S.y;wiped=false;
+ $('title').classList.add('hidden');$('hud').classList.remove('hidden');started=true;updateHUD(true);unstuck();refreshBusy();save();
+ toast(ACC.profile?'기록자 '+ACC.profile.name+'의 기록을 이어갑니다':'기록을 이어갑니다');
+};
+const contHandler=$('btnCont').onclick;
+function startGame(){
+ $('title').classList.add('hidden');$('tSeq').classList.add('hidden');$('hud').classList.remove('hidden');
+ started=true;updateHUD(true);save();
+ say(['…눈을 뜨자, 텅 빈 도로 위였다.','꺼진 간판, 멈춘 차들, 소리 없는 신호등. 이 도시에는 아무도 없다.','나는 기록자다. 이 도시에 남은 기록을 모으러 왔다.','…언제, 어떻게 이곳에 왔는지는 기억나지 않는다.'].concat(getLoops()?['…그런데 어째서인지, 이 거리를 알고 있는 것 같다.']:[]),
+  ()=>toast(isTouch?'빛나는 물건에 다가가 조사 버튼을 누르자':'빛나는 물건에 다가가 E 키로 조사하자'));
+}
+function runLines(lines,glitch,done,slowAt){
+ endOpen=true;refreshBusy();const el=$('end');el.classList.remove('hidden','forget','truth','nuri','loop');
+ const box=$('endLines');box.innerHTML='';$('endCard').classList.add('hidden');box.classList.remove('hidden');
+ let i=0;
+ (function next(){
+  if(i<lines.length){const d=document.createElement('div');d.textContent=lines[i]||'\u00a0';if(glitch.indexOf(i)>=0)d.className='g';box.appendChild(d);i++;setTimeout(next,i===slowAt?1500:560);}
+  else setTimeout(done,2400);
+ })();
+}
+function runArchiveScene(){
+ runLines(['ARCHIVE SYSTEM','','USER: 기록자','STATUS: RECORDING','','관측 번호 #031 · 방문 기록 확인','','기록자님, 다시 오셨군요.','이번이 몇 번째 방문인지 기억하십니까?'],[2,7],()=>{
+  $('end').classList.add('hidden');endOpen=false;refreshBusy();updateHUD(true);
+  say(['…정신을 차리자 방송실이었다.','숨겨진 방 쪽에서 쇠가 풀리는 소리가 울렸다. 바닥의 철제 해치다.']);
+ },7);
+}
+function runFinal(){
+ runLines(['ARCHIVE SYSTEM','','B3 지하 연구시설 접속','USER: UNKNOWN','STATUS: RECORDING','','USER 정보 갱신','USER: 기록자','','당신이 기록을 모으는 동안','우리는 당신을 기록하고 있었습니다.'],[7,10],showEndCard,9);
+}
+function showEndCard(){
+ $('endLines').classList.add('hidden');
+ const en=ESC.filter(e=>e.id&&has(e.id)).length;
+ const c=$('endCard');c.classList.remove('hidden');
+ c.innerHTML='<h2>폐허의 기록</h2><div class="q">END?</div>'+
+  '<p>폐허 도시에서 지하 연구시설까지의 기록을 마쳤다.<br>기록 '+S.records.length+' / '+TOTAL+', 발견한 모순 '+S.contra.length+' / '+CONTRA.length+', 탈출구 기록 '+en+' / 4</p>'+
+  '<p class="next">데모는 여기까지입니다. 다음 기록은 AREA 05, 누리느엘.</p>'+
+  '<div class="t-btns"><button id="eStay">연구시설로 돌아가기</button><button id="eNew">처음부터 다시 기록하기</button></div>';
+ $('eStay').onclick=()=>{$('end').classList.add('hidden');endOpen=false;refreshBusy();};
+ $('eNew').onclick=()=>{wipeSave().then(()=>location.reload());};
+}
+function runNuriel(){
+ if(S.flags.nlVisited){goArea('nl',6*TS,21.5*TS);return;}
+ runLines(['ARCHIVE SYSTEM','','USER: 기록자','DESTINATION: 누리느엘','STATUS: RECORDING'],[3],()=>{
+  $('end').classList.add('hidden');endOpen=false;refreshBusy();S.flags.nlVisited=1;save();goArea('nl',6*TS,21.5*TS);
+ },3);
+}
+function serifLines(lines,delay,then){
+ const box=$('endLines');box.innerHTML='';box.classList.remove('hidden');let i=0;
+ (function next(){if(i<lines.length){const d=document.createElement('div');d.className='fl';d.textContent=lines[i];box.appendChild(d);i++;setTimeout(next,delay);}else setTimeout(then,2200);})();
+}
+function endC(){
+ endOpen=true;refreshBusy();flash('#ffffff');
+ const el=$('end');el.classList.remove('hidden','forget','truth','loop');el.classList.add('nuri');
+ $('endCard').classList.add('hidden');const box=$('endLines');box.classList.remove('hidden');
+ box.innerHTML='<div class="nq">기록을 시작하시겠습니까?</div><div class="t-yn nyn"><button id="cY">YES</button><button id="cN">NO</button></div>';
+ wipeSave();
+ const go=yes=>{
+  serifLines(yes?['나는 고개를 끄덕였다.','발끝부터 몸이 가벼워진다. 나는 빛이 되어 간다.','서윤이 웃는다. 어디선가 축제 음악이 들린다.','이제, 아무것도 끝나지 않는다.']:['나는 고개를 저었다.','하지만 빛은 이미 나를 적고 있었다.','……기록은 이미 시작되었습니다.'],1700,()=>{
+   box.classList.add('hidden');const c=$('endCard');c.classList.remove('hidden');
+   addEnding('C');
+   c.innerHTML='<h2>END C</h2><div class="q">누리느엘</div><p>누리느엘의 중심에서, 기록자는 도시와 함께 영원히 기록되었다.<br>31번째 의자는 더 이상 비어 있지 않다.</p><p class="next">탈출구에는 아직 고르지 않은 선택지가 남아 있다.</p><div class="t-btns"><button id="eNew">다시 기록하기</button></div>';
+   $('eNew').onclick=()=>location.reload();
+  });
+ };
+ $('cY').onclick=()=>go(true);$('cN').onclick=()=>go(false);
+}
+const LOOPKEY='ruins-record-loop';
+function endTrue(){
+ endOpen=true;refreshBusy();flash('#ffffff');
+ const el=$('end');el.classList.remove('hidden','forget','truth','nuri','loop');
+ $('endCard').classList.add('hidden');
+ wipeSave();addEnding('TRUE');
+ const loop=addLoop();
+ serifLines(['모든 기록을 품에 안고, 철문을 열었다.','처음으로, 기록은 하나도 지워지지 않았다.','눈부신 빛. 그리고 바깥 공기.'],1800,()=>{
+  el.classList.add('hidden');endOpen=false;cinema=true;refreshBusy();$('hud').classList.add('hidden');$('feed').classList.add('hidden');
+  S.area='city';S.past=false;P.x=5.5*TS;P.y=27.6*TS;P.fx=0;P.fy=1;document.body.classList.remove('bright');
+  setTimeout(()=>say(['밖으로 나왔다.','그런데……','처음 이 도시에서 눈을 떴던 장소다.','같은 건물. 같은 도로. 같은 전화기. 같은 풍경.'],()=>{
+   const f=$('fade');f.style.transition='opacity 3.5s';f.classList.add('on');
+   setTimeout(()=>{
+    el.classList.remove('hidden');el.classList.add('loop');endOpen=true;cinema=false;f.style.transition='';f.classList.remove('on');refreshBusy();
+    const box=$('endLines');box.classList.remove('hidden');box.innerHTML='<div class="t-day">DAY 1</div>';
+    setTimeout(()=>{
+     box.innerHTML='<div class="t-q">기록을 시작하시겠습니까?</div><div class="t-yn"><button id="lY">YES</button><button id="lN">NO</button></div>';
+     const fin=()=>{box.innerHTML='';setTimeout(()=>{box.classList.add('hidden');const c=$('endCard');c.classList.remove('hidden');
+      c.innerHTML='<h2>《폐허의 기록》</h2><div class="q">END?</div><p class="next">관측 회차 '+(6+loop)+' 종료.<br>기록자는 다시, 처음 온 사람처럼 눈을 뜬다.</p><div class="t-btns"><button id="eNew">DAY 1</button></div>';
+      $('eNew').onclick=()=>location.reload();},2600);};
+     $('lY').onclick=fin;$('lN').onclick=fin;
+    },2800);
+   },3800);
+  }),900);
+ });
+}
+function endTruth(){eraseRecords('truth',truthText);}
+function endForget(){eraseRecords('forget',forgetText);}
+function eraseRecords(cls,then){
+ endOpen=true;refreshBusy();flash('#ffffff');
+ const el=$('end');el.classList.remove('hidden','forget','truth','nuri','loop');el.classList.add(cls);
+ const box=$('endLines');box.innerHTML='';box.classList.remove('hidden');$('endCard').classList.add('hidden');
+ const recs=S.records.slice();
+ const head=document.createElement('div');head.className='er-h';head.textContent='ERASING ARCHIVED RECORDS';box.appendChild(head);
+ const wrap=document.createElement('div');wrap.className='er-w';box.appendChild(wrap);
+ const items=recs.map(id=>{const d=document.createElement('span');d.className='er';d.textContent=R[id].title;wrap.appendChild(d);return d;});
+ if(!recs.length){const d=document.createElement('div');d.textContent='지울 기록조차 없다.';wrap.appendChild(d);}
+ wipeSave();addEnding(cls==='truth'?'A':'B');
+ let i=0;
+ setTimeout(function next(){
+  if(i<items.length){items[i].classList.add('gone');i++;setTimeout(next,280);}
+  else setTimeout(()=>then(recs.length),1300);
+ },900);
+}
+function truthText(){
+ const box=$('endLines');box.innerHTML='';
+ const lines=['기록은 모두 지워졌다.','하지만 나는 기억한다.','2011년 10월 14일 17시 02분. PROJECT NURI는 누리느엘을 열었다.','도시 사람들은 사라진 것이 아니었다. 기록되었을 뿐이다. 끝나지 않는 그날 속에.','신문은 그날을 지웠고, 정부는 영상이 없다고 했다. 그래도 기록은 살아 있었다.','그리고 그 모든 것을 지켜본 31번째 관측 대상.','…기록자. 나.','나는 도시를 떠났다. 진실을 안 채로.'];
+ let i=0;
+ (function next(){
+  if(i<lines.length){const d=document.createElement('div');d.className='fl';d.textContent=lines[i];box.appendChild(d);i++;setTimeout(next,1700);}
+  else setTimeout(()=>{
+   box.classList.add('hidden');const c=$('endCard');c.classList.remove('hidden');
+   c.innerHTML='<h2>END A</h2><div class="q">진실</div>'+
+    '<p>도시가 사라진 이유와 누리느엘의 관계를 밝혀냈다.<br>지워진 기록 '+S.records.length+'개와 모순 '+S.contra.length+'개를 기억에 남긴 채.</p>'+
+    '<p class="next">하지만 모든 기록을 가져가지는 못했다.<br>기록자는 왜 몇 번이고 이곳에 돌아오는가.</p>'+
+    '<div class="t-btns"><button id="eNew">다시 기록하기</button></div>';
+   $('eNew').onclick=()=>location.reload();
+  },2400);
+ })();
+}
+function forgetText(n){
+ const box=$('endLines');box.innerHTML='';
+ const lines=['철문이 열리자, 하얀 빛이 쏟아져 들어왔다.','나는 도시를 빠져나왔다.','뒤를 돌아보았지만, 그곳에 무엇이 있었는지 떠오르지 않는다.',n?'신문, 사진, 누군가의 목소리… 모든 것이 흐려진다.':'애초에 기억할 것도 없었다.','나는 진실을 알지 못한 채, 도시를 떠났다.'];
+ let i=0;
+ (function next(){
+  if(i<lines.length){const d=document.createElement('div');d.className='fl';d.textContent=lines[i];box.appendChild(d);i++;setTimeout(next,1500);}
+  else setTimeout(()=>{
+   box.classList.add('hidden');const c=$('endCard');c.classList.remove('hidden');
+   c.innerHTML='<h2>END B</h2><div class="q">망각</div>'+
+    '<p>중요한 기록을 충분히 확보하지 못했다.<br>도시가 사라진 이유도, 내가 누구인지도 알지 못한 채.</p>'+
+    '<p class="next">탈출구는 하나가 아닐지도 모른다.<br>그리고 기록자는, 이곳에 처음 온 사람이 아니다.</p>'+
+    '<div class="t-btns"><button id="eNew">다시 기록하기</button></div>';
+   $('eNew').onclick=()=>location.reload();
+  },2200);
+ })();
+}
+})();
+</script>
+</body>
+</html>
