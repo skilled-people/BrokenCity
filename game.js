@@ -1334,7 +1334,7 @@ function update(dt){
   const sx=P.face==='l'?-1:P.face==='r'?1:0;DUST.push({x:P.x+(off?-2:2)*(sx?0:1)+sx*Math.sin(P.phase+off)*7,y:P.y+1,t:0});}}
  if(FPV){const ca=Math.cos(P.lookA),sa=Math.sin(P.lookA);P.fx=ca;P.fy=sa;P.face=Math.abs(ca)>Math.abs(sa)?(ca>0?'r':'l'):(sa>0?'d':'u');}
  else if(mag>0){P.lookA+=angDiff(Math.atan2(vy,vx),P.lookA)*(1-Math.exp(-dt*9));}
- rb.style.setProperty('--st',P.sta.toFixed(3));rb.classList.toggle('tired',P.tired);
+ {const sv=Math.round(P.sta*40)/40;if(sv!==rb._sv){rb._sv=sv;rb.style.setProperty('--st',sv);}if(rb._tr!==P.tired){rb._tr=P.tired;rb.classList.toggle('tired',P.tired);}}
  if(S.area==='city'&&S.flags.gateOpen&&P.y<TS*.9)goArea('school',27*TS,24.2*TS);
  else if(S.area==='school'&&P.y>TS*25.2)goArea('city',20*TS,1.9*TS);
  else if(S.area==='factory'&&P.y>TS*28.2)goArea('school',18.5*TS,19.7*TS);
@@ -1664,7 +1664,7 @@ function initLayoutEdit(){
 let DPR=1,Z=2,VW=0,VH=0,CAMX=0,CAMY=0;
 let RS=1;
 function resize(){
- DPR=Math.min(window.devicePixelRatio||1,isTouch?1.5:2)*RS;
+ DPR=Math.min(window.devicePixelRatio||1,isTouch?1.15:1.6)*RS;
  cv.width=Math.round(innerWidth*DPR);cv.height=Math.round(innerHeight*DPR);
  Z=Math.max(1.1,Math.min(3,Math.min(innerWidth/(15*TS),innerHeight/(10*TS))));
  VW=innerWidth/Z;VH=innerHeight/Z;
@@ -2635,7 +2635,8 @@ function treeCanvas(x,y){const key=x+','+y;if(TREEC[key])return TREEC[key];
  const cv=document.createElement('canvas');cv.width=32*3;cv.height=64*3;const g=cv.getContext('2d');g.scale(3,3);g.translate(0,32);paintTree(g,treeR(x,y));return TREEC[key]=cv;}
 
 /* ---- 정적 배경을 8x8칸 덩어리로 미리 그려 두기 (그리기 횟수 대폭 감소) ---- */
-const CHK={},CH=8,CHS=2;let CH_AREA=null;
+const CHK={},CH=8;let CHS=2,CH_AREA=null;
+const GLOWC={};function glowSprite(c){if(GLOWC[c])return GLOWC[c];const g0=document.createElement('canvas');g0.width=g0.height=48;const g=g0.getContext('2d');const gr=g.createRadialGradient(24,24,0,24,24,24);gr.addColorStop(0,hexA(c,1));gr.addColorStop(1,hexA(c,0));g.fillStyle=gr;g.fillRect(0,0,48,48);return GLOWC[c]=g0;}
 function isStaticTile(t){return t==='#'||t==='B'||t==='r'||(!!TP[t]&&t!=='N');}
 function purgeCaches(){const a=S.area,keep=k=>k.indexOf(a)===0;
  [TILEC,WALLC,RUBC,FTEXC].forEach(o=>{for(const k in o)if(!keep(k))delete o[k];});
@@ -2660,6 +2661,7 @@ function chunkCanvas(cx,cy){
  CHK[key]={cv:cv2,sig};return cv2;
 }
 function drawWorld(x0,y0,x1,y1){
+ const wantS=(Z*DPR)>1.6?2:1;if(wantS!==CHS){CHS=wantS;for(const k in CHK)delete CHK[k];}
  if(CH_AREA!==S.area){purgeCaches();CH_AREA=S.area;}
  const m=MAPS[S.area];ctx.imageSmoothingEnabled=true;
  for(let cy=Math.floor(y0/CH);cy<=Math.floor(y1/CH);cy++)for(let cx=Math.floor(x0/CH);cx<=Math.floor(x1/CH);cx++){
@@ -2953,7 +2955,7 @@ let VIS={x:0,y:0,R:1,near:1};
 function visParams(rad){const nl=S.area==='nl',inB=nl&&P.x>29*TS&&P.x<43*TS&&P.y<11*TS;
  return {fog:nl&&!inB?'233,237,245':'0,0,0',hide:nl?(inB?.95:.82):(S.past?.8:.95)};}
 function drawVision(pcx,pcy,rad,dark,camX,camY,k){
- if(vc.width!==cv.width||vc.height!==cv.height){vc.width=cv.width;vc.height=cv.height;}
+ const VQ=3,vw=Math.ceil(cv.width/VQ),vh=Math.ceil(cv.height/VQ);if(vc.width!==vw||vc.height!==vh){vc.width=vw;vc.height=vh;}k=k/VQ;
  const vp=visParams(rad),R=rad*VISION_BOOST,NR=TS*1.8,A=P.lookA;
  VIS={x:pcx,y:pcy,R,near:NR};
  vctx.setTransform(1,0,0,1,0,0);vctx.globalCompositeOperation='source-over';vctx.clearRect(0,0,vc.width,vc.height);
@@ -2969,7 +2971,7 @@ function drawVision(pcx,pcy,rad,dark,camX,camY,k){
  const ng=vctx.createRadialGradient(pcx,pcy,0,pcx,pcy,NR);ng.addColorStop(0,'rgba(0,0,0,1)');ng.addColorStop(.55,'rgba(0,0,0,.8)');ng.addColorStop(1,'rgba(0,0,0,0)');
  vctx.fillStyle=ng;vctx.fillRect(pcx-NR,pcy-NR,NR*2,NR*2);
  vctx.globalCompositeOperation='source-over';
- ctx.save();ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(vc,0,0);ctx.restore();
+ ctx.save();ctx.setTransform(1,0,0,1,0,0);ctx.imageSmoothingEnabled=true;ctx.drawImage(vc,0,0,vc.width*VQ,vc.height*VQ);ctx.imageSmoothingEnabled=false;ctx.restore();
 }
 function visAt(x,y){
  const dx=x-VIS.x,dy=y-VIS.y,d=Math.hypot(dx,dy);
@@ -2991,10 +2993,10 @@ function draw(t){
  const x0=Math.max(0,Math.floor(camX/TS)),y0=Math.max(0,Math.floor(camY/TS)),x1=Math.min(m.w-1,Math.ceil((camX+VW)/TS)),y1=Math.min(m.h-1,Math.ceil((camY+VH)/TS));
  drawWorld(x0,y0,x1,y1);
  drawDust(Math.min(.05,t-(draw.lt||t)));draw.lt=t;drawPickupsAndMarks(t);CAMX=camX;CAMY=camY;
- const vis=objs();
+ const vis=objs().filter(o=>(o.x+(o.w||1)+2)*TS>camX&&(o.x-2)*TS<camX+VW&&(o.y+2)*TS>camY&&(o.y-3)*TS<camY+VH);
  const items=vis.map(o=>({y:o.sy?o.y*TS+o.sy:(o.y+1)*TS-(o.t==='ghost'?1:0),f:()=>drawObj(o,t)}));
  if(S.area==='city')CARS.forEach(cr=>items.push({y:(cr.y+(cr.d==='h'?1:2))*TS-3,f:()=>drawCar(cr)}));
- if(combatOn())ZOMBIES.forEach(z=>items.push({y:z.y,f:()=>drawZombie(z,t)}));
+ if(combatOn())ZOMBIES.forEach(z=>{if(z.x>camX-40&&z.x<camX+VW+40&&z.y>camY-20&&z.y<camY+VH+60)items.push({y:z.y,f:()=>drawZombie(z,t)});});
  items.push({y:P.y,f:()=>{drawPlayer();drawHeldBat();}});
  items.sort((a,b)=>a.y-b.y).forEach(i=>i.f());
  const pcx=P.x,pcy=P.y-12;
@@ -3030,8 +3032,7 @@ function draw(t){
  if(alarmT>0){ctx.fillStyle=hexA(COL.red,(Math.sin(t*18)>0?.22:.06)*Math.min(1,alarmT));ctx.fillRect(camX,camY,VW,VH);}
  vis.forEach(o=>{let c=objGlowColor(o);if(!c)return;if(S.area==='nl'&&c===COL.nuri)c='#9d7ae6';const cx=(o.x+(o.w||1)/2)*TS,cy=(o.y+.5)*TS-(o.tall?8:0);
   const vv=visAt(cx,cy);if(vv<.05)return;
-  const a=((c===COL.white?.16:.3)+.12*Math.sin(t*3+o.x))*vv;const gg=ctx.createRadialGradient(cx,cy,0,cx,cy,24);
-  gg.addColorStop(0,hexA(c,a));gg.addColorStop(1,hexA(c,0));ctx.fillStyle=gg;ctx.fillRect(cx-24,cy-24,48,48);
+  const a=((c===COL.white?.16:.3)+.12*Math.sin(t*3+o.x))*vv;ctx.globalAlpha=Math.max(0,Math.min(1,a));ctx.imageSmoothingEnabled=true;ctx.drawImage(glowSprite(c),cx-24,cy-24,48,48);ctx.imageSmoothingEnabled=false;ctx.globalAlpha=1;
   fr(hexA(c,.9),cx-1,cy-1,2,2);});
  drawMarksOverlay(t);
  if(near&&!busy()){
@@ -3042,7 +3043,7 @@ function draw(t){
  }
  ctx.setTransform(1,0,0,1,0,0);
  if(!grainPat)grainPat=ctx.createPattern(gc,'repeat');
- ctx.globalAlpha=S.area==='nl'?.03:.07;const ox=Math.floor(Math.random()*128),oy=Math.floor(Math.random()*128);
+ ctx.globalAlpha=(S.area==='nl'?.03:.07)*(isTouch?.7:1);const ox=Math.floor(Math.random()*128),oy=Math.floor(Math.random()*128);
  ctx.translate(-ox,-oy);ctx.fillStyle=grainPat;ctx.fillRect(0,0,cv.width+ox,cv.height+oy);ctx.setTransform(1,0,0,1,0,0);ctx.globalAlpha=1;
  hurtVignette();
  if(S.past){const sy=((t*80)%(cv.height+60))-30;fr('rgba(200,220,255,.05)',0,sy,cv.width,18*DPR);for(let y=0;y<cv.height;y+=4*DPR)fr('rgba(0,0,0,.07)',0,y,cv.width,DPR);}
@@ -3120,7 +3121,9 @@ function floorCast(c,W,H,hor,posX,posY,dirX,dirY,plX,plY,maxD,pal){
  const out=FIMG.data,fog=rgb(pal.fog),nlBright=S.area==='nl'&&pal.fog==='#e9edf5';
  const rx0=dirX-plX,ry0=dirY-plY,rx1=dirX+plX,ry1=dirY+plY,cache=new Map();
  const area=S.area,m=MAPS[area],dflt=defFloor();
+ const rowB=W*4;
  for(let yy=0;yy<rows;yy++){
+  if(yy&1&&yy>2){out.copyWithin(yy*rowB,(yy-1)*rowB,yy*rowB);continue;}
   const p=y0+yy-hor;const rd=(.5*H)/p;
   let fx=posX+rd*rx0,fy=posY+rd*ry0;const sx=rd*(rx1-rx0)/W,sy=rd*(ry1-ry0)/W;
   const ft=Math.min(1,Math.pow(rd/maxD,1.5)),lit=nlBright?1:1+.85*Math.max(0,1-rd/(maxD*.55)),k1=(1-ft)*lit,kf=ft;
@@ -3167,9 +3170,8 @@ function drawFP(t){
    const floors=Math.ceil(hf);
    for(let f=0;f<floors;f++){const yb=bot-unit*f,ht=Math.min(unit,yb-top);if(ht<=0)break;
     const tex=TP[hit]?tileCanvas(hit,mx,my).cv:wallCanvas(mx,my,f===0?'face':'upper');const frac=ht/unit;c.drawImage(tex,sx,64*(1-frac),1,64*frac,x,yb-ht,1,ht+.5);}
-   if(side){c.fillStyle='rgba(0,0,0,.24)';c.fillRect(x,top,1,bot-top+1);}
-   if(lit>1.01){c.globalCompositeOperation='lighter';c.fillStyle='rgba(255,255,255,'+((lit-1)*.09).toFixed(3)+')';c.fillRect(x,top,1,bot-top+1);c.globalCompositeOperation='source-over';}
-   if(ft>.01){c.fillStyle='rgba('+fog[0]+','+fog[1]+','+fog[2]+','+ft.toFixed(3)+')';c.fillRect(x,top,1,bot-top+1);}
+   if(lit>1.01&&!side){c.globalCompositeOperation='lighter';c.fillStyle='rgba(255,255,255,'+((lit-1)*.09).toFixed(3)+')';c.fillRect(x,top,1,bot-top+1);c.globalCompositeOperation='source-over';}
+   {const ds=side?.24:0,oa=1-(1-ds)*(1-ft);if(oa>.01){const f=ft/oa;c.fillStyle='rgba('+(fog[0]*f|0)+','+(fog[1]*f|0)+','+(fog[2]*f|0)+','+oa.toFixed(3)+')';c.fillRect(x,top,1,bot-top+1);}}
    if(hit==='#'&&S.area==='lab'&&ft<.97){const hh='hsl('+Math.round(195+55*Math.sin(NOW*.45+mx*.35+my*.2))+',55%,72%)';c.fillStyle=hh;c.globalAlpha=1-ft*.7;c.fillRect(x,bot-unit*.66,1,Math.max(1,unit*.05));c.globalAlpha=1;}
    continue;
   }
@@ -3305,7 +3307,7 @@ function drawFP(t){
   const bx=cv.width/2-w/2,by=cv.height*.62;fr('rgba(0,0,0,.75)',bx,by,w,30*u);ctx.strokeStyle='#e7e3da';ctx.lineWidth=u;ctx.strokeRect(bx+.5,by+.5,w-1,30*u-1);
   ctx.fillStyle='#e7e3da';ctx.textAlign='center';ctx.fillText(label,cv.width/2,by+20*u);ctx.textAlign='left';}
  if(!grainPat)grainPat=ctx.createPattern(gc,'repeat');
- ctx.globalAlpha=S.area==='nl'?.03:.07;const ox=Math.floor(Math.random()*128),oy=Math.floor(Math.random()*128);
+ ctx.globalAlpha=(S.area==='nl'?.03:.07)*(isTouch?.7:1);const ox=Math.floor(Math.random()*128),oy=Math.floor(Math.random()*128);
  ctx.translate(-ox,-oy);ctx.fillStyle=grainPat;ctx.fillRect(0,0,cv.width+ox,cv.height+oy);ctx.setTransform(1,0,0,1,0,0);ctx.globalAlpha=1;
 }
 function toggleFP(){
