@@ -1439,9 +1439,10 @@ function attack(aimX,aimY,charged){
  });
  shakeT=Math.max(shakeT,charged||(b&&b.sp)?.22:.08);playSwing(true);
  if(b){b.dur-=used*2/3;if(b.dur<=0){S.bats.shift();toast(b.sp?'특수 야구방망이를 다 썼다':'야구방망이가 부러졌다'+(S.bats.length?' · 다음 방망이로 바꿨다':' · 이제 맨손이다'),COL.red);alog('USER 장비 · 방망이 파손');}}
- save();updateCombatHud(true);
+ saveSoon();updateCombatHud(true);
 }
-let swingCharged=false;
+let swingCharged=false;let saveSoonT=0;
+function saveSoon(){clearTimeout(saveSoonT);saveSoonT=setTimeout(save,1500);}
 let AC=null;function playSwing(hit){try{if(!AC)AC=new (window.AudioContext||window.webkitAudioContext)();const t=AC.currentTime,o=AC.createOscillator(),g=AC.createGain();
  o.type=hit?'square':'sine';o.frequency.setValueAtTime(hit?140:420,t);o.frequency.exponentialRampToValueAtTime(hit?60:180,t+.12);g.gain.setValueAtTime(hit?.08:.03,t);g.gain.exponentialRampToValueAtTime(.001,t+.14);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+.15);}catch(e){}}
 function killZombie(z){
@@ -1661,8 +1662,9 @@ function initLayoutEdit(){
 
 /* ================= RENDER ================= */
 let DPR=1,Z=2,VW=0,VH=0,CAMX=0,CAMY=0;
+let RS=1;
 function resize(){
- DPR=Math.min(window.devicePixelRatio||1,2);
+ DPR=Math.min(window.devicePixelRatio||1,isTouch?1.5:2)*RS;
  cv.width=Math.round(innerWidth*DPR);cv.height=Math.round(innerHeight*DPR);
  Z=Math.max(1.1,Math.min(3,Math.min(innerWidth/(15*TS),innerHeight/(10*TS))));
  VW=innerWidth/Z;VH=innerHeight/Z;
@@ -1706,7 +1708,7 @@ function grayc(v){v=Math.max(0,Math.min(255,Math.round(v)));return 'rgb('+v+','+
 const RUBC={};
 function rubbleCanvas(px,py,past){
  const key=S.area+':'+px+','+py+(past?'p':'');if(RUBC[key])return RUBC[key];
- const cv2=document.createElement('canvas');cv2.width=240;cv2.height=256;const g=cv2.getContext('2d');g.scale(4,4);
+ const cv2=document.createElement('canvas');cv2.width=120;cv2.height=128;const g=cv2.getContext('2d');g.scale(2,2);
  const R=rng(Math.imul(px+7,73856093)^Math.imul(py+3,19349663));
  const OX=14,OY=28,L=past?1.55:1;
  const gr=(v,w)=>{v=Math.max(0,Math.min(255,v*L));const r=Math.round(v+(w||0)),gg=Math.round(v+(w||0)*.55),b=Math.round(v-(w||0)*.2);return 'rgb('+Math.min(255,r)+','+Math.min(255,gg)+','+Math.max(0,b)+')';};
@@ -1913,7 +1915,7 @@ function tx(g,s,x,y,size,col,al){g.font='bold '+size+'px "Noto Serif KR",sans-se
 function glassFill(g,x,y,w,h,a){g.fillStyle=lg(g,x,y,x+w,y+h,[[0,'rgba(255,255,255,'+(.16*a)+')'],[.35,'rgba(255,255,255,'+(.02*a)+')'],[.5,'rgba(255,255,255,'+(.1*a)+')'],[.62,'rgba(255,255,255,'+(.02*a)+')'],[1,'rgba(255,255,255,0)']]);g.fillRect(x,y,w,h);}
 function bolt(g,x,y,c){g.fillStyle=c;g.beginPath();g.arc(x,y,.55,0,Math.PI*2);g.fill();}
 
-const TILEC={},OBJC={},OSC=3;
+const TILEC={},OBJC={},OSC=2;
 function portalDraw(g,cx,cy,on,T,mini){
  const sc=mini?.55:1;g.save();g.translate(cx,cy);g.scale(sc,sc);
  if(on){g.fillStyle=rg(g,0,22,2,34,[[0,'rgba(240,244,255,.42)'],[1,'rgba(240,244,255,0)']]);g.beginPath();g.ellipse(0,22,34,8,0,0,Math.PI*2);g.fill();}
@@ -2507,7 +2509,7 @@ OP.coat=(g,R,o)=>{figure(g,o,{sh:.2,leg:'#1a1a1a',shoe:'#0e0e0e',bodyL:'#ffffff'
 const CAR_DEFS=[[5,14,'h'],[10,15,'h'],[27,13,'h'],[35,15,'h'],[14,13,'h'],[20,8,'v'],[19,23,'v']];
 const CARS=CAR_DEFS.map(d=>({x:d[0],y:d[1],d:d[2]}));
 CARS.forEach(c=>{const g=MAPS.city.g;g[c.y][c.x]='c';if(c.d==='h')g[c.y][c.x+1]='c';else g[c.y+1][c.x]='c';});
-const CARC={},CSC=3;
+const CARC={},CSC=2;
 function carRng(c,k){return rng(Math.imul(c.x+13,2654435761)^Math.imul(c.y+7,40503)^(k||0));}
 function carModel(c){const R=carRng(c,1);const v=60+Math.floor(R()*55),tint=[(R()-.5)*8,(R()-.5)*6,(R()-.5)*8];
  return {base:v,tint,type:['sedan','hatch','sedan','van','hatch'][Math.floor(R()*5)],flip:R()<.5,flat:R()<.45,brokenSide:R()<.5,crackFront:R()<.6,rust:.4+R()*.6,rear:R()<.45,door:R()<.18};}
@@ -2632,6 +2634,46 @@ function treeR(x,y){return rng(Math.imul(x+71,2654435761)^Math.imul(y+29,97531))
 function treeCanvas(x,y){const key=x+','+y;if(TREEC[key])return TREEC[key];
  const cv=document.createElement('canvas');cv.width=32*3;cv.height=64*3;const g=cv.getContext('2d');g.scale(3,3);g.translate(0,32);paintTree(g,treeR(x,y));return TREEC[key]=cv;}
 
+/* ---- 정적 배경을 8x8칸 덩어리로 미리 그려 두기 (그리기 횟수 대폭 감소) ---- */
+const CHK={},CH=8,CHS=2;let CH_AREA=null;
+function isStaticTile(t){return t==='#'||t==='B'||t==='r'||(!!TP[t]&&t!=='N');}
+function purgeCaches(){const a=S.area,keep=k=>k.indexOf(a)===0;
+ [TILEC,WALLC,RUBC,FTEXC].forEach(o=>{for(const k in o)if(!keep(k))delete o[k];});
+ for(const k in OBJC)delete OBJC[k];for(const k in CHK)if(k.indexOf(a+':')!==0)delete CHK[k];}
+function chunkCanvas(cx,cy){
+ const m=MAPS[S.area],x0=cx*CH,y0=cy*CH,x1=Math.min(m.w,x0+CH),y1=Math.min(m.h,y0+CH);
+ let sig=(S.past?'p':'n')+(S.flags.power?1:0);for(let y=y0;y<y1;y++)for(let x=x0;x<x1;x++)sig+=tile(x,y);
+ const key=S.area+':'+cx+','+cy;let c=CHK[key];if(c&&c.sig===sig)return c.cv;
+ const cv2=c?c.cv:document.createElement('canvas');const sz=CH*TS*CHS;if(cv2.width!==sz){cv2.width=sz;cv2.height=sz;}
+ const g=cv2.getContext('2d');g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,sz,sz);g.imageSmoothingEnabled=true;
+ const put=(cvs,x,y,h,oy)=>g.drawImage(cvs,0,0,cvs.width,cvs.width*(h/TS),(x-x0)*TS*CHS,((y-y0)*TS+(oy||0))*CHS,TS*CHS,h*CHS);
+ for(let y=y0;y<y1;y++)for(let x=x0;x<x1;x++){const t=tile(x,y);if(!isStaticTile(t))continue;
+  if(t==='#'||t==='B'){if(t==='#'&&!(S.area!=='nl'||true))continue;
+   if(t==='B'||S.area!=='nl'){put(wallCanvas(x,y,(t==='B'?tile(x,y+1)!=='B':!isWall(tile(x,y+1)))?'face':'roof'),x,y,TS);}
+   else{continue;}}
+  else if(t==='r'){put(tileCanvas(S.area==='city'?',':'f',x,y).cv,x,y,TS);}
+  else if(t==='T'){const tc=tileCanvas('T',x,y).cv;g.drawImage(tc,0,tc.height/2,tc.width,tc.height/2,(x-x0)*TS*CHS,(y-y0)*TS*CHS,TS*CHS,TS*CHS);}
+  else put(tileCanvas(t,x,y).cv,x,y,TS);}
+ g.setTransform(CHS,0,0,CHS,-x0*TS*CHS,-y0*TS*CHS);
+ for(let y=Math.max(1,y0);y<y1;y++)for(let x=x0;x<x1;x++){const ta=tile(x,y-1);if(!(ta==='#'||ta==='B'))continue;const tb=tile(x,y);if(tb==='#'||tb==='B'||isWall(tb))continue;
+  const sg=g.createLinearGradient(0,y*TS,0,y*TS+8);sg.addColorStop(0,S.area==='nl'?'rgba(80,70,110,.16)':'rgba(0,0,0,.38)');sg.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=sg;g.fillRect(x*TS,y*TS,TS,8);}
+ CHK[key]={cv:cv2,sig};return cv2;
+}
+function drawWorld(x0,y0,x1,y1){
+ if(CH_AREA!==S.area){purgeCaches();CH_AREA=S.area;}
+ const m=MAPS[S.area];ctx.imageSmoothingEnabled=true;
+ for(let cy=Math.floor(y0/CH);cy<=Math.floor(y1/CH);cy++)for(let cx=Math.floor(x0/CH);cx<=Math.floor(x1/CH);cx++){
+  if(cx*CH>=m.w||cy*CH>=m.h)continue;ctx.drawImage(chunkCanvas(cx,cy),cx*CH*TS,cy*CH*TS,CH*TS,CH*TS);}
+ ctx.imageSmoothingEnabled=false;
+ for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){const t=tile(x,y),px=x*TS,py=y*TS;
+  if(t==='#'&&S.area==='nl'){drawTile(t,x,y);continue;}
+  if(!isStaticTile(t)){drawTile(t,x,y);continue;}
+  if(t==='r')drawRubbleOn(px,py,h2(x,y));
+  else if(t==='T'){ctx.imageSmoothingEnabled=true;ctx.drawImage(treeCanvas(x,y),px,py-32,TS,64);ctx.imageSmoothingEnabled=false;}
+  else if(t==='X'){const r=h2(x,y);if(r>.45&&r<.75){const on=(S.flags.power||S.past)&&Math.sin(NOW*4+x*2+y)>0;fr(on?COL.yellow:'#262210',px+25,py+6,2.4,2.4);if(on)fr(hexA(COL.yellow,.25),px+24,py+5,4.4,4.4);}}
+  else if(t==='#'&&S.area==='lab'&&!isWall(tile(x,y+1)))fr(labHue(x,y)+'.45)',px,py+11,TS,1.6);
+ }
+}
 function drawTile(t,x,y){
  const px=x*TS,py=y*TS,r=h2(x,y);
  if(TP[t]){blitTile(t,x,y,px,py);
@@ -2919,7 +2961,7 @@ function drawVision(pcx,pcy,rad,dark,camX,camY,k){
  vctx.setTransform(k,0,0,k,Math.round(-camX*k),Math.round(-camY*k));
  vctx.globalCompositeOperation='destination-out';
  const mid=Math.max(0,Math.min(1,1-dark*.55));
- [[.62,.45],[.74,.35],[.84,.3],[.93,.28],[1.02,.22],[1.12,.16],[1.24,.1]].map(w=>[VISION_HALF*w[0],w[1]]).forEach(w=>{
+ [[.66,.62],[.86,.42],[1.04,.3],[1.24,.16]].map(w=>[VISION_HALF*w[0],w[1]]).forEach(w=>{
   const g=vctx.createRadialGradient(pcx,pcy,0,pcx,pcy,R);
   g.addColorStop(0,'rgba(0,0,0,'+w[1]+')');g.addColorStop(.5,'rgba(0,0,0,'+(w[1]*mid)+')');g.addColorStop(1,'rgba(0,0,0,0)');
   vctx.fillStyle=g;vctx.beginPath();vctx.moveTo(pcx,pcy);vctx.arc(pcx,pcy,R,A-w[0],A+w[0]);vctx.closePath();vctx.fill();
@@ -2947,9 +2989,7 @@ function draw(t){
  const k=Z*DPR;
  ctx.setTransform(k,0,0,k,Math.round(-camX*k),Math.round(-camY*k));
  const x0=Math.max(0,Math.floor(camX/TS)),y0=Math.max(0,Math.floor(camY/TS)),x1=Math.min(m.w-1,Math.ceil((camX+VW)/TS)),y1=Math.min(m.h-1,Math.ceil((camY+VH)/TS));
- for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++)drawTile(tile(x,y),x,y);
- for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++){const tt=tile(x,y);if(!(tt==='#'||tt==='B'))continue;const tb=tile(x,y+1);if(tb==='#'||tb==='B'||isWall(tb)||y+1>=m.h)continue;
-  const sg=ctx.createLinearGradient(0,(y+1)*TS,0,(y+1)*TS+8);sg.addColorStop(0,S.area==='nl'?'rgba(80,70,110,.16)':'rgba(0,0,0,.38)');sg.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=sg;ctx.fillRect(x*TS,(y+1)*TS,TS,8);}
+ drawWorld(x0,y0,x1,y1);
  drawDust(Math.min(.05,t-(draw.lt||t)));draw.lt=t;drawPickupsAndMarks(t);CAMX=camX;CAMY=camY;
  const vis=objs();
  const items=vis.map(o=>({y:o.sy?o.y*TS+o.sy:(o.y+1)*TS-(o.t==='ghost'?1:0),f:()=>drawObj(o,t)}));
@@ -3098,7 +3138,7 @@ function floorCast(c,W,H,hor,posX,posY,dirX,dirY,plX,plY,maxD,pal){
  c.putImageData(FIMG,0,y0);
 }
 function drawFP(t){
- const W=Math.max(220,Math.min(420,Math.round(innerWidth/3.2))),H=Math.max(140,Math.round(W*innerHeight/innerWidth));
+ const W=Math.max(160,Math.round(Math.min(340,innerWidth/3.5)*Math.min(1,RS+.15))),H=Math.max(110,Math.round(W*innerHeight/innerWidth));
  if(fpc.width!==W||fpc.height!==H){fpc.width=W;fpc.height=H;}
  const c=fctx,pal=fpPal(),fog=rgb(pal.fog);
  const posX=P.x/TS,posY=(P.y-6)/TS,A=P.lookA,dirX=Math.cos(A),dirY=Math.sin(A),pl=Math.tan(1.2/2),plX=-dirY*pl,plY=dirX*pl;
@@ -3277,8 +3317,11 @@ function toggleFP(){
 function updateFPBtn(){const b=$('fpBtn');if(b)b.textContent=(FPV?'탑다운':'1인칭')+(isTouch?'':' (Z)');}
 
 let last=performance.now(),hudT=0;
+let perfT=0,perfN=0,perfAcc=0;
 function loop(now){
- const dt=Math.min(.05,(now-last)/1000);last=now;
+ const raw=(now-last)/1000,dt=Math.min(.05,raw);last=now;
+ if(started&&raw<1){perfAcc+=raw;perfN++;perfT+=raw;if(perfT>1.5){const avg=perfAcc/perfN;perfT=0;perfN=0;perfAcc=0;
+  if(avg>.034&&RS>.5){RS=Math.max(.5,RS-.15);resize();}else if(avg<.019&&RS<1){RS=Math.min(1,RS+.1);resize();}}}
  if(shakeT>0)shakeT-=dt;if(alarmT>0)alarmT-=dt;
  update(dt);draw(now/1000);
  hudT+=dt;if(hudT>.25&&started){hudT=0;updateHUD();updateCombatHud();$('recTime').textContent=fmt(S.time);}
