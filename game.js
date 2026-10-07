@@ -110,6 +110,12 @@ const R={
   text:'"본인은 누리느엘 관측에 자원하며, 영혼 이전 과정에서 육체가 남겨질 수 있음을 이해합니다."\n\n서명 아래, 떨리는 글씨로 덧붙여져 있다. "남겨진 몸은 어떻게 되나요?"'}
  ,kl10:{title:'몸에 박힌 기록 장치',type:'처치 기록',place:'지하 연구시설, 쓰러진 좀비',date:'실시간',color:'red',
   text:'열 번째 좀비의 목덜미에 작은 장치가 박혀 있다. 화면에 한 줄.\n\n"ARCHIVE · SUBJECT BODY · STATUS: RECORDING"\n\n좀비들도 기록되고 있었다.'}
+ ,nurimeet:{title:'NURI 결정 회의록',type:'회의록',place:'지하 연구시설, NURI 회의실',date:'2011.10.07',color:'nuri',
+  text:'[안건] 삼실특별시 "소실 현상" 대응\n\n올해 7월부터 시민들이 기록에서 사라지고 있다. 사진 속 얼굴이 먼저 노이즈로 번지고, 서류에서 이름이 지워지고, 마지막에는 사람 자체가 사라진다. 지금까지 412명.\n\n석말공장 지하에서 발견된 누리 신호의 분석 결과: 관측되지 않는 것은 존재를 잃는다. 이 도시는 관측을 잃어 가고 있다.\n\n[결론] 누리느엘 — 모든 것이 영원히 관측되고 기록되는 공간. 그곳에 들어간 사람은 다시는 사라지지 않는다.\n\n개방일: 10월 14일 17시. 축제에 시민이 가장 많이 모이는 시각.'}
+ ,nurialt:{title:'기각된 대안 보고서',type:'보고서',place:'지하 연구시설, NURI 회의실',date:'2011.10.05',color:'yellow',
+  text:'[대안 1] 도시 전체 이주 — 기각.\n시험 이주한 세 가구의 사진도 새 주소에서 지워졌다. 소실은 장소가 아니라 사람을 따라온다.\n\n[대안 2] 석말공장 가동 중단 — 기각.\n사흘간 멈추자 소실 속도가 두 배가 되었다. 누리 신호가 약해지면 관측도 함께 줄어든다. 공장은 멈출 수 없다.\n\n[대안 3] 전 시민 기록 보관(ARCHIVE만 운영) — 기각.\n기록은 남지만 사람은 계속 사라진다. "기록만 남은 도시"가 될 뿐이다.\n\n[대안 4] 단계적 시험 개방 — 중단.\n관측 대상 31명 중 일부에게서 영혼과 육체가 분리되는 현상 확인. 그러나 소실이 가속되어, 남은 시간이 없다.\n\n→ 전면 개방으로 결정.'}
+ ,nuriobj:{title:'마지막 반대 의견',type:'메모',place:'지하 연구시설, NURI 회의실',date:'2011.10.07',color:'red',
+  text:'회의록에 실리지 않은 한 장.\n\n"영혼만 들어가고 몸이 남는다면, 남은 몸은 누가 기록합니까? 우리는 사람을 구하는 게 아니라, 사람을 둘로 쪼개는 겁니다."\n\n"표결 18 대 1. 반대한 사람은 나 하나였다. 그래도 적어 둔다. 언젠가 누군가 이걸 읽고, 남겨진 쪽을 기억해 주기를."'}
  ,nlpaper:{title:'누리느엘 일보',type:'신문',place:'누리느엘, 광장 가판대',date:'매일 10월 14일',color:'nuri',
   text:'[1면] 들어오지 못한 사람들\n\n17시 02분, 많은 이들이 누리느엘로 향했다. 그러나 모두가 온전히 들어오지는 못했다. 영혼은 이곳에 닿았지만, 육체는 폐허에 남았다.\n\n남겨진 몸에는 의식이 없다. 얼굴은 기록되지 않아 노이즈로 번지고, 본능만 남아 움직인다. 폐허를 떠도는 그들은 괴물이 아니다.\n\n그러니 누리느엘에는 그들이 없다. 그들은 이미, 여기 있으니까.'}
 };
@@ -165,6 +171,11 @@ const CONTRA=[
  {a:'kl1',b:'accesslog',title:'퇴장하지 않은 사람들',text:'B3 출입 기록에는 퇴장 기록이 없었다.\n연구원의 ID 카드에도 퇴장 기록이 없다.\n\n그들은 나간 게 아니라, 이곳에서 몸을 잃었다.'},
  {a:'kl5',b:'deleted',title:'남겨진 몸',text:'복구된 보고서: 관측된 사람들은 기록이 되었다.\n자원 동의서: "남겨진 몸은 어떻게 되나요?"\n\n그 질문의 대답이, 폐허를 떠돌고 있었다.'},
  {a:'kl10',b:'archive',title:'기록되는 몸',text:'ARCHIVE는 내 움직임을 기록하고 있었다.\n좀비의 목덜미에도 같은 장치가 박혀 있었다.\n\n나와 그들은, 같은 시스템 안에 있다.'},
+ {a:'nurimeet',b:'govdoc',title:'고장이 아니었다',text:'정부 문서: 단순한 기계 고장.\n회의록: 412명이 기록에서 사라진 "소실 현상".\n\n도시는 고장이 아니라, 사라지고 있었다.'},
+ {a:'nurialt',b:'worklog',title:'멈출 수 없었던 공장',text:'작업 일지: 16시 40분 전원 철수, 가동 중단.\n기각된 대안: 공장을 멈추면 소실이 두 배로 빨라진다.\n\n공장은 멈춘 적이 없다. 멈출 수 없었다.'},
+ {a:'nurialt',b:'archive',title:'기각된 대안이 남았다',text:'기각된 대안 3: ARCHIVE만 운영하면 "기록만 남은 도시"가 된다.\n지금 이 도시에는 사람이 없고, ARCHIVE만 돌아가고 있다.\n\n버린 대안이, 결국 이 도시의 모습이 되었다.'},
+ {a:'nuriobj',b:'nlpaper',title:'예견된 몸',text:'반대 의견: "남은 몸은 누가 기록합니까?"\n누리느엘 일보: 영혼은 닿았지만 육체는 폐허에 남았다.\n\n단 한 사람이 경고한 일이, 그대로 일어났다.'},
+ {a:'nurimeet',b:'kc1',title:'소실의 흔적',text:'회의록: 사라지는 사람은 먼저 사진 속 얼굴이 노이즈로 번진다.\n좀비의 주민증: 얼굴만 노이즈로 지워져 있었다.\n\n좀비의 노이즈는, 소실이 남긴 자국이다.'},
  {a:'nlpaper',b:'seoyun',title:'들어간 사람',text:'누리느엘 일보: 모두가 온전히 들어오지는 못했다.\n홀의 서윤은 웃으며 내일도 축제라고 말한다.\n\n서윤은, 온전히 들어온 몇 안 되는 사람이다.'}
 ];
 const ESC=[{id:'map',l:'출입구 위치 기록',a:'폐허 도시'},{id:'broadcast',l:'대피 방송 기록',a:'폐교'},{id:'power',l:'전력 공급 기록',a:'거대 공장'},{id:'code',l:'최종 잠금 해제 코드',a:'지하 연구시설'}];
@@ -225,6 +236,7 @@ function buildLab(){
  rect(g,25,10,7,6,'n');g[9][28]='J';
  rect(g,33,6,2,24,'n');g[10][33]='Q';g[10][34]='Q';
  rect(g,10,30,25,8,'n');
+ rect(g,13,19,12,7,'n');g[17][18]='P';g[18][18]='n';
  return {w:36,h:40,g};
 }
 const MAPS={city:buildCity(),school:buildSchool(),factory:buildFactory(),lab:buildLab()};
@@ -243,10 +255,10 @@ function buildNL(){
 MAPS.nl=buildNL();
 const NL_ZONES=[['중심부',4,1,20,8],['없던 길',13,9,2,5],['광장',0,14,28,10],['지하 3층',30,2,12,8],['옥상',30,13,12,7],['홀',30,23,18,12]];
 const CLOCKS=['c0400','c1500','c1650','c1658','c1702'];
-const LAB_ROOMS=[['ARCHIVE실',3,1,9,4],['서버실',23,1,10,4],['보안 게이트',3,10,8,6],['장치실',13,10,10,7],['폐쇄된 실험실',25,10,7,6],['수직 통로',33,6,2,24],['탈출구 앞',10,30,25,8],['B3 복도',3,6,30,3],['계단',16,1,4,5]];
+const LAB_ROOMS=[['ARCHIVE실',3,1,9,4],['서버실',23,1,10,4],['보안 게이트',3,10,8,6],['장치실',13,10,10,7],['폐쇄된 실험실',25,10,7,6],['NURI 회의실',13,19,12,7],['수직 통로',33,6,2,24],['탈출구 앞',10,30,25,8],['B3 복도',3,6,30,3],['계단',16,1,4,5]];
 const VENTS=[];MAPS.factory.g.forEach((row,y)=>row.forEach((c,x)=>{if(c==='v')VENTS.push([x,y]);}));
 const RUBBLE_S=new Set(['8,13','9,12','22,14','31,13']);
-const SOLID=new Set(['#','r','c','T','G','d','M','X','L','K','S','Q','J','V','B','C']);
+const SOLID=new Set(['#','r','c','T','G','d','M','X','L','K','S','Q','J','V','B','C','P']);
 const AREA_NAME={city:'AREA 01 · 폐허 도시',school:'AREA 02 · 폐교',factory:'AREA 03 · 거대 공장',lab:'AREA 04 · 지하 연구시설',nl:'AREA 05 · 누리느엘'};
 
 /* ================= STATE ================= */
@@ -563,7 +575,7 @@ function tile(x,y){
  const t=m.g[y][x];
  if(S.area==='city'){if(t==='G'&&S.flags.gateOpen)return 'g';return t;}
  if(S.area==='nl'){if(t==='h')return S.flags.roadOpen?'N':'V';return t;}
- if(S.area==='lab'){if(t==='J')return S.flags.restored?'j':'J';if(t==='Q')return S.flags.codeOK?'q':'Q';return t;}
+ if(S.area==='lab'){if(t==='J')return S.flags.restored?'j':'J';if(t==='Q')return S.flags.codeOK?'q':'Q';if(t==='P')return S.flags.nuriDoor?'p':'P';return t;}
  if(S.area==='factory'){if(t==='L')return S.flags.power?'l':'L';if(t==='K')return S.flags.power?'k':'K';return t;}
  if(x===18&&y===15)return S.past?'M':(S.flags.cleared?'H':'r');
  if(!S.past&&RUBBLE_S.has(x+','+y))return 'r';
@@ -630,7 +642,11 @@ const OBJ={
   {id:'portal',x:17,y:13,w:2,t:'portal',act:portalAct,solid:1},
   {id:'notfirst',x:29,y:12,t:'tank',rec:'notfirst',solid:1},
   {id:'codepad',x:33,y:10,w:2,t:'codepad',act:codepadAct,show:()=>!S.flags.codeOK},
-  {id:'irondoor',x:21,y:38,w:3,t:'irondoor',act:ironDoorAct,sy:-50}
+  {id:'irondoor',x:21,y:38,w:3,t:'irondoor',act:ironDoorAct,sy:-50},
+  {id:'nuripanel',x:20,y:16,t:'dpanel',act:nuriPanelAct},
+  {id:'nurimeet',x:15,y:21,t:'docs',rec:'nurimeet',solid:1},
+  {id:'nurialt',x:20,y:21,t:'docs',rec:'nurialt',solid:1},
+  {id:'nuriobj',x:22,y:24,t:'memo',rec:'nuriobj',solid:1}
  ],
  nl:[
   {id:'tower',x:13,y:16,w:2,t:'tower',act:towerAct,solid:1},
@@ -678,6 +694,24 @@ function solidAt(tx,ty){
 function hit(x,y){
  const pts=[[x-7,y-7],[x+7,y-7],[x-7,y+1],[x+7,y+1]];
  return pts.some(p=>solidAt(Math.floor(p[0]/TS),Math.floor(p[1]/TS)));
+}
+/* 모서리에 걸리면 틈 쪽으로 살짝 밀어 주기 */
+function cornerSlide(axis,dir,dt){
+ const step=Math.min(10,110*dt);
+ for(let off=1;off<=12;off++)for(const sg of [1,-1]){const o=off*sg,mv=Math.sign(o)*Math.min(step,off);
+  const tx=axis===0?P.x+dir*3:P.x+o,ty=axis===0?P.y+o:P.y+dir*3;
+  if(!hit(tx,ty)&&!hit(axis===0?P.x:P.x+mv,axis===0?P.y+mv:P.y)){if(axis===0)P.y+=mv;else P.x+=mv;return;}}
+}
+/* 막혔을 때 무엇에 막혔는지 알려 주기 */
+let bumpT=0;const bumpSeen={};
+function bumpHint(vx,vy){
+ const m=Math.hypot(vx,vy)||1,tx=Math.floor((P.x+vx/m*14)/TS),ty=Math.floor((P.y-3+vy/m*14)/TS),t=tile(tx,ty),key=S.area+t+tx+','+ty,now=performance.now();
+ if(bumpSeen[key]&&now-bumpSeen[key]<5000)return;
+ const MSG={K:'계단실 문이다. 전원이 들어오지 않아 열리지 않는다.',L:'폐쇄된 실험실 문. 잠겨 있다 — 여는 방법이 어딘가에 기록되어 있을 것이다.',
+  Q:'비상 통로 문. 코드를 입력해야 열린다.',P:'NURI 회의실 문. 옆의 인증 패널에서 질문에 답해야 열린다.',J:'실험실 문. 아직 열 수 없다.',G:'정문이다. 비밀번호를 입력해야 열린다.',
+  X:'가동 중인 기계다. 지나갈 수 없다 — 노란 선 바깥 바닥으로 돌아가자.',S:'서버 랙이 길을 막고 있다.',r:'무너진 잔해가 길을 막고 있다.',c:'버려진 차가 길을 막고 있다.'};
+ let msg=MSG[t];if(!msg){const o=objs().find(o=>o.solid&&o.y===ty&&tx>=o.x&&tx<o.x+(o.w||1));if(o&&OBJ_NAME[o.t])msg=OBJ_NAME[o.t]+'에 막혀 지나갈 수 없다.';}
+ if(!msg)return;bumpSeen[key]=now;toast(msg);
 }
 function unstuck(){
  if(!hit(P.x,P.y))return;
@@ -753,7 +787,7 @@ function collect(id){
  if(S.records.length===1)setTimeout(()=>toast(isTouch?'오른쪽 위 "기록 보관함"에서 모은 기록을 다시 볼 수 있다':'Tab 키 또는 "기록 보관함"에서 모은 기록을 다시 볼 수 있다'),3000);
  else if(S.records.length===3&&S.contra.length===0)setTimeout(()=>toast('기록 보관함에서 두 기록을 비교하면 모순을 찾을 수 있다'),3000);
 }
-const OBJ_NAME={keypad:'정문 키패드',exitdoor:'철문',hatch:'철제 해치',lever:'레버',gen:'발전기',device:'하얀 장치',console:'방송 콘솔',ghost:'과거의 사람',coat:'흰 코트의 사람',terminal:'ARCHIVE 컴퓨터',codepad:'코드 패널',irondoor:'비상 탈출구',portal:'고리 장치',speaker:'스피커',fuse:'선반',none:'잔해',sign:'경고판',tower:'시계탑',clock:'시계',nphone:'공중전화',nstop:'정류장',schooldoor:'한결중학교 현관',kiosk:'가건물',upstair:'위층 계단',downstair:'아래층 계단',person:'사람',core:'빛의 핵',retgate:'하얀 고리',chair31:'빈 의자',hallexit:'작은 문',pedestal:'받침대',card:'정체 불명의 카드',b3sign:'안내판',nlstand:'신문 가판대'};
+const OBJ_NAME={keypad:'정문 키패드',exitdoor:'철문',hatch:'철제 해치',lever:'레버',gen:'발전기',device:'하얀 장치',console:'방송 콘솔',ghost:'과거의 사람',coat:'흰 코트의 사람',terminal:'ARCHIVE 컴퓨터',codepad:'코드 패널',irondoor:'비상 탈출구',portal:'고리 장치',speaker:'스피커',fuse:'선반',none:'잔해',sign:'경고판',tower:'시계탑',clock:'시계',nphone:'공중전화',nstop:'정류장',schooldoor:'한결중학교 현관',kiosk:'가건물',upstair:'위층 계단',downstair:'아래층 계단',person:'사람',core:'빛의 핵',retgate:'하얀 고리',chair31:'빈 의자',hallexit:'작은 문',pedestal:'받침대',card:'정체 불명의 카드',b3sign:'안내판',nlstand:'신문 가판대',dpanel:'인증 패널'};
 function interact(o){alog('USER 조사 · '+(o.rec?R[o.rec].title:(o.t==='lever'?o.L+' 레버':(OBJ_NAME[o.t]||'대상'))));if(o.act)o.act(o);else if(o.rec)readRecord(o);}
 const feedLines=[];let stepAcc=0,idleT=0,idleLogged=false,lastRoom='';
 function alog(msg){
@@ -898,7 +932,19 @@ function codepadAct(){
  say([{t:'비상 통로의 코드 패널. 최종 잠금 해제 코드가 필요하다.',c:[{l:'코드를 입력한다',f:()=>openKeypad(LAB_KP)},{l:'그만둔다'}]}]);
 }
 function truthReady(){return ESC.every(e=>has(e.id))&&['deleted','notfirst','nuriel'].every(has)&&S.contra.length>=10;}
-function trueReady(){return S.records.length>=TOTAL&&S.contra.length>=15;}
+function reqRecs(){const kill=new Set([].concat(...Object.values(KILL_RECS)));return Object.keys(R).filter(id=>!kill.has(id));}
+const TRUE_KEYS=['deleted','notfirst','nuriel','nurimeet','nurialt','nuriobj','nlpaper'];
+function trueKeys(){return ESC.map(e=>e.id).concat(TRUE_KEYS.filter(k=>ESC.every(e=>e.id!==k)));}
+function trueReady(){return trueKeys().every(has)&&S.contra.length>=14;}
+function nuriPanelAct(){
+ if(S.flags.nuriDoor){say(['인증 패널에 초록 등이 켜져 있다. 회의실 문은 열려 있다.']);return;}
+ alog('USER 조사 · NURI 회의실 인증 패널');
+ const fail=()=>{alog('USER 인증 실패 · NURI 회의실');say(['붉은 등이 깜박인다.',{s:'인증 패널',t:'인증 실패.'},'…답은 이 시설 어딘가에 기록되어 있을 것이다.']);};
+ const q2=()=>say([{s:'인증 패널',t:'질문 2 / 2\n관측 대상 31번은 누구인가?',c:[{l:'한서윤',f:fail},{l:'담임 교사',f:fail},{l:'기록자',f:ok},{l:'존재하지 않는다',f:fail}]}]);
+ const ok=()=>{S.flags.nuriDoor=1;save();alog('USER 인증 · NURI 회의실 · 기록자');
+  say(['초록 등이 켜진다.',{s:'인증 패널',t:'인증되었습니다.\n어서 오십시오, 기록자.'},'장치실 아래쪽, 닫혀 있던 회의실 문이 천천히 열렸다.','…이 시설은 나를 알고 있다. 그것도 아주 오래전부터.']);};
+ say(['장치실 구석의 인증 패널. 화면에 질문이 떠 있다.',{s:'인증 패널',t:'NURI 회의실 · 출입 인증\n\n질문 1 / 2\n개방 이후, 관측된 사람들은 어떻게 되었는가?',c:[{l:'사망했다',f:fail},{l:'대피했다',f:fail},{l:'기록이 되었다',f:q2},{l:'실종되었다',f:fail}]}]);
+}
 function ironDoorAct(){
  const k=S.flags.preserved&&has('nlcore');
  if(S.flags.preserved&&!k){say(['철문은 굳게 닫혔다. 틈새마다 붉은 봉인등이 켜져 있다.','위층 장치실 쪽에서 하얀 빛이 새어 나온다.']);return;}
@@ -907,8 +953,8 @@ function ironDoorAct(){
  const openC={l:'문을 연다',f:()=>say([{t:'문을 열면 기록 '+S.records.length+'개가 모두 지워진다. 정말 열까?',c:[{l:'연다',f:()=>{alog('USER 선택 · 문을 연다');if(truthReady())endTruth();else endForget();}},{l:'그만둔다'}]}])};
  const allC={l:'모든 기록을 가져간다',f:()=>{
   if(!has('nlcore')){say(['손잡이에 손을 얹자 경고등이 깜박인다.',{s:'ARCHIVE SYSTEM',t:'조건 미충족.\n누리느엘의 기록이 없습니다.'},'…모든 기록을 가져가려면, 아직 가 보지 않은 곳의 기록이 필요하다.']);return;}
-  if(trueReady()){alog('USER 선택 · 모든 기록을 가져간다');say([{s:'ARCHIVE SYSTEM',t:'USER: 기록자\n기록 '+TOTAL+' / '+TOTAL+'\n조건 충족.'},'철문이 처음으로, 경고음 없이 열리기 시작했다.'],endTrue);}
-  else say(['손잡이에 손을 얹자 경고등이 깜박인다.',{s:'ARCHIVE SYSTEM',t:'조건 미충족.\n기록 '+S.records.length+' / '+TOTAL+'\n발견한 모순 '+S.contra.length+' / 15 이상\n\n모든 기록을 완성한 기록자만 선택할 수 있습니다.'}]);
+  if(trueReady()){alog('USER 선택 · 모든 기록을 가져간다');say([{s:'ARCHIVE SYSTEM',t:'USER: 기록자\n핵심 기록 '+trueKeys().length+' / '+trueKeys().length+'\n발견한 모순 '+S.contra.length+'\n조건 충족.'},'철문이 처음으로, 경고음 없이 열리기 시작했다.'],endTrue);}
+  else{const miss=trueKeys().filter(k=>!has(k));say(['손잡이에 손을 얹자 경고등이 깜박인다.',{s:'ARCHIVE SYSTEM',t:'조건 미충족.\n핵심 기록 '+(trueKeys().length-miss.length)+' / '+trueKeys().length+'\n발견한 모순 '+S.contra.length+' / 14 이상'+(miss.length?'\n\n아직 없는 핵심 기록이 남아 있는 곳:\n'+[...new Set(miss.map(k=>R[k].place.split(',')[0]))].map(p=>'· '+p).join('\n'):'')}]);}
  }};
  const lines=[];
  if(k)lines.push('봉인등이 하나씩 꺼진다. 누리느엘의 기록에 반응한 걸까.','철문이 다시 선택을 기다리고 있다.');
@@ -1315,12 +1361,13 @@ function update(dt){
  const ox=P.x,oy=P.y;
  if(spd>3){
   const nx=P.x+P.vx*dt,ny=P.y+P.vy*dt;
-  if(!hit(nx,P.y))P.x=nx;else P.vx*=.3;
-  if(!hit(P.x,ny))P.y=ny;else P.vy*=.3;
+  if(!hit(nx,P.y))P.x=nx;else{P.vx*=.3;if(Math.abs(vx)>Math.abs(vy))cornerSlide(0,Math.sign(vx),dt);}
+  if(!hit(P.x,ny))P.y=ny;else{P.vy*=.3;if(Math.abs(vy)>Math.abs(vx))cornerSlide(1,Math.sign(vy),dt);}
   if(mag>0&&!FPV){P.fx=vx;P.fy=vy;
    if(Math.abs(vx)>Math.abs(vy)*1.15)P.face=vx>0?'r':'l';else if(Math.abs(vy)>Math.abs(vx)*1.15)P.face=vy>0?'d':'u';}
  } else {P.vx=P.vy=0;}
  const moved=Math.hypot(P.x-ox,P.y-oy);
+ if(mag>0&&moved<.25*dt*60){bumpT+=dt;if(bumpT>.35){bumpT=-1.5;bumpHint(vx,vy);}}else if(bumpT>0)bumpT=0;else bumpT=Math.min(0,bumpT+dt);
  P.moving=moved>.05;
  const ww=P.moving?Math.min(1,moved/dt/90):0;
  P.walkW+=(ww-P.walkW)*(1-Math.exp(-dt*(ww>P.walkW?9:12)));
@@ -1357,6 +1404,8 @@ function update(dt){
 
 /* ================= 전투: 노이즈 좀비 · 야구방망이 · 회복 아이템 ================= */
 const HP_MAX=150,Z_DMG=20,Z_CAP=12;
+const PIPES={factory:[[3,23.4,8,0],[3,26.6,8,0],[9.4,13,0,10]],lab:[[3,6.4,30,0],[3,8.6,30,0],[33.6,6,0,24]]};
+const GAS_PTS={factory:[[5,23.4],[9.4,18],[8,26.6]],lab:[[10,6.4],[22,8.6],[33.6,16]]};
 const BAT_N={atk:60,dur:300,crit:.35,critDmg:150},BAT_S={atk:300,dur:1};
 const KILL_RECS={city:['kc1','kc5','kc10'],school:['ks1','ks5','ks10'],factory:['kf1','kf5','kf10'],lab:['kl1','kl5','kl10']};
 const KILL_STEPS=[1,5,10];
@@ -1370,6 +1419,18 @@ function ensureCombatState(){
  if(!S.items)S.items={energy:0,bandage:0,aid:0};
  if(!S.kills)S.kills={};
  if(!S.loot)genAllLoot();
+ if(!S.items.bag&&!COMBAT_AREAS.some(a=>S.loot[a]&&S.loot[a].items.some(i=>i.k==='bag'))){const a=COMBAT_AREAS[Math.floor(Math.random()*COMBAT_AREAS.length)],tl=lootTiles(a),p=tl[Math.floor(Math.random()*tl.length)];if(p)S.loot[a].items.push({x:p[0],y:p[1],k:'bag',got:0});}
+}
+function regenAreaLoot(a){
+ if(!S.loot||!S.loot[a])return;const old=S.loot[a],tl=lootTiles(a),used=new Set();
+ const pick=()=>{for(let k=0;k<40;k++){const p=tl[Math.floor(Math.random()*tl.length)];const key=p[0]+','+p[1];if(!used.has(key)){used.add(key);return p;}}return null;};
+ const keep=old.items.filter(i=>i.k==='bag'||(i.k==='aid'&&!i.got));keep.forEach(i=>used.add(i.x+','+i.y));
+ const bats=[],items=keep.slice();const nb=5+Math.floor(Math.random()*5);
+ for(let i=0;i<nb;i++){const p=pick();if(p)bats.push({x:p[0],y:p[1],sp:Math.random()<.25,got:0});}
+ for(let i=0;i<6;i++){const r=Math.random(),k=r<.3?'energy':r<.6?'bandage':null;if(!k)continue;const p=pick();if(p)items.push({x:p[0],y:p[1],k,got:0});}
+ const aidLeft=COMBAT_AREAS.some(b=>S.loot[b]&&S.loot[b].items.some(i=>i.k==='aid'&&!i.got))||items.some(i=>i.k==='aid'&&!i.got);
+ if(!aidLeft&&Math.random()<.25){const p=pick();if(p)items.push({x:p[0],y:p[1],k:'aid',got:0});}
+ S.loot[a]={bats,items};
 }
 /* ---- 아이템·방망이 배치 ---- */
 const FLOOR_OK={city:[',','.'],school:['f'],factory:['m','v'],lab:['n']};
@@ -1389,20 +1450,26 @@ function genAllLoot(){
   const nb=5+Math.floor(Math.random()*5);for(let i=0;i<nb;i++){const p=pick(a,tl);if(p)bats.push({x:p[0],y:p[1],sp:Math.random()<.25,got:0});}
   for(let i=0;i<6;i++){const r=Math.random(),k=r<.3?'energy':r<.6?'bandage':null;if(!k)continue;const p=pick(a,tl);if(p)items.push({x:p[0],y:p[1],k,got:0});}
   L[a]={bats,items};});
+ {const a=COMBAT_AREAS[Math.floor(Math.random()*COMBAT_AREAS.length)];const p=pick(a,lootTiles(a));if(p)L[a].items.push({x:p[0],y:p[1],k:'bag',got:0});}
  const hits=COMBAT_AREAS.filter(()=>Math.random()<.25);
  if(hits.length){const a=hits[Math.floor(Math.random()*hits.length)];const p=pick(a,lootTiles(a));if(p)L[a].items.push({x:p[0],y:p[1],k:'aid',got:0});}
  S.loot=L;
 }
-const ITEM_NAME={energy:'에너지바',bandage:'붕대',aid:'구급상자'};
+const ITEM_NAME={energy:'에너지바',bandage:'붕대',aid:'구급상자',bag:'가방'};
+function maxBats(){return 3+(S.items&&S.items.bag?3:0);}
 function curBat(){return S.bats&&S.bats[0]||null;}
 function checkPickups(){
+ if(combatOn()&&S.drops&&S.drops[S.area]){const d=S.drops[S.area];if(Math.hypot(d.x-P.x,d.y-P.y)<TS*.7){
+  d.ids.forEach(id=>{if(!has(id))S.records.push(id);});d.contra.forEach(ci=>{if(S.contra.indexOf(ci)<0)S.contra.push(ci);});
+  delete S.drops[S.area];save();updateHUD(true);toast('흩어진 기록을 되찾았다 · '+d.ids.length+'개',COL.white);alog('USER 회수 · 흩어진 기록 '+d.ids.length+'개');}}
  if(!combatOn()||!S.loot||!S.loot[S.area])return;const L=S.loot[S.area],px=P.x,py=P.y-6;
  L.bats.forEach(b=>{if(b.got)return;if(Math.hypot((b.x+.5)*TS-px,(b.y+.5)*TS-py)<TS*.6){
-  if(S.bats.length>=5){if(!b.warn){b.warn=1;toast('방망이를 더 들 수 없다 (최대 5개)');}return;}
+  if(S.bats.length>=maxBats()){if(!b.warn){b.warn=1;toast('방망이를 더 들 수 없다 (최대 '+maxBats()+'개)'+(S.items.bag?'':' · 가방이 있으면 더 들 수 있다'));}return;}
   b.got=1;S.bats.push(b.sp?{sp:true,dur:BAT_S.dur}:{sp:false,dur:BAT_N.dur});save();
   toast(b.sp?'특수 야구방망이 획득 · 공격력 300 · 1회용':'야구방망이 획득 · 공격력 60 · 내구도 300',b.sp?COL.red:undefined);alog('USER 획득 · '+(b.sp?'특수 ':'')+'야구방망이');updateCombatHud(true);}});
  L.items.forEach(it=>{if(it.got)return;if(Math.hypot((it.x+.5)*TS-px,(it.y+.5)*TS-py)<TS*.6){it.got=1;S.items[it.k]=(S.items[it.k]||0)+1;save();
-  toast(ITEM_NAME[it.k]+' 획득',it.k==='aid'?COL.red:undefined);alog('USER 획득 · '+ITEM_NAME[it.k]);updateCombatHud(true);}});
+  if(it.k==='bag'){S.items.bag=1;S.items.bagGot=1;S.items.energy=S.items.energy||0;toast('가방 획득 · 방망이를 '+maxBats()+'개까지 들 수 있다',COL.yellow);}else toast(ITEM_NAME[it.k]+' 획득',it.k==='aid'?COL.red:undefined);
+  alog('USER 획득 · '+ITEM_NAME[it.k]);updateCombatHud(true);}});
 }
 /* ---- 아이템 사용 ---- */
 function useItemKey(k){
@@ -1427,6 +1494,7 @@ function attack(aimX,aimY,charged){
  const targets=ZOMBIES.filter(z=>{if(z.dead||z.born>0)return false;const dx=z.x-cx,dy=(z.y-10)-cy,d=Math.hypot(dx,dy);if(d>range)return false;
   return Math.abs(angDiff(Math.atan2(dy,dx),P.lookA))<=arc||d<TS*.55;});
  if(!targets.length){playSwing(false);return;}
+ atkT=ATK_CD*1.75;
  let used=0;
  targets.forEach(z=>{
   let dmg,crit=false;
@@ -1507,17 +1575,19 @@ function combatUpdate(dt){
 /* ---- 사망 ---- */
 function playerDie(){
  if(dying)return;dying=true;cinema=true;refreshBusy();alog('USER 사망 · 기록 손실');
- const a=S.area,lost=(KILL_RECS[a]||[]).filter(has);
- const f=$('fade');$('deathTxt').innerHTML='<div class="d1">기록이 끊겼다</div><div class="d2">'+(lost.length?'이 지역에서 좀비에게서 얻은 기록 '+lost.length+'개를 잃었다':'이 지역의 처치 기록이 처음으로 돌아간다')+'</div>';
- $('hurt').classList.add('dead');setTimeout(()=>{f.classList.add('on');$('deathTxt').classList.add('on');},500);
+ const a=S.area,lost=(KILL_RECS[a]||[]).filter(has),dx=P.x,dy=P.y;if(!S.drops)S.drops={};const hadDrop=!!S.drops[a];
+ const f=$('fade');$('deathTxt').innerHTML='<div class="d1">기록이 끊겼다</div><div class="d2">'+(lost.length?'좀비에게서 얻은 기록 '+lost.length+'개가 쓰러진 자리에 흩어졌다'+(hadDrop?'<br>먼저 흩어져 있던 기록은 사라졌다':''):(hadDrop?'먼저 흩어져 있던 기록은 사라졌다':'이 지역의 처치 기록이 처음으로 돌아간다'))+'</div>';
+ $('hurt').classList.add('dead');setTimeout(()=>{f.classList.add('on');$('deathTxt').classList.add('on');},150);
  setTimeout(()=>{
   const ids=KILL_RECS[a]||[];S.records=S.records.filter(id=>ids.indexOf(id)<0);
-  S.contra=S.contra.filter(ci=>{const c=CONTRA[ci];return c&&ids.indexOf(c.a)<0&&ids.indexOf(c.b)<0;});
+  const lostC=S.contra.filter(ci=>{const c=CONTRA[ci];return c&&(ids.indexOf(c.a)>=0||ids.indexOf(c.b)>=0);});
+  S.contra=S.contra.filter(ci=>lostC.indexOf(ci)<0);
+  if(lost.length)S.drops[a]={x:dx,y:dy,ids:lost,contra:lostC};else delete S.drops[a];
   S.kills[a]=0;S.hp=HP_MAX;useItem=null;S.past=false;const st=AREA_START[a];P.x=st[0]*TS;P.y=st[1]*TS;P.vx=P.vy=0;
-  clearZombies();zSpawnT=8;save();updateHUD(true);updateCombatHud(true);
+  regenAreaLoot(a);clearZombies();zSpawnT=8;save();updateHUD(true);updateCombatHud(true);
   $('deathTxt').classList.remove('on');$('hurt').classList.remove('dead');f.classList.remove('on');
-  setTimeout(()=>{dying=false;cinema=false;refreshBusy();toast('기록이 다시 시작된다');},500);
- },3600);
+  setTimeout(()=>{dying=false;cinema=false;refreshBusy();toast('기록이 다시 시작된다');},200);
+ },1500);
 }
 /* ---- HUD ---- */
 let chCache='';
@@ -1529,7 +1599,7 @@ function updateCombatHud(force){
  $('hpFill').style.width=(S.hp/HP_MAX*100)+'%';$('hpFill').classList.toggle('low',S.hp<=50);$('hpTxt').textContent='HP '+Math.ceil(S.hp)+' / '+HP_MAX;
  $('wpnName').textContent=b?(b.sp?'특수 방망이 · 1회용':'야구방망이 · '+Math.ceil(b.dur)+'/'+BAT_N.dur):'맨손 · 15';
  $('durFill').style.width=(b?(b.sp?100:b.dur/BAT_N.dur*100):0)+'%';$('durFill').classList.toggle('sp',!!(b&&b.sp));
- $('batCount').textContent=S.bats.length>1?'+'+(S.bats.length-1):'';
+ $('batCount').textContent=S.bats.length+'/'+maxBats()+(S.items.bag?' 가방':'');
  ['energy','bandage','aid'].forEach(i=>{$('ic-'+i).textContent=S.items[i]||0;$('it-'+i).classList.toggle('empty',!(S.items[i]>0));});
  $('killTxt').textContent='처치 '+k+(next?' · 다음 기록 '+next+'킬':' · 처치 기록 모두 획득')+(useItem?' · '+ITEM_NAME[useItem.k]+' 사용 중':'');
  document.body.classList.toggle('lowhp',S.hp<=50);
@@ -1553,6 +1623,10 @@ function drawZombie(z,t){
  if(!z.dead&&z.hp<z.max){fr('rgba(0,0,0,.6)',x-12,y-50,24,3);fr('#c8322d',x-12,y-50,24*z.hp/z.max,3);}
 }
 function drawPickupsAndMarks(t){
+ if(combatOn()&&S.drops&&S.drops[S.area]){const d=S.drops[S.area],pul=.5+.5*Math.sin(t*3);
+  ctx.fillStyle='rgba(242,239,232,'+(.12+.1*pul)+')';ctx.beginPath();ctx.ellipse(d.x,d.y,20,8,0,0,Math.PI*2);ctx.fill();
+  for(let i=0;i<Math.min(6,d.ids.length*2);i++){const a=i*1.9+.4,r=4+(i%3)*5;ctx.save();ctx.translate(d.x+Math.cos(a)*r,d.y-2+Math.sin(a)*r*.5);ctx.rotate(a);
+   fr('rgba(0,0,0,.35)',-4,-2.4,9,6);fr('#e7e3da',-4.5,-3,9,6);fr('#9a968e',-3,-1.4,6,.6);fr('#9a968e',-3,.4,5,.6);if(i===0)fr('#c8322d',-4.5,-3,1.2,6);ctx.restore();}}
  if(!combatOn()||!S.loot||!S.loot[S.area])return;const L=S.loot[S.area];
  L.bats.forEach(b=>{if(b.got)return;const x=(b.x+.5)*TS,y=(b.y+.5)*TS;ctx.save();ctx.translate(x,y);ctx.rotate(-.5+h2(b.x,b.y));
   fr('rgba(0,0,0,.4)',-10,2,22,3);ctx.fillStyle=b.sp?'#8a4a44':'#a39e94';ctx.beginPath();ctx.moveTo(-11,-1.2);ctx.lineTo(4,-2.4);ctx.lineTo(11,-2.6);ctx.lineTo(11,2.6);ctx.lineTo(4,2.4);ctx.lineTo(-11,1.2);ctx.closePath();ctx.fill();
@@ -1560,12 +1634,15 @@ function drawPickupsAndMarks(t){
  L.items.forEach(it=>{const x=(it.x+.5)*TS,y=(it.y+.5)*TS;if(it.got)return;fr('rgba(0,0,0,.35)',x-6,y+3,12,3);
   if(it.k==='energy'){fr('#3a3a3a',x-6,y-3,12,6);fr('#d8b13a',x-6,y-3,3,6);fr('#e7e3da',x-1,y-1.6,5,1);}
   else if(it.k==='bandage'){ctx.fillStyle='#e7e3da';ctx.beginPath();ctx.arc(x,y,4.6,0,Math.PI*2);ctx.fill();ctx.fillStyle='#b9b5ac';ctx.beginPath();ctx.arc(x,y,1.8,0,Math.PI*2);ctx.fill();fr('#e7e3da',x,y-4.6,8,3);}
+  else if(it.k==='bag'){fr('#3a3632',x-7,y-6,14,12);fr('#4a4540',x-7,y-6,14,3);fr('#2a2724',x-5,y-1,10,5);fr('#8a847a',x-1,y,2,2);ctx.strokeStyle='#2a2724';ctx.lineWidth=1.4;ctx.beginPath();ctx.arc(x,y-6,4,Math.PI,0);ctx.stroke();fr('#d8b13a',x+4,y-5,1.4,1.4);}
   else{fr('#f2efe8',x-7,y-5,14,10);fr('#c8322d',x-1.4,y-3.6,2.8,7.2);fr('#c8322d',x-3.6,y-1.4,7.2,2.8);fr('#8a8780',x-2,y-6.4,4,1.6);}});
 }
 function drawMarksOverlay(t){
  if(!combatOn())return;
- if((S.area==='factory'||S.area==='lab')){ctx.save();ctx.globalAlpha=.55;const pipes=S.area==='factory'?[[3,23.4,8,0],[3,26.6,8,0],[9.4,13,0,10]]:[[3,6.4,30,0],[3,8.6,30,0],[33.6,6,0,24]];
+ if((S.area==='factory'||S.area==='lab')){GAS_PTS[S.area].forEach((g,i)=>{for(let k=0;k<3;k++){const ph=(t*.6+k*.33+i*.2)%1;ctx.fillStyle='rgba(225,228,225,'+(.22*(1-ph))+')';ctx.beginPath();ctx.arc(g[0]*TS+Math.sin(k*2+t*1.5)*5,g[1]*TS+ph*26,3+ph*7,0,Math.PI*2);ctx.fill();}});
+  ctx.save();ctx.globalAlpha=.55;const pipes=PIPES[S.area];
   pipes.forEach(p=>{const x=p[0]*TS,y=p[1]*TS;if(p[2]){fr('#141515',x,y-3,p[2]*TS,6);fr('#3a3d3d',x,y-3,p[2]*TS,1.4);for(let i=0;i<p[2];i+=2)fr('#2a2c2c',x+i*TS,y-4,4,8);}else{fr('#141515',x-3,y,6,p[3]*TS);fr('#3a3d3d',x-3,y,1.4,p[3]*TS);}});ctx.restore();}
+ if(S.drops&&S.drops[S.area]){const d=S.drops[S.area];ctx.globalAlpha=.35+.2*Math.sin(t*3);ctx.imageSmoothingEnabled=true;ctx.drawImage(glowSprite('#e7e3da'),d.x-30,d.y-30,60,60);ctx.imageSmoothingEnabled=false;ctx.globalAlpha=1;}
  ZMARK.forEach(mk=>{const p=1-mk.t/3,pul=.5+.5*Math.sin(t*14),x=mk.x,y=mk.y;
   if(mk.kind==='door'||mk.kind==='window'){const wx=(mk.sx+.5)*TS,wy=mk.sy*TS;ctx.fillStyle='rgba(200,50,45,'+(.25+.35*pul)+')';ctx.fillRect(wx-9,wy+6,18,18);ctx.strokeStyle='rgba(224,96,90,.9)';ctx.lineWidth=1.2;ctx.strokeRect(wx-9.5,wy+5.5,19,19);
    if(mk.kind==='window'){ctx.beginPath();ctx.moveTo(wx-6,wy+8);ctx.lineTo(wx+1,wy+15);ctx.lineTo(wx+6,wy+9);ctx.moveTo(wx+1,wy+15);ctx.lineTo(wx-2,wy+22);ctx.stroke();}}
@@ -1602,9 +1679,14 @@ function pickupCanvas(k){if(PKC[k])return PKC[k];const c=document.createElement(
  if(k==='bat'||k==='batsp'){g.translate(16,10);g.rotate(-.2);g.fillStyle=k==='batsp'?'#8a4a44':'#b3ada2';g.beginPath();g.moveTo(-13,-1.4);g.lineTo(5,-2.8);g.lineTo(13,-3.2);g.lineTo(13,3.2);g.lineTo(5,2.8);g.lineTo(-13,1.4);g.closePath();g.fill();g.fillStyle='#1e1e1e';g.fillRect(-13,-1.5,6,3);if(k==='batsp'){g.fillStyle='#c8322d';g.fillRect(-2,-2.8,2.4,5.6);}}
  else if(k==='energy'){g.fillStyle='#3a3a3a';g.fillRect(9,4,14,8);g.fillStyle='#d8b13a';g.fillRect(9,4,4,8);}
  else if(k==='bandage'){g.fillStyle='#e7e3da';g.beginPath();g.arc(16,8,5.5,0,Math.PI*2);g.fill();g.fillStyle='#b9b5ac';g.beginPath();g.arc(16,8,2,0,Math.PI*2);g.fill();}
+ else if(k==='drop'){for(let i=0;i<4;i++){g.save();g.translate(8+i*5,9+(i%2)*2);g.rotate(i*.7-.6);g.fillStyle='#e7e3da';g.fillRect(-4,-3,8,6);g.fillStyle='#9a968e';g.fillRect(-3,-1,6,.6);if(i===0){g.fillStyle='#c8322d';g.fillRect(-4,-3,1,6);}g.restore();}}
+ else if(k==='bag'){g.fillStyle='#3a3632';g.fillRect(9,2,14,13);g.fillStyle='#4a4540';g.fillRect(9,2,14,3);g.fillStyle='#2a2724';g.fillRect(11,8,10,6);g.fillStyle='#d8b13a';g.fillRect(20,3,1.5,1.5);}
  else{g.fillStyle='#f2efe8';g.fillRect(8,3,16,11);g.fillStyle='#c8322d';g.fillRect(14.5,4.5,3,8);g.fillRect(12,7,8,3);}
  return PKC[k]=c;}
 const MKC=document.createElement('canvas');MKC.width=96;MKC.height=96;
+const GASC=document.createElement('canvas');GASC.width=96;GASC.height=96;let GAST=-1;
+function gasFrame(){if(GAST!==NOW){GAST=NOW;const g=GASC.getContext('2d');g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,96,96);g.scale(3,3);
+ for(let i=0;i<5;i++){const ph=(NOW*.6+i*.2)%1;g.fillStyle='rgba(225,228,225,'+(.32*(1-ph))+')';g.beginPath();g.arc(16+Math.sin(i*2+NOW*1.5)*5,3+ph*24,2.5+ph*7,0,Math.PI*2);g.fill();}}return GASC;}
 function markCanvas(t,kind){const g=MKC.getContext('2d');g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,96,96);g.scale(3,3);const pul=.5+.5*Math.sin(t*14);
  if(kind==='pipe'){for(let i=0;i<5;i++){const ph=(t*.8+i*.2)%1;g.fillStyle='rgba(225,228,225,'+(.4*(1-ph))+')';g.beginPath();g.arc(16+Math.sin(i*2+t*2)*5,4+ph*20,3+ph*6,0,Math.PI*2);g.fill();}}
  g.strokeStyle='rgba(224,96,90,'+(.5+.5*pul)+')';g.lineWidth=1.6;g.beginPath();g.ellipse(16,28,12,3.6,0,0,Math.PI*2);g.stroke();
@@ -1614,6 +1696,8 @@ function fpCombatSprites(list){
  ZOMBIES.forEach(z=>{if(z.dead&&z.deadT>.35)return;const f=Math.floor(NOW*10+z.ph*3)%4;list.push({x:z.x/TS,y:(z.y-6)/TS,sp:[.95,.7,'#5c5a55',0],img:zombieFrame(z.v,f),src:[0,0,96,132],zb:z});});
  if(S.loot&&S.loot[S.area]){const L=S.loot[S.area];L.bats.forEach(b=>{if(!b.got)list.push({x:b.x+.5,y:b.y+.5,sp:[.16,.5,'#a39e94',0],img:pickupCanvas(b.sp?'batsp':'bat'),src:[0,0,96,48]});});
   L.items.forEach(it=>{if(!it.got)list.push({x:it.x+.5,y:it.y+.5,sp:[.16,.5,'#e7e3da',0],img:pickupCanvas(it.k),src:[0,0,96,48]});});}
+ if(S.drops&&S.drops[S.area]){const d=S.drops[S.area];list.push({x:d.x/TS,y:d.y/TS,sp:[.22,.6,'#e7e3da',0],img:pickupCanvas('drop'),src:[0,0,96,48]});}
+ if(GAS_PTS[S.area])GAS_PTS[S.area].forEach(gp=>list.push({x:gp[0],y:gp[1],sp:[.55,.5,'#e1e4e1',.4],img:gasFrame(),src:[0,0,96,96]}));
  ZMARK.forEach(mk=>{const c=document.createElement('canvas');c.width=96;c.height=96;c.getContext('2d').drawImage(markCanvas(NOW,mk.kind),0,0);list.push({x:mk.x/TS,y:mk.y/TS,sp:[mk.kind==='pipe'?1:.5,.8,'#c8322d',0],img:c,src:[0,0,96,96]});});
 }
 function drawFPWeapon(){
@@ -1673,7 +1757,7 @@ window.addEventListener('resize',resize);resize();
 function h2(x,y){let n=(x*374761393+y*668265263)|0;n=Math.imul(n^(n>>>13),1274126177);return ((n^(n>>>16))>>>0)/4294967295;}
 function hexA(h,a){const n=parseInt(h.slice(1),16);return 'rgba('+((n>>16)&255)+','+((n>>8)&255)+','+(n&255)+','+a+')';}
 function fr(c,x,y,w,h){ctx.fillStyle=c;ctx.fillRect(x,y,w,h);}
-function isWall(t){return t==='#'||t==='G'||t==='g'||t==='M'||t==='L'||t==='K'||t==='Q'||t==='J';}
+function isWall(t){return t==='#'||t==='G'||t==='g'||t==='M'||t==='L'||t==='K'||t==='Q'||t==='J'||t==='P';}
 let NOW=0;
 const PAST=['#f4b6c2','#b9e4cf','#bfd0f6','#f6dfa8','#d8c6f1','#ffd1b3'];
 function pastel(x,y){return PAST[Math.floor(h2(Math.floor(x/3)+7,Math.floor(y/3)+3)*PAST.length)%PAST.length];}
@@ -2091,6 +2175,8 @@ TP['Q']=(g,R,x,y)=>steelDoor(g,R,{plate:'비상 통로',ps:2.6,pad:1,padC:'#c832
 TP['q']=(g,R,x,y)=>openDoor(g,R,{glow:'200,50,45',jamb:'#5a2422'});
 TP['J']=(g,R,x,y)=>steelDoor(g,R,{seam:1,plate:'폐쇄 실험실',ps:2.6,l:'#30343a',d:'#1e2024'});
 TP['j']=(g,R,x,y)=>openDoor(g,R,{glow:'143,166,200',jamb:'#4a5568'});
+TP['P']=(g,R,x,y)=>steelDoor(g,R,{seam:1,plate:'NURI 회의실',ps:2.6,l:'#34383f',d:'#202228',padC:'#d8b13a'});
+TP['p']=(g,R,x,y)=>openDoor(g,R,{glow:'216,200,160',jamb:'#4a4a52'});
 TP['K']=(g,R,x,y)=>{fillc(g,'#141516',0,0,32,32);g.fillStyle=lg(g,2,0,30,0,[[0,'#3c3f42'],[1,'#26282b']]);g.fillRect(2,1,28,31);
  fillc(g,'#4c4f52',2,1,28,.7);fillc(g,'#1a1c1e',15.6,1,.8,31);fillc(g,'#4c4f52',16.4,1,.3,31);
  for(let i=0;i<5;i++){bolt(g,4,4+i*6,'#5c5f62');bolt(g,28,4+i*6,'#5c5f62');}
@@ -2101,7 +2187,8 @@ TP['K']=(g,R,x,y)=>{fillc(g,'#141516',0,0,32,32);g.fillStyle=lg(g,2,0,30,0,[[0,'
 TP['k']=(g,R,x,y)=>{fillc(g,'#060707',0,0,32,32);g.fillStyle=lg(g,0,0,0,32,[[0,'rgba(170,200,230,.03)'],[1,'rgba(170,200,230,.16)']]);g.fillRect(3,0,26,32);
  for(const xx of [0,29]){fillc(g,'#d8b13a',xx,0,3,32);for(let k=2;k<32;k+=8)fillc(g,'#141414',xx,k,3,3);}
  fillc(g,'#2a2c2e',3,0,4,32);fillc(g,'#3c3f42',3,0,.6,32);fillc(g,'#0e0f10',7,0,.8,32);};
-TP['m']=(g,R,x,y)=>{const p=S.past,b=p?112:40;
+TP['m']=(g,R,x,y)=>{paintMetalFloor(g,R,x,y);factoryGuides(g,x,y);};
+function paintMetalFloor(g,R,x,y){const p=S.past,b=p?112:40;
  fillc(g,grayc(b),0,0,32,32);
  for(let yy=0;yy<32;yy+=4)for(let xx=((yy/4)%2)*2;xx<32;xx+=4){g.save();g.translate(xx+1,yy+1.5);g.rotate(((xx+yy)/2)%2?.62:-.62);fillc(g,grayc(b+13),-1.4,-.35,2.8,.7);fillc(g,grayc(b-11),-1.4,.35,2.8,.3);g.restore();}
  fillc(g,grayc(b-15),0,31.4,32,.6);fillc(g,grayc(b-15),31.4,0,.6,32);fillc(g,grayc(b+9),0,0,32,.4);fillc(g,grayc(b+6),0,0,.4,32);
@@ -2109,7 +2196,16 @@ TP['m']=(g,R,x,y)=>{const p=S.past,b=p?112:40;
  if(!p){if(R()<.32){g.fillStyle=rg(g,16,16,0,7,[[0,'rgba(0,0,0,.38)'],[1,'rgba(0,0,0,0)']]);g.save();g.translate(R()*16-8,R()*16-8);g.fillRect(0,0,32,32);g.restore();}
   if(R()<.25){g.fillStyle='rgba(80,64,50,.25)';g.beginPath();g.ellipse(R()*32,R()*32,3+R()*4,2+R()*3,0,0,Math.PI*2);g.fill();}
   speck(g,R,0,0,32,32,60,38,14);}
-};
+}
+function factoryGuides(g,x,y){
+ const sol=t=>SOLID.has(t)||t==='X'||t==='K'||t==='L';const L=sol(tile(x-1,y)),Rr=sol(tile(x+1,y)),U=sol(tile(x,y-1)),D=sol(tile(x,y+1));
+ const Y=S.past?'rgba(170,150,60,.55)':'rgba(216,177,58,.75)';
+ const dash=(x0,y0,w,h)=>{const hz=w>h;for(let i=0;i<(hz?w:h);i+=6){g.fillStyle=Y;hz?g.fillRect(x0+i,y0,4,h):g.fillRect(x0,y0+i,w,4);}};
+ if(U){g.fillStyle=lg(g,0,0,0,7,[[0,'rgba(0,0,0,.45)'],[1,'rgba(0,0,0,0)']]);g.fillRect(0,0,32,7);dash(0,2,32,1.4);}
+ if(D)dash(0,28.6,32,1.4);if(L){g.fillStyle=lg(g,0,0,5,0,[[0,'rgba(0,0,0,.35)'],[1,'rgba(0,0,0,0)']]);g.fillRect(0,0,5,32);dash(2,0,1.4,32);}if(Rr)dash(28.6,0,1.4,32);
+ if((L&&Rr)||(U&&D)){g.strokeStyle='rgba(216,177,58,.45)';g.lineWidth=1.4;g.lineCap='round';
+  for(let k=0;k<2;k++){const o=10+k*9;g.beginPath();if(L&&Rr){g.moveTo(11,o+4);g.lineTo(16,o);g.lineTo(21,o+4);}else{g.moveTo(o+4,11);g.lineTo(o,16);g.lineTo(o+4,21);}g.stroke();}g.lineCap='butt';}
+}
 TP['v']=(g,R,x,y)=>{TP['m'](g,R,x,y);const p=S.past;
  g.fillStyle=rg(g,16,16,4,14,[[0,'rgba(0,0,0,0)'],[1,p?'rgba(0,0,0,0)':'rgba(30,26,22,.35)']]);g.fillRect(0,0,32,32);
  fillc(g,'#0a0b0b',5.5,8.5,21,15);fillc(g,'#3a3d3d',5.5,8.5,21,.6);fillc(g,'#1e2020',5.5,23,21,.6);
@@ -2388,6 +2484,11 @@ OP.nlstand=(g,R)=>{shE(g,16,28,14,3.5,.12);
  for(let i=0;i<6;i++)fillc(g,i%2?'#ffffff':'#d8c6f1',1+i*5,2,5,1);
  for(let i=0;i<3;i++)fillc(g,'#f6f3ed',6,10+i*.8,20,6-i*.4);fillc(g,'#9d7ae6',6,10.2,20,2);
  for(let i=0;i<4;i++)fillc(g,'#a9a59c',7.5,13.4+i*.9,8+R()*8,.35);tx(g,'누리느엘 일보',16,22.6,2.2,'#6c5a9a');};
+OP.dpanel=(g,R,o)=>{shE(g,16,28,9,2.4,.45);
+ g.fillStyle=lg(g,9,0,23,0,[[0,'#2c3036'],[1,'#1a1d21']]);g.fillRect(11,12,10,16);fillc(g,'#3a3f46',11,12,10,.7);
+ g.fillStyle='#0d1015';rr(g,6,0,20,14,1.4);g.fill();fillc(g,'#2b2f35',6,0,20,.8);
+ g.fillStyle=rg(g,16,7,1,12,[[0,'#2d3a22'],[1,'#121810']]);g.fillRect(7.5,1.5,17,10.5);
+ fillc(g,'#d8b13a',9,3,8,.8);for(let i=0;i<3;i++)fillc(g,'rgba(216,177,58,.55)',9,5.4+i*1.8,6+R()*8,.5);fillc(g,'#c8322d',22,2.4,1.2,1.2);glassFill(g,7.5,1.5,17,10.5,.8);};
 OP.b3sign=(g,R)=>{fillc(g,'rgba(0,0,0,.35)',5.6,6.6,22,15);fillc(g,'#1e2022',5,6,22,14.4);fillc(g,'#2e3134',5.6,6.6,20.8,13.2);fillc(g,'#3e4144',5.6,6.6,20.8,.5);
  tx(g,'B3',11.6,15.6,6,'#e7e3da');g.fillStyle='#d8b13a';g.beginPath();g.moveTo(20,10);g.lineTo(24,10);g.lineTo(24,14);g.lineTo(26,14);g.lineTo(22,18.4);g.lineTo(18,14);g.lineTo(20,14);g.closePath();g.fill();
  tx(g,'지하 연구시설',16,19.2,2,'#9a968e');[[6.4,7.6],[25.6,7.6],[6.4,18.8],[25.6,18.8]].forEach(q=>bolt(g,q[0],q[1],'#5a5d60'));};
@@ -2734,6 +2835,7 @@ function drawTile(t,x,y){
 function objGlowColor(o){
  if(o.rec)return has(o.rec)?null:COL[R[o.rec].color];
  switch(o.id){
+  case 'nuripanel':return S.flags.nuriDoor?null:COL.yellow;
   case 'keypad':return S.flags.gateOpen?null:COL.yellow;
   case 'fuse':return S.flags.hasFuse?null:COL.yellow;
   case 'console':return S.flags.broadcastDone?null:COL.yellow;
@@ -3050,7 +3152,7 @@ function draw(t){
 }
 
 /* ================= 1인칭 (레이캐스팅) ================= */
-const FP_WALL=new Set(['#','B','V','X','S','Q','J','L','K','G','M']);
+const FP_WALL=new Set(['#','B','V','X','S','Q','J','L','K','G','M','P']);
 const fpc=document.createElement('canvas'),fctx=fpc.getContext('2d');
 const RGBC={};function rgb(h){if(RGBC[h])return RGBC[h];const n=parseInt(h.slice(1),16);return RGBC[h]=[(n>>16)&255,(n>>8)&255,n&255];}
 function mixc(c,f,t){return 'rgb('+Math.round(c[0]+(f[0]-c[0])*t)+','+Math.round(c[1]+(f[1]-c[1])*t)+','+Math.round(c[2]+(f[2]-c[2])*t)+')';}
@@ -3075,13 +3177,13 @@ function wallH(t){if(t==='V')return 4;if(t==='B')return 1.8;if(t==='#'&&S.area==
 const SPR={stand:[.6,.7,'#4d4d4d'],phone:[1.25,.6,'#333333'],graffiti:[.3,1.2,'#7a2422',.4],radio:[.35,.65,'#2a2f2f',.3],busstop:[1.3,.35,'#8d8a83'],mailbox:[.35,.4,'#444444',.35],
  keypad:[.28,.28,'#2a2a2a',.45],book:[.45,.6,'#4a4a48'],board:[.4,1.6,'#1d221e',.35],camera:[.62,.45,'#3a3a3a'],docs:[.45,.6,'#4a4a48'],speaker:[.2,.35,'#3d3d3d',.65],
  fuse:[.5,.6,'#4d4d4d'],memo:[.45,.6,'#d8dee8'],console:[.62,.8,'#333333'],hatch:[.04,.65,'#3a3a38'],exitdoor:[.95,.9,'#403b39'],monitor:[.62,.7,'#1d2b44'],
- lever:[.45,.35,'#2b2d2d',.3],gen:[.95,1.7,'#2f3131'],device:[.6,.55,'#eaf2ff',.25],coat:[.9,.42,'#eef2fa'],ghost:[.88,.42,'#b4cbf2'],sign:[.35,.5,'#6b5a1a',.45],b3sign:[.36,.58,'#2a2c2e',.42],nlstand:[.6,.7,'#f6f3ed'],
+ lever:[.45,.35,'#2b2d2d',.3],gen:[.95,1.7,'#2f3131'],device:[.6,.55,'#eaf2ff',.25],coat:[.9,.42,'#eef2fa'],ghost:[.88,.42,'#b4cbf2'],sign:[.35,.5,'#6b5a1a',.45],b3sign:[.36,.58,'#2a2c2e',.42],dpanel:[.75,.5,'#1a1d21'],nlstand:[.6,.7,'#f6f3ed'],
  terminal:[.75,1.3,'#15171a'],term:[.62,.7,'#1b2536'],recorder:[.3,.6,'#3c3f44'],tank:[1.15,.6,'#9fc4d8'],codepad:[.26,.45,'#5a4c18',.42],portal:[1.15,1.5,'#d8dce6'],
  irondoor:[1.7,2.9,'#3a3533'],clock:[1.25,.38,'#f4f4f0'],tower:[2.3,1.9,'#d8c6f1'],nphone:[1.25,.6,'#e87a8a'],nstop:[1.3,.35,'#bfd0f6'],schooldoor:[.95,.9,'#8fa9d6'],
  kiosk:[1.25,.8,'#b9e4cf'],upstair:[.95,.7,'#fafafa'],downstair:[.95,.7,'#fafafa'],hallexit:[.05,.7,'#d9c7a3'],person:[.88,.42,'#888888'],core:[1.5,1.7,'#ffffff',.1],
  pedestal:[.55,.45,'#fafafa'],retgate:[.75,.6,'#e8eaf2'],chair31:[.5,.5,'#fafafa'],card:[.06,.35,'#e89aa8']};
 const FIG=new Set(['coat','ghost','person']);
-const FPTEX={nlstand:[1,2,30,26],b3sign:[5,6,22,15],phone:[5,-18,22,46],nphone:[5,-18,22,46],stand:[1,2,30,26],busstop:[1,-19,30,47],nstop:[1,-19,30,47],mailbox:[5,7,22,20],keypad:[8,7,16,22],radio:[1,4,30,25],
+const FPTEX={dpanel:[6,0,20,28],nlstand:[1,2,30,26],b3sign:[5,6,22,15],phone:[5,-18,22,46],nphone:[5,-18,22,46],stand:[1,2,30,26],busstop:[1,-19,30,47],nstop:[1,-19,30,47],mailbox:[5,7,22,20],keypad:[8,7,16,22],radio:[1,4,30,25],
  graffiti:[-10,6,52,24],book:[4,4,24,16],camera:[4,4,24,16],docs:[4,4,24,16],memo:[4,4,24,16],board:[-16,1,64,26],speaker:[9,6,14,12],fuse:[2,3,28,25],console:[0,0,32,28],
  exitdoor:[0,0,32,32],monitor:[2,0,28,19],lever:[8,4,16,23],gen:[-12,2,56,26],sign:[6,6,20,15],terminal:[-10,-12,52,40],term:[3,0,26,27],recorder:[4,10,24,15],tank:[4,-12,24,42],
  codepad:[22,7,20,17],irondoor:[-6,-44,108,76],tower:[5,-72,54,104],schooldoor:[0,0,32,32],kiosk:[1,-13,30,41],upstair:[4,4,24,28],downstair:[4,4,24,28],pedestal:[7,4,18,26],chair31:[7,3,18,24]};
@@ -3101,12 +3203,12 @@ function rubble3D(x,y){
  if(R()<.5){const h=.3+R()*.25;out.push({bar:{x:x+.3+R()*.4,y:y+.3+R()*.4,sp:[h,.025,'#1c1c1c'],col:'#1c1c1c'}});}
  return RUB3D[key]=out;
 }
-const BOXT=new Set(['nlstand','b3sign','stand','phone','graffiti','radio','mailbox','keypad','book','board','camera','docs','speaker','fuse','memo','console','hatch','exitdoor','monitor','lever','gen','sign','terminal','term','recorder','tank','codepad','irondoor','tower','nphone','nstop','schooldoor','kiosk','upstair','downstair','hallexit','pedestal','chair31','busstop']);
+const BOXT=new Set(['dpanel','nlstand','b3sign','stand','phone','graffiti','radio','mailbox','keypad','book','board','camera','docs','speaker','fuse','memo','console','hatch','exitdoor','monitor','lever','gen','sign','terminal','term','recorder','tank','codepad','irondoor','tower','nphone','nstop','schooldoor','kiosk','upstair','downstair','hallexit','pedestal','chair31','busstop']);
 function lighten(h,f){const c=rgb(h);return '#'+c.map(v=>Math.min(255,Math.round(v*f)).toString(16).padStart(2,'0')).join('');}
 const LOWT={r:[.35,.95,'#4f4f4f'],c:[.5,1,'#474747'],d:[.42,.78,'#4a4a4a'],C:[.5,.55,null],T:[1.7,.14,'#161616']};
 /* 바닥 텍스처 투영 (1인칭) */
 const FTEXC={};
-const FLOOR_OF={'Z':'Z','k':'k',',':',','.':'.','f':'f','m':'m','n':'n','w':'w','o':'o','Y':'Y','R':'R','W':'W','v':'v','c':'.','g':'.','G':'.','T':',','N':'o','C':'w','S':'n','q':'n','j':'n','d':'f','H':'f','U':'U'};
+const FLOOR_OF={'p':'p','Z':'Z','k':'k',',':',','.':'.','f':'f','m':'m','n':'n','w':'w','o':'o','Y':'Y','R':'R','W':'W','v':'v','c':'.','g':'.','G':'.','T':',','N':'o','C':'w','S':'n','q':'n','j':'n','d':'f','H':'f','U':'U'};
 function floorTexData(t,x,y){
  const key=S.area+t+(S.past?1:0)+'|'+x+','+y;let d=FTEXC[key];if(d)return d;
  const cv2=tileCanvas(t,x,y).cv;let data=null;
@@ -3219,6 +3321,9 @@ function drawFP(t){
   else if(tt==='d')bx.bands=[[0,.3,S.past?'#5e5e5b':'#1c1c1c'],[.3,.36,S.past?'#8f8c84':'#2c2b28'],[.36,.42,S.past?'#cfcbc1':'#5b5954']];
   else if(tt==='C')bx.bands=[[0,.2,'#cfcbd8'],[.2,.3,col]];
   boxes.push(bx);}
+ if(combatOn()&&PIPES[S.area])PIPES[S.area].forEach(p=>{const hz=p[2]>0,L=hz?p[2]:p[3];
+  boxes.push(hz?{x0:p[0],x1:p[0]+L,y0:p[1]-.07,y1:p[1]+.07,z0:.86,z1:.95,col:'#2c2f2f',top:'#3a3d3d',ceil:1}:{x0:p[0]-.07,x1:p[0]+.07,y0:p[1],y1:p[1]+L,z0:.86,z1:.95,col:'#2c2f2f',top:'#3a3d3d',ceil:1});
+  for(let i=0;i<=L;i+=2)boxes.push(hz?{x0:p[0]+i-.06,x1:p[0]+i+.06,y0:p[1]-.11,y1:p[1]+.11,z0:.84,z1:.97,col:'#454848',top:'#555',ceil:1}:{x0:p[0]-.11,x1:p[0]+.11,y0:p[1]+i-.06,y1:p[1]+i+.06,z0:.84,z1:.97,col:'#454848',top:'#555',ceil:1});});
  if(S.area==='city')CARS.forEach(cr=>{const hh=cr.d==='h';const x0=cr.x+(hh?.05:.12),x1=cr.x+(hh?1.95:.88),y0=cr.y+(hh?.14:.05),y1=cr.y+(hh?.86:1.95);
   if(Math.abs((x0+x1)/2-posX)>R2+1||Math.abs((y0+y1)/2-posY)>R2+1)return;const md=carModel(cr),v=Math.max(0,Math.min(255,Math.round(md.base*.95)));
   const col='#'+[v+md.tint[0],v+md.tint[1],v+md.tint[2]].map(q=>Math.max(0,Math.min(255,Math.round(q))).toString(16).padStart(2,'0')).join('');
@@ -3251,7 +3356,7 @@ function drawFP(t){
    else if(b.bands)b.bands.forEach(q=>{if(q[1]>z1)return;const y1=hor+la*(.5-q[1]),y0=hor+la*(.5-q[0]),bc=rgb(q[2]);c.fillStyle=mixc([Math.min(255,bc[0]*sh),Math.min(255,bc[1]*sh),Math.min(255,bc[2]*sh)],fog,ft);c.fillRect(x,y1,1,y0-y1+1);});
    let topY=yT;
    if(z1<.5){const yF=hor+lb*(.5-z1);const tc=rgb(b.top);c.fillStyle=mixc([Math.min(255,tc[0]*lit),Math.min(255,tc[1]*lit),Math.min(255,tc[2]*lit)],fog,ft);c.fillRect(x,yF,1,yT-yF+1);topY=yF;}
-   if(ta<nearT[x]){nearT[x]=ta;nearY[x]=topY;}
+   if(!b.ceil&&ta<nearT[x]){nearT[x]=ta;nearY[x]=topY;}
   }
  }
  const inv=1/(plX*dirY-dirX*plY);
@@ -3435,7 +3540,7 @@ function endTrue(){
  $('endCard').classList.add('hidden');
  wipeSave();addEnding('TRUE');
  const loop=addLoop();
- serifLines(['모든 기록을 품에 안고, 철문을 열었다.','처음으로, 기록은 하나도 지워지지 않았다.','눈부신 빛. 그리고 바깥 공기.'],1800,()=>{
+ serifLines(['모든 기록을 품에 안고, 철문을 열었다.','처음으로, 기록은 하나도 지워지지 않았다.','쓰러뜨린 노이즈 좀비들이 떠오른다. 얼굴은 없었다. 기록되지 못했으니까.','그들은 누리느엘에 닿지 못한 사람들의 남겨진 몸이었다.','우리가 죽인 것은, 괴물이 아니었다.','눈부신 빛. 그리고 바깥 공기.'],1800,()=>{
   el.classList.add('hidden');endOpen=false;cinema=true;refreshBusy();$('hud').classList.add('hidden');$('feed').classList.add('hidden');
   S.area='city';S.past=false;P.x=5.5*TS;P.y=27.6*TS;P.fx=0;P.fy=1;document.body.classList.remove('bright');
   setTimeout(()=>say(['밖으로 나왔다.','그런데……','처음 이 도시에서 눈을 떴던 장소다.','같은 건물. 같은 도로. 같은 전화기. 같은 풍경.'],()=>{
@@ -3474,7 +3579,7 @@ function eraseRecords(cls,then){
 }
 function truthText(){
  const box=$('endLines');box.innerHTML='';
- const lines=['기록은 모두 지워졌다.','하지만 나는 기억한다.','2011년 10월 14일 17시 02분. PROJECT NURI는 누리느엘을 열었다.','도시 사람들은 사라진 것이 아니었다. 기록되었을 뿐이다. 끝나지 않는 그날 속에.','신문은 그날을 지웠고, 정부는 영상이 없다고 했다. 그래도 기록은 살아 있었다.','그리고 그 모든 것을 지켜본 31번째 관측 대상.','…기록자. 나.','나는 도시를 떠났다. 진실을 안 채로.'];
+ const lines=['기록은 모두 지워졌다.','하지만 나는 기억한다.','2011년 10월 14일 17시 02분. PROJECT NURI는 누리느엘을 열었다.','도시 사람들은 사라진 것이 아니었다. 기록되었을 뿐이다. 끝나지 않는 그날 속에.','폐허를 떠돌던 노이즈 좀비들은, 누리느엘에 들어가지 못한 사람들의 남겨진 몸이었다.','우리가 죽인 것은, 괴물이 아니었다.','신문은 그날을 지웠고, 정부는 영상이 없다고 했다. 그래도 기록은 살아 있었다.','그리고 그 모든 것을 지켜본 31번째 관측 대상.','…기록자. 나.','나는 도시를 떠났다. 진실을 안 채로.'];
  let i=0;
  (function next(){
   if(i<lines.length){const d=document.createElement('div');d.className='fl';d.textContent=lines[i];box.appendChild(d);i++;setTimeout(next,1700);}

@@ -74,9 +74,9 @@ button:focus-visible{outline:2px solid var(--bone);outline-offset:2px}
 .itemsbar button.empty{opacity:.4}.itemsbar b{color:#e7e3da}
 #killTxt{font-family:var(--term);font-size:11px;color:var(--dust)}
 body.bright #combat .wpn,body.bright #killTxt{color:#4a4856}
-#hurt{position:fixed;inset:0;pointer-events:none;z-index:17;background:rgba(120,0,0,0);transition:background .4s}
+#hurt{position:fixed;inset:0;pointer-events:none;z-index:17;background:rgba(120,0,0,0);transition:background .2s}
 #hurt.dead{background:rgba(120,0,0,.55)}
-#deathTxt{position:fixed;inset:0;z-index:21;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;pointer-events:none;opacity:0;transition:opacity .8s;text-align:center;padding:20px}
+#deathTxt{position:fixed;inset:0;z-index:21;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;pointer-events:none;opacity:0;transition:opacity .25s;text-align:center;padding:20px}
 #deathTxt.on{opacity:1}#deathTxt .d1{font-family:var(--serif);font-size:clamp(28px,6vw,44px);color:#c8322d;letter-spacing:.2em}#deathTxt .d2{font-size:14px;color:#cfcbc2}
 #btnAtk{right:calc(20px + env(safe-area-inset-right,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 26px);width:96px;height:96px;font-size:17px;border-color:rgba(200,50,45,.7)}
 #btnAct{bottom:calc(env(safe-area-inset-bottom,0px) + 132px)!important;right:calc(26px + env(safe-area-inset-right,0px))!important;width:70px!important;height:70px!important;font-size:14px}
