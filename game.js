@@ -13,7 +13,7 @@ const R={
  news:{title:'삼실일보 1면',type:'신문',place:'폐허 도시, 가판대',date:'2011.10.15',color:'red',
   text:'석말공장 사고, "단순 기계 고장"\n\n14일 새벽 4시경 석말공장에서 발생한 사고는 냉각 설비의 단순 기계 고장으로 확인됐다. 시는 만일에 대비해 14일 하루 관내 모든 학교에 휴교령을 내렸다. 인명 피해는 없다.\n\n기사 아래, 누군가 볼펜으로 눌러 쓴 글씨. "거짓말."'},
  photo:{title:'빛바랜 폴라로이드',type:'사진',place:'폐허 도시, 버려진 승용차',date:'2011.10.14',color:'red',
-  text:'조수석에 떨어져 있던 사진 한 장.\n\n교복 입은 아이들이 "한결중학교 축제" 현수막 앞에서 웃고 있다. 뒤편 강당 시계는 오후 3시를 가리킨다.\n\n뒷면의 글씨. "2011. 10. 14. 축제 끝! 서윤이랑."'},
+  text:'조수석에 떨어져 있던 사진 한 장.\n\n교복 입은 아이들이 "한결중학교 축제" 현수막 앞에서 웃고 있다. 뒤편 강당 시계는 오후 3시를 가리킨다.\n\n뒷면의 글씨. "2011. 10. 14. 축제 끝! 서윤이랑."\n\n사진을 찍은 사람은 사진 속에 없다. 그런데 뒷면의 글씨체가, 이상하게 낯익다.'},
  phone:{title:'공중전화 녹음',type:'전화기',place:'폐허 도시, 공중전화 부스',date:'날짜 불명',color:'white',
   text:'끊긴 줄 알았던 회선에서 흘러나온 목소리.\n\n"거기 누구 있어요? 신문은 믿지 마세요. 그날, 학교엔 사람들이 있었어요. 다들 아직… 아직 거기서……"\n\n마지막으로, 잡음 속에서. "……기록자님?"',
   pages:[{t:'수화기를 들자, 끊긴 줄 알았던 회선에서 잡음이 흘러나온다.'},{s:'???',t:'……거기 누구 있어요?'},{s:'???',t:'신문은 믿지 마세요. 그날, 학교엔 사람들이 있었어요.'},{s:'???',t:'다들 아직… 아직 거기서……'},{s:'???',t:'(치지직) ……기록자님?'},{t:'뚝. 신호가 끊겼다.\n…왜 이 사람은 나를 알고 있지?'}]},
@@ -51,6 +51,8 @@ const R={
   text:'그건 사고가 아니었다. 우리는 문을 열었다.\n\n정비 매뉴얼의 레버 순서는 거짓이다. 매뉴얼대로 당기면 발전기가 폭주한다. 윗선이 일부러 그렇게 적어 두었다. 아무도 다시 켜지 못하게.\n\n안전한 순서는 그날 그 사람이 당긴 순서뿐이다. 흰 코트, 노트. 그 사람은 처음부터 모든 것을 적고 있었다.'},
  manual:{title:'제3발전기 정비 매뉴얼',type:'공장 기록',place:'거대 공장, 레버실',date:'2009.03.01',color:'yellow',
   text:'제3발전기 재가동 절차.\n\n1. A 레버를 당긴다.\n2. B 레버를 당긴다.\n3. C 레버를 당긴다.\n\n※ 순서를 반드시 지킬 것.'},
+ genlog:{title:'제3발전기 운전 기록',type:'공장 기록',place:'거대 공장, 발전기실',date:'2011.10.14',color:'yellow',
+  text:'발전기 옆 감열지 프린터에서 길게 늘어진 자동 기록.\n\n16:40 정지 명령 수신 — 거부 (NURI 우선 명령)\n16:58 출력 100%\n17:00 출력 220% — 냉각 설비 정상\n17:02 출력 340% — 지시에 의한 과부하\n\n고장 기록: 없음\n마지막 기동 절차: B → C → A (조작자: 미등록 사용자)\n\n17:02 이후로는 한 줄도 찍혀 있지 않다.'},
  power:{title:'비상 전력 배분표',type:'공장 기록',place:'거대 공장, 발전기실',date:'날짜 불명',color:'red',esc:true,
   text:'제3발전기 비상 전력 배분표.\n\nB3 지하 연구시설 서버실: 공급 중\nB3 비상 탈출구 잠금장치: 공급 중\n\n경고: 비상 탈출구를 개방하면 ARCHIVE 저장 장치의 전원이 차단됩니다.\n\n탈출구로 이어지는 세 번째 기록이다.'},
  nuriel:{title:'PROJECT NURI 최종 목표',type:'연구 자료',place:'거대 공장, 폐쇄된 실험실',date:'2011.10.01',color:'nuri',
@@ -68,7 +70,7 @@ const R={
  code:{title:'최종 잠금 해제 코드',type:'연구 자료',place:'지하 연구시설, ARCHIVE실',date:'날짜 불명',color:'red',esc:true,
   text:'비상 탈출구 최종 잠금 해제 코드.\n\n코드 = [관측 대상의 수] + [누리느엘 개방 시각의 분]\n\n네 자리. 기록을 기억하는 자만 문을 열 수 있다.\n\n탈출구로 이어지는 마지막 기록이다.'},
  notfirst:{title:'피험자 31 관찰 기록',type:'연구 자료',place:'지하 연구시설, 폐쇄된 실험실',date:'2026.10.14',color:'red',
-  text:'피험자 31. 스스로를 기록자라 인식함. 이전 회차의 기억 없음.\n\n회차: 5\n\n마지막 줄, 붉은 펜으로 덧쓴 글씨.\n\n"기록자는 이곳에 처음 온 사람이 아니다."'},
+  text:'피험자 31. 스스로를 기록자라 인식함. 이전 회차의 기억 없음.\n\n관측자는 관측되지 않는다. 피험자 31의 얼굴은 어떤 영상에도 남지 않는다.\n\n회차: 5\n\n마지막 줄, 붉은 펜으로 덧쓴 글씨.\n\n"기록자는 이곳에 처음 온 사람이 아니다."'},
  c0400:{title:'광장의 가로등 시계',type:'시계',place:'누리느엘, 광장',date:'04:00',color:'white',
   text:'광장 가로등에 매달린 시계는 04시 00분에서 멈춰 있다.\n\n신문이 말한 사고 시각이다. 그런데 이 시계만 유독 색이 바래 있다. 누군가 억지로 바늘을 돌려 놓은 것처럼.'},
  c1500:{title:'강당 시계',type:'시계',place:'누리느엘, 홀',date:'15:00',color:'nuri',
@@ -80,18 +82,18 @@ const R={
  c1702:{title:'서윤의 손목시계',type:'시계',place:'누리느엘, 홀',date:'17:02',color:'nuri',
   text:'서윤의 손목시계는 17시 02분에서 멈춰 있다.\n\n방송이 흘러나오고, 누리느엘이 열린 시각.'},
  seoyun:{title:'한서윤',type:'사람',place:'누리느엘, 홀',date:'2011.10.14',color:'nuri',
-  text:'홀 한가운데, 교복 차림의 소녀가 웃고 있다. 폴라로이드 속 그 얼굴이다.\n\n"오늘 축제 진짜 재밌었지? 내일도 축제야. 모레도."\n\n"여기선 아무도 늙지 않아. 아무것도 끝나지 않아. …근데 너는 왜 자꾸 떠나?"'},
+  text:'홀 한가운데, 교복 차림의 소녀가 웃고 있다. 폴라로이드 속 그 얼굴이다.\n\n"오늘 축제 진짜 재밌었지? 내일도 축제야. 모레도."\n\n"너 그날 하루 종일 노트에 뭘 적었잖아. 내 이름도, 내 얼굴도. 그래서 나는 여기 온전히 있는 거래."\n\n"여기선 아무도 늙지 않아. 아무것도 끝나지 않아. …근데 너는 왜 자꾸 떠나?"'},
  phone2:{title:'누리느엘의 공중전화',type:'전화기',place:'누리느엘, 광장',date:'날짜 불명',color:'red',
   text:'수화기를 들자, 입이 저절로 움직였다.\n\n"……거기 누구 있어요? 신문은 믿지 마세요. 그날, 학교엔 사람들이 있었어요."\n\n도시의 공중전화에서 들었던 그 목소리. 그건 나였다.',
   pages:[{t:'공중전화가 울린다. 수화기를 들었다.'},{t:'상대편에서는 잡음만 들린다. 그런데 내 입이 저절로 움직였다.'},{s:'나',t:'……거기 누구 있어요?'},{s:'나',t:'신문은 믿지 마세요. 그날, 학교엔 사람들이 있었어요.'},{s:'나',t:'다들 아직… 아직 거기서……'},{s:'나',t:'……기록자님?'},{t:'뚝.'},{t:'도시의 공중전화에서 들었던 목소리.\n그건, 나였다.'}]},
  nlcore:{title:'기록자의 기록',type:'기록',place:'누리느엘, 중심부',date:'모든 회차',color:'nuri',
-  text:'모든 회차의 기록자가 남긴 한 권의 기록.\n\n1회차: 문을 열었다. 잊었다.\n2회차: 문을 열었다. 잊었다.\n3회차: 이곳에서 빛에 닿았다. 기록이 되었다.\n4회차: 문을 열었다. 진실을 안 채 떠났다. 그리고 다시 DAY 1.\n5회차: 기록을 지켰다. 이곳에 왔다. 되돌아갔다.\n\n한 번도, 모든 기록을 가져간 적은 없다.\n\n6회차: ____'}
+  text:'모든 회차의 기록자가 남긴 한 권의 기록.\n\n1회차: 축제 날, 노트에 모두를 적었다. 17:02, 문이 열렸다.\n2회차: 흰 코트를 입고 레버를 당겼다. 같은 날을 다시 열기 위해. 그리고 잊었다.\n3회차: 이곳에서 빛에 닿았다. 기록이 되었다.\n4회차: 문을 열었다. 진실을 안 채 떠났다. 그리고 다시 DAY 1.\n5회차: 기록을 지켰다. 이곳에 왔다. 되돌아갔다.\n\n한 번도, 모든 기록을 가져간 적은 없다.\n\n6회차: ____'}
  ,kc1:{title:'노이즈 좀비의 주민증',type:'처치 기록',place:'폐허 도시, 쓰러진 좀비',date:'날짜 불명',color:'white',
   text:'쓰러진 좀비의 주머니에서 나온 삼실특별시 주민등록증.\n\n사진 칸의 얼굴만 지지직거리는 노이즈로 번져 있다. 이름과 주소는 멀쩡한데.\n\n이 사람은 이 도시에 살던 주민이었다.'}
  ,kc5:{title:'구겨진 쪽지',type:'처치 기록',place:'폐허 도시, 쓰러진 좀비',date:'2011.10.14',color:'white',
   text:'손에 꽉 쥐고 있던 쪽지.\n\n"오늘 5시 전에 학교 앞으로. 누리느엘에 같이 들어가면, 다시는 헤어지지 않아도 된대."\n\n좀비는 쓰러지기 직전까지 쪽지를 놓지 않았다.'}
- ,kc10:{title:'멈춘 손목시계',type:'처치 기록',place:'폐허 도시, 쓰러진 좀비',date:'17:02',color:'red',
-  text:'열 번째로 쓰러진 좀비의 손목시계.\n\n바늘은 17시 02분에 멈춰 있다. 지금까지 쓰러뜨린 좀비들의 시계도, 하나같이 같은 시각이었다.'}
+ ,kc10:{title:'적히지 못한 이름',type:'처치 기록',place:'폐허 도시, 쓰러진 좀비',date:'2011.10.14',color:'red',
+  text:'열 번째로 쓰러진 좀비가 쥐고 있던 종이. 손으로 쓴 명단이다.\n\n"기록자에게 이름을 적어 달라고 하면 사라지지 않는대."\n\n그 아래로 이름이 길게 이어지고, 이름마다 체크 표시가 있다. 마지막 줄에만 체크가 없다.\n\n이 사람은, 차례를 기다리다 17시 02분을 맞았다.'}
  ,ks1:{title:'학생 명찰',type:'처치 기록',place:'폐교, 쓰러진 좀비',date:'2011.10.14',color:'white',
   text:'작은 좀비가 달고 있던 한결중학교 명찰. 2학년 3반.\n\n이름은 출석부에서 본 이름 중 하나다. 그날 "출석"으로 적혀 있던 아이.'}
  ,ks5:{title:'가정통신문',type:'처치 기록',place:'폐교, 쓰러진 좀비',date:'2011.10.10',color:'white',
@@ -101,7 +103,7 @@ const R={
  ,kf1:{title:'작업자 출입증',type:'처치 기록',place:'거대 공장, 쓰러진 좀비',date:'2011.10.14',color:'white',
   text:'석말공장 제3구역 작업자 출입증. 마지막 출입 기록: 16:59 입장.\n\n작업 일지에는 16시 40분에 전원 철수했다고 적혀 있었다.'}
  ,kf5:{title:'방독면 필터',type:'처치 기록',place:'거대 공장, 쓰러진 좀비',date:'날짜 불명',color:'yellow',
-  text:'좀비가 쓰고 있던 방독면의 필터. 측면에 "NURI 가스 차단용 · 시험품" 라벨.\n\n필터 안쪽이 하얀 가루로 가득하다. 막지 못한 것이다.'}
+  text:'좀비가 쓰고 있던 방독면의 필터. 측면에 "누리 신호 차단용 · 시험품" 라벨.\n\n필터 안쪽에 하얀 빛 가루가 가득하다. 공장 배관에서 새어 나오는 하얀 안개와 같은 것이다. 막지 못한 것이다.'}
  ,kf10:{title:'NURI 팀 배지',type:'처치 기록',place:'거대 공장, 쓰러진 좀비',date:'2011.10.01',color:'red',
   text:'흰 가운을 입은 좀비의 가슴에 달린 배지. "PROJECT NURI · 개방 담당".\n\n문을 연 사람들도, 들어가지 못했다.'}
  ,kl1:{title:'연구원 ID 카드',type:'처치 기록',place:'지하 연구시설, 쓰러진 좀비',date:'2011.10.14',color:'white',
@@ -111,13 +113,13 @@ const R={
  ,kl10:{title:'몸에 박힌 기록 장치',type:'처치 기록',place:'지하 연구시설, 쓰러진 좀비',date:'실시간',color:'red',
   text:'열 번째 좀비의 목덜미에 작은 장치가 박혀 있다. 화면에 한 줄.\n\n"ARCHIVE · SUBJECT BODY · STATUS: RECORDING"\n\n좀비들도 기록되고 있었다.'}
  ,nurimeet:{title:'NURI 결정 회의록',type:'회의록',place:'지하 연구시설, NURI 회의실',date:'2011.10.07',color:'nuri',
-  text:'[안건] 삼실특별시 "소실 현상" 대응\n\n올해 7월부터 시민들이 기록에서 사라지고 있다. 사진 속 얼굴이 먼저 노이즈로 번지고, 서류에서 이름이 지워지고, 마지막에는 사람 자체가 사라진다. 지금까지 412명.\n\n석말공장 지하에서 발견된 누리 신호의 분석 결과: 관측되지 않는 것은 존재를 잃는다. 이 도시는 관측을 잃어 가고 있다.\n\n[결론] 누리느엘 — 모든 것이 영원히 관측되고 기록되는 공간. 그곳에 들어간 사람은 다시는 사라지지 않는다.\n\n개방일: 10월 14일 17시. 축제에 시민이 가장 많이 모이는 시각.'}
+  text:'[안건] 삼실특별시 "소실 현상" 대응\n\n올해 7월부터 시민들이 기록에서 사라지고 있다. 사진 속 얼굴이 먼저 노이즈로 번지고, 서류에서 이름이 지워지고, 마지막에는 사람 자체가 사라진다. 지금까지 412명.\n\n석말공장 지하에서 발견된 누리 신호의 분석 결과: 관측되지 않는 것은 존재를 잃는다. 이 도시는 관측을 잃어 가고 있다.\n\n[결론] 누리느엘 — 모든 것이 영원히 관측되고 기록되는 공간. 그곳에 들어간 사람은 다시는 사라지지 않는다.\n\n[조건] 누리느엘을 열고 유지하려면, 모든 것을 빠짐없이 적는 관측자가 필요하다. 지정: 관측 대상 31번.\n\n개방일: 10월 14일 17시. 축제에 시민이 가장 많이 모이는 시각.'}
  ,nurialt:{title:'기각된 대안 보고서',type:'보고서',place:'지하 연구시설, NURI 회의실',date:'2011.10.05',color:'yellow',
   text:'[대안 1] 도시 전체 이주 — 기각.\n시험 이주한 세 가구의 사진도 새 주소에서 지워졌다. 소실은 장소가 아니라 사람을 따라온다.\n\n[대안 2] 석말공장 가동 중단 — 기각.\n사흘간 멈추자 소실 속도가 두 배가 되었다. 누리 신호가 약해지면 관측도 함께 줄어든다. 공장은 멈출 수 없다.\n\n[대안 3] 전 시민 기록 보관(ARCHIVE만 운영) — 기각.\n기록은 남지만 사람은 계속 사라진다. "기록만 남은 도시"가 될 뿐이다.\n\n[대안 4] 단계적 시험 개방 — 중단.\n관측 대상 31명 중 일부에게서 영혼과 육체가 분리되는 현상 확인. 그러나 소실이 가속되어, 남은 시간이 없다.\n\n→ 전면 개방으로 결정.'}
  ,nuriobj:{title:'마지막 반대 의견',type:'메모',place:'지하 연구시설, NURI 회의실',date:'2011.10.07',color:'red',
   text:'회의록에 실리지 않은 한 장.\n\n"영혼만 들어가고 몸이 남는다면, 남은 몸은 누가 기록합니까? 우리는 사람을 구하는 게 아니라, 사람을 둘로 쪼개는 겁니다."\n\n"표결 18 대 1. 반대한 사람은 나 하나였다. 그래도 적어 둔다. 언젠가 누군가 이걸 읽고, 남겨진 쪽을 기억해 주기를."'}
  ,nlpaper:{title:'누리느엘 일보',type:'신문',place:'누리느엘, 광장 가판대',date:'매일 10월 14일',color:'nuri',
-  text:'[1면] 들어오지 못한 사람들\n\n17시 02분, 많은 이들이 누리느엘로 향했다. 그러나 모두가 온전히 들어오지는 못했다. 영혼은 이곳에 닿았지만, 육체는 폐허에 남았다.\n\n남겨진 몸에는 의식이 없다. 얼굴은 기록되지 않아 노이즈로 번지고, 본능만 남아 움직인다. 폐허를 떠도는 그들은 괴물이 아니다.\n\n그러니 누리느엘에는 그들이 없다. 그들은 이미, 여기 있으니까.'}
+  text:'[1면] 들어오지 못한 사람들\n\n17시 02분, 많은 이들이 누리느엘로 향했다. 기록자의 노트에 적힌 사람은 온전히 닿았다. 적히지 못한 사람은 영혼만 이곳에 닿고, 육체는 폐허에 남았다.\n\n남겨진 몸에는 의식이 없다. 얼굴은 기록되지 않아 노이즈로 번지고, 본능만 남아 움직인다. 폐허를 떠도는 그들은 괴물이 아니다.\n\n그러니 누리느엘에는 그들이 없다. 그들은 이미, 여기 있으니까.'}
 };
 const TOTAL=Object.keys(R).length;
 const CONTRA=[
@@ -137,10 +139,14 @@ const CONTRA=[
   text:'정부 문서는 10월 14일의 공장 CCTV 기록이 존재하지 않는다고 한다.\n하지만 나는 지금 그 영상을 보고 있다.\n\n누군가 기록이 없다고 발표했다. 기록은 지워지지 않았다.'},
  {a:'news',b:'worklog',title:'새벽의 사고는 없었다',
   text:'신문은 새벽 4시의 냉각 설비 고장이라고 했다.\n작업 일지의 새벽 4시 점검 결과는 "이상 없음".\n\n무언가가 일어난 건 17시 02분, 기록이 끊긴 바로 그 순간이다.'},
+ {a:'genlog',b:'govdoc',title:'고장 나지 않은 발전기',text:'재난조사위원회: 사고 원인은 냉각 설비 기계 고장.\n발전기 운전 기록: 냉각 설비 정상, 고장 기록 없음. 340%는 "지시에 의한 과부하".\n\n발전기는 고장 난 게 아니다. 누군가 일부러 한계까지 돌렸다.'},
+ {a:'genlog',b:'manual',flag:'manualLie',title:'기록된 기동 순서',text:'정비 매뉴얼: A → B → C.\n발전기 운전 기록의 마지막 기동 절차: B → C → A.\n\n발전기가 마지막으로 기억하는 순서는 매뉴얼과 다르다.'},
+ {a:'genlog',b:'worklog',title:'거부된 정지 명령',text:'작업 일지: 16시 40분, 작업자 전원 철수.\n발전기 운전 기록: 16시 40분, 정지 명령 수신 — 거부.\n\n사람들은 물러났지만, 발전기는 멈추라는 명령을 듣지 않았다.'},
+ {a:'genlog',b:'cctv',title:'등록되지 않은 조작자',text:'발전기 운전 기록: 마지막 기동 조작자는 "미등록 사용자".\nCCTV: 흰 코트의 사람이 레버를 당긴다. 얼굴은 노이즈에 가려져 있다.\n\n어떤 기록에도 등록되지 않는 사람. 관측하는 쪽은, 관측되지 않는다.'},
  {a:'manual',b:'resdiary',flag:'manualLie',title:'거짓 매뉴얼',
   text:'매뉴얼은 A, B, C 순서를 지시한다.\n연구원은 매뉴얼대로 당기면 발전기가 폭주한다고 적었다.\n\n믿을 수 있는 건 그날 흰 코트의 사람이 당긴 순서뿐이다.'},
  {a:'cctv',b:'video',title:'노트를 든 사람',
-  text:'축제 영상 속 "기록자" 명찰의 학생. CCTV 속 흰 코트의 사람.\n둘 다 무언가를 계속 적고 있다.\n\n같은 날, 같은 도시. 기록자는 어디에나 있었다.'},
+  text:'축제 영상 속 "기록자" 명찰의 학생. CCTV 속 흰 코트의 어른.\n둘 다 같은 노트에 무언가를 계속 적고 있다.\n\n학생은 처음의 나. 흰 코트는, 같은 날로 다시 돌아온 나.'},
  {a:'nuri',b:'nuriel',title:'지워진 이름',
   text:'학교의 보고서에서 검게 지워져 있던 네 글자.\n공장의 문서는 그 이름을 숨기지 않는다.\n\n누리느엘. 도시가 사라진 이유는 그곳에 있다.'},
  {a:'accesslog',b:'diary2',title:'매년 같은 날',
@@ -161,7 +167,7 @@ const CONTRA=[
   text:'관찰 기록의 회차는 5.\n기록자의 기록에 남은 다섯 번의 선택.\n\n이번이 여섯 번째다. 그리고 아직, 모든 기록을 가져간 적은 없다.'},
  {a:'kc1',b:'nlpaper',title:'얼굴 없는 사람들',text:'주민증 사진의 얼굴만 노이즈로 번져 있었다.\n누리느엘 일보는 들어오지 못한 이들의 얼굴은 기록되지 않는다고 한다.\n\n노이즈 좀비는, 이 도시의 주민이었다.'},
  {a:'kc5',b:'board',title:'같은 약속',text:'좀비의 쪽지: "누리느엘에 같이 들어가면 헤어지지 않아도 된대."\n칠판의 글씨: "그곳에서 만나."\n\n그들은 도망친 게 아니라, 스스로 그곳으로 향했다.'},
- {a:'kc10',b:'broadcast',title:'멈춘 시각',text:'좀비들의 시계는 모두 17시 02분.\n마지막 대피 방송도 17시 02분.\n\n그 순간, 사람들은 몸을 두고 떠났다.'},
+ {a:'kc10',b:'deleted',title:'적히지 못한 사람들',text:'복구된 보고: 관측된 사람들은 사라지지 않고 기록이 되었다.\n좀비의 명단: 기록자에게 이름을 적어 달라며 줄을 섰다. 마지막 줄은 끝내 적히지 못했다.\n\n적힌 사람은 들어갔고, 적히지 못한 사람은 몸으로 남았다.'},
  {a:'ks1',b:'roll',title:'출석한 아이',text:'출석부에 "출석"으로 적힌 이름.\n같은 이름의 명찰을 단 좀비.\n\n내가 쓰러뜨린 것은, 그날 학교에 있던 아이였다.'},
  {a:'ks5',b:'news',title:'통신문은 휴교를 몰랐다',text:'신문은 14일 하루 휴교령이 있었다고 했다.\n가정통신문은 축제를 예정대로 연다고, 17시에 특별 행사가 있다고 알렸다.\n\n그 "특별 행사"가 누리느엘의 개방이었다.'},
  {a:'ks10',b:'notfirst',title:'빈 31번 자리',text:'담임의 수첩: 31번 자리는 끝까지 비어 있었다.\n피험자 31: 스스로를 기록자라 인식함.\n\n그날 31번은 교실이 아니라, 모두를 기록하는 자리에 있었다.'},
@@ -176,7 +182,8 @@ const CONTRA=[
  {a:'nurialt',b:'archive',title:'기각된 대안이 남았다',text:'기각된 대안 3: ARCHIVE만 운영하면 "기록만 남은 도시"가 된다.\n지금 이 도시에는 사람이 없고, ARCHIVE만 돌아가고 있다.\n\n버린 대안이, 결국 이 도시의 모습이 되었다.'},
  {a:'nuriobj',b:'nlpaper',title:'예견된 몸',text:'반대 의견: "남은 몸은 누가 기록합니까?"\n누리느엘 일보: 영혼은 닿았지만 육체는 폐허에 남았다.\n\n단 한 사람이 경고한 일이, 그대로 일어났다.'},
  {a:'nurimeet',b:'kc1',title:'소실의 흔적',text:'회의록: 사라지는 사람은 먼저 사진 속 얼굴이 노이즈로 번진다.\n좀비의 주민증: 얼굴만 노이즈로 지워져 있었다.\n\n좀비의 노이즈는, 소실이 남긴 자국이다.'},
- {a:'nlpaper',b:'seoyun',title:'들어간 사람',text:'누리느엘 일보: 모두가 온전히 들어오지는 못했다.\n홀의 서윤은 웃으며 내일도 축제라고 말한다.\n\n서윤은, 온전히 들어온 몇 안 되는 사람이다.'}
+ {a:'nlpaper',b:'seoyun',title:'적어 준 사람',text:'누리느엘 일보: 기록되지 못한 사람은 몸을 남겼다.\n서윤: "너가 내 얼굴을 적어 줬잖아. 그래서 나는 여기 온전히 있어."\n\n서윤은 기록자가 끝까지 적어 준 사람이었다.'},
+ {a:'cctv',b:'notfirst',title:'노이즈 속 얼굴',text:'CCTV 속 흰 코트의 얼굴은 노이즈에 가려져 있다.\n피험자 31 관찰 기록: 관측자의 얼굴은 어떤 영상에도 남지 않는다.\n\n레버를 당긴 그 사람은, 나였다.'}
 ];
 const ESC=[{id:'map',l:'출입구 위치 기록',a:'폐허 도시'},{id:'broadcast',l:'대피 방송 기록',a:'폐교'},{id:'power',l:'전력 공급 기록',a:'거대 공장'},{id:'code',l:'최종 잠금 해제 코드',a:'지하 연구시설'}];
 
@@ -882,14 +889,22 @@ function pull(L){
   say(lines);return;
  }
  if(leverSeq.length<3){say(['쿵. '+L+' 레버가 내려갔다. 어딘가에서 기계가 한 단계 깨어나는 소리가 난다.']);return;}
- S.flags.power=true;leverSeq=[];save();shakeT=.8;flash(COL.yellow);
- say(['마지막 레버가 내려가자, 공장 전체가 깊게 숨을 들이쉬었다.','천장의 경고등이 하나씩 노랗게 켜진다. 제3발전기가 돌아간다.','멀리서 잠겨 있던 문들이 열리는 소리가 들린다.']);
+ leverSeq=[];genConfirm();
+}
+function genConfirm(){
+ const powerOn=()=>{S.flags.power=true;S.flags.genAuth=1;save();shakeT=.8;flash(COL.yellow);alog('USER 기동 · 제3발전기');
+  say(['마지막 확인이 끝나자, 공장 전체가 깊게 숨을 들이쉬었다.','천장의 경고등이 하나씩 노랗게 켜진다. 제3발전기가 돌아간다.','멀리서 잠겨 있던 문들이 열리는 소리가 들린다.']);};
+ if(S.flags.genAuth){powerOn();return;}
+ const fail=()=>{shakeT=.4;alarmT=1.2;alog('USER 기동 거부 · 사고 원인 불일치');
+  say([{s:'제어 패널',t:'입력한 원인이 운전 기록과 일치하지 않습니다.\n기동을 거부합니다.'},'내려갔던 레버가 다시 위로 튕겨 올라갔다.',has('genlog')?'…발전기 옆에 늘어져 있던 운전 기록을 다시 떠올려 보자.':'…발전기실에 이 발전기의 운전 기록이 남아 있을지도 모른다.']);};
+ say(['세 번째 레버가 내려가자 발전기실의 제어 패널이 깨어났다.',{s:'제어 패널',t:'재기동 전 확인.\n2011.10.14 17:02 정지의 원인을 입력하십시오.',c:[{l:'냉각 설비 기계 고장',f:fail},{l:'작업자의 조작 실수',f:fail},{l:'NURI 지시에 의한 과부하',f:powerOn},{l:'외부 정전',f:fail}]}]);
 }
 function leverPastAct(o){
  say([{s:'CCTV 속 과거',t:'흰 코트의 사람이 '+o.L+' 레버를 '+['첫','두','세'][o.n-1]+' 번째로 당긴다.'}]);
 }
 function genAct(){
- if(!S.flags.power){say(['멈춰 있는 제3발전기. 거대한 날개가 먼지를 뒤집어쓰고 있다.','레버실에서 전원 계통을 올려야 움직일 것 같다.']);return;}
+ if(!S.flags.power){if(!has('genlog')){say(['멈춰 있는 제3발전기. 거대한 날개가 먼지를 뒤집어쓰고 있다.','옆의 감열지 프린터에서 종이가 바닥까지 길게 늘어져 있다.'],()=>readRecord({rec:'genlog'}));return;}
+  say(['멈춰 있는 제3발전기. 레버실에서 전원 계통을 올려야 움직일 것 같다.','기동하려면 제어 패널이 사고 원인을 확인하려 할 것이다.']);return;}
  if(!has('power')){say(['돌아가는 발전기 옆, 제어 패널에 배분표가 떠 있다.'],()=>readRecord({rec:'power'}));return;}
  readRecord({rec:'power'});
 }
@@ -1019,7 +1034,7 @@ function launchCardGame(){
  if(el){try{html=JSON.parse(el.textContent);}catch(e){}
   if(!html){say(['…카드 게임을 불러오지 못했다.']);return;}
   html=html.replace('<head>','<head><script>window.__RUINS_USER='+JSON.stringify(ru).replace(/</g,'\\u003c')+';<\/script>');}
- cardOpen=true;cgResult=null;refreshBusy();alog('USER 미니게임 · 서윤의 카드 게임');
+ cardOpen=true;cgResult=null;refreshBusy();alog('USER 미니게임 · 서윤의 카드 게임');if(window.RuinsAudio)RuinsAudio.duck(true);
  const w=$('cgWrap');w.classList.remove('hidden','show');void w.offsetWidth;w.classList.add('cap');
  setTimeout(()=>{const f=document.createElement('iframe');f.id='cgFrame';f.title='서윤의 카드 게임';f.setAttribute('allow','autoplay');
   if(html)f.srcdoc=html;else f.src='cardgame.html?name='+encodeURIComponent(ru.name)+'&colored='+(ru.colored?1:0);
@@ -1028,7 +1043,7 @@ function launchCardGame(){
 }
 function closeCardGame(){
  if(!cardOpen)return;if(cgAuto){clearTimeout(cgAuto);cgAuto=null;}const w=$('cgWrap');w.classList.remove('show','cap');
- setTimeout(()=>{$('cgFrameBox').innerHTML='';w.classList.add('hidden');cardOpen=false;refreshBusy();
+ setTimeout(()=>{$('cgFrameBox').innerHTML='';w.classList.add('hidden');cardOpen=false;refreshBusy();if(window.RuinsAudio)RuinsAudio.duck(false);
   const r=cgResult;alog('USER 미니게임 종료'+(r?' · '+r:''));
   if(r==='win')say([{s:'한서윤',t:'…내가 졌네. 너 이거 처음 하는 거 맞아?'},{s:'한서윤',t:'이상하다. 예전에도 누가 이렇게 날 이긴 것 같은데.'}]);
   else if(r==='lose')say([{s:'한서윤',t:'헤헤, 내가 이겼다.'},{s:'한서윤',t:'내일 또 하자. 내일도 축제니까.'}]);
@@ -1248,6 +1263,11 @@ function updateHUD(force){
 }
 $('pastBtn').onclick=togglePast;
 setTimeout(initLayoutEdit,0);
+document.addEventListener('pointerdown',()=>{if(window.RuinsAudio)RuinsAudio.unlock();});
+document.addEventListener('keydown',()=>{if(window.RuinsAudio)RuinsAudio.unlock();});
+function sndLabel(){const b=$('sndBtn');if(b&&window.RuinsAudio)b.textContent=RuinsAudio.isMuted()?'소리 꺼짐':'소리 켜짐';}
+$('sndBtn').onclick=()=>{if(!window.RuinsAudio)return;RuinsAudio.unlock();RuinsAudio.setMuted(!RuinsAudio.isMuted());sndLabel();toast(RuinsAudio.isMuted()?'배경음을 껐어요':'배경음을 켰어요');};
+setTimeout(sndLabel,0);
 let landLocked=false;
 function orientLabel(){const b=$('orientBtn');if(b)b.textContent=landLocked?'고정 해제':'가로 고정';}
 async function toggleLandscape(){
@@ -3327,8 +3347,8 @@ function drawFP(t){
  if(S.area==='city')CARS.forEach(cr=>{const hh=cr.d==='h';const x0=cr.x+(hh?.05:.12),x1=cr.x+(hh?1.95:.88),y0=cr.y+(hh?.14:.05),y1=cr.y+(hh?.86:1.95);
   if(Math.abs((x0+x1)/2-posX)>R2+1||Math.abs((y0+y1)/2-posY)>R2+1)return;const md=carModel(cr),v=Math.max(0,Math.min(255,Math.round(md.base*.95)));
   const col='#'+[v+md.tint[0],v+md.tint[1],v+md.tint[2]].map(q=>Math.max(0,Math.min(255,Math.round(q))).toString(16).padStart(2,'0')).join('');
-  boxes.push({x0,x1,y0,y1,z0:0,z1:.56,col,top:lighten(col,1.22),img:carSideCanvas(cr).cv,src:[0,12,192,78],texSide:hh?1:0,
-   bands:[[0,.1,'#0d0d0d'],[.1,.14,'#5a5a5a'],[.3,.47,'#15171a'],[.47,.56,lighten(col,1.15)]]});});
+  boxes.push({x0,x1,y0,y1,z0:0,z1:.56,col,top:lighten(col,.92),shade:.42,img:carSideCanvas(cr).cv,src:[0,4*CSC,64*CSC,26*CSC],texSide:hh?1:0,
+   bands:[[0,.1,'#0d0d0d'],[.1,.14,'#3a3a3a'],[.3,.47,'#15171a'],[.47,.56,lighten(col,.95)]]});});
  const nearT=new Float32Array(W).fill(1e9),nearY=new Float32Array(W).fill(H);
  if(boxes.length||planes.length)for(let x=0;x<W;x++){
   const cam=2*x/W-1,rx=dirX+plX*cam,ry=dirY+plY*cam,hits=[];
@@ -3346,12 +3366,12 @@ function drawFP(t){
    if(b.rough){const u=h[2]?posX+ta*rx:posY+ta*ry,q=Math.floor(u*22)+b.rough*31,n1=h2(q,b.rough),n2=h2(Math.floor(u*9)+7,b.rough*3);
     z1=b.z0+(b.z1-b.z0)*(.72+.42*n2);tex=.72+.4*n1;}
    const yT=hor+la*(.5-z1),yB=hor+la*(.5-b.z0),ft=Math.min(1,Math.pow(ta/maxD,1.5));
-   const lit=S.area==='nl'&&pal.fog==='#e9edf5'?1:1+.9*Math.max(0,1-ta/(maxD*.55)),sh=(h[2]?.78:1)*lit*tex,cc=rgb(b.col);
+   const lit=S.area==='nl'&&pal.fog==='#e9edf5'?1:1+.9*Math.max(0,1-ta/(maxD*.55)),sh=(h[2]?.78:1)*(b.shade?Math.min(lit,1.15)*(1-b.shade*.6):lit)*tex,cc=rgb(b.col);
    c.fillStyle=mixc([Math.min(255,cc[0]*sh),Math.min(255,cc[1]*sh),Math.min(255,cc[2]*sh)],fog,ft);c.fillRect(x,yT,1,yB-yT+1);
    if(b.img&&ft<.98&&(b.texSide===undefined||h[2]===b.texSide)){const hx=posX+ta*rx,hy=posY+ta*ry;let u=h[2]?(hx-b.x0)/(b.x1-b.x0):(hy-b.y0)/(b.y1-b.y0);u=Math.max(0,Math.min(.999,u));
     c.imageSmoothingEnabled=true;c.drawImage(b.img,b.src[0]+u*b.src[2],b.src[1],Math.max(1,b.src[2]/Math.max(1,(b.x1-b.x0)*la)),b.src[3],x,yT,1,yB-yT+1);c.imageSmoothingEnabled=false;
-    if(h[2]){c.fillStyle='rgba(0,0,0,.2)';c.fillRect(x,yT,1,yB-yT+1);}
-    if(lit>1.01){c.globalCompositeOperation='lighter';c.fillStyle='rgba(255,255,255,'+((lit-1)*.08).toFixed(3)+')';c.fillRect(x,yT,1,yB-yT+1);c.globalCompositeOperation='source-over';}
+    {const ds=1-(1-(h[2]?.2:0))*(1-(b.shade||0));if(ds>.01){c.fillStyle='rgba(0,0,0,'+ds.toFixed(3)+')';c.fillRect(x,yT,1,yB-yT+1);}}
+    if(lit>1.01&&!b.shade){c.globalCompositeOperation='lighter';c.fillStyle='rgba(255,255,255,'+((lit-1)*.08).toFixed(3)+')';c.fillRect(x,yT,1,yB-yT+1);c.globalCompositeOperation='source-over';}
     if(ft>.01){c.fillStyle='rgba('+fog[0]+','+fog[1]+','+fog[2]+','+ft.toFixed(3)+')';c.fillRect(x,yT,1,yB-yT+1);}}
    else if(b.bands)b.bands.forEach(q=>{if(q[1]>z1)return;const y1=hor+la*(.5-q[1]),y0=hor+la*(.5-q[0]),bc=rgb(q[2]);c.fillStyle=mixc([Math.min(255,bc[0]*sh),Math.min(255,bc[1]*sh),Math.min(255,bc[2]*sh)],fog,ft);c.fillRect(x,y1,1,y0-y1+1);});
    let topY=yT;
@@ -3431,7 +3451,7 @@ function loop(now){
   if(avg>.034&&RS>.5){RS=Math.max(.5,RS-.15);resize();}else if(avg<.019&&RS<1){RS=Math.min(1,RS+.1);resize();}}}
  if(shakeT>0)shakeT-=dt;if(alarmT>0)alarmT-=dt;
  update(dt);draw(now/1000);
- hudT+=dt;if(hudT>.25&&started){hudT=0;updateHUD();updateCombatHud();$('recTime').textContent=fmt(S.time);}
+ hudT+=dt;if(hudT>.25&&started){hudT=0;updateHUD();updateCombatHud();if(window.RuinsAudio)RuinsAudio.setScene(S.area+(S.past?'_past':'')+(S.area==='factory'&&S.flags.power?'_pow':''));$('recTime').textContent=fmt(S.time);}
  requestAnimationFrame(loop);
 }
 requestAnimationFrame(loop);
