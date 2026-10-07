@@ -1509,16 +1509,16 @@ function cancelCharge(){chargeT=-1;chargeAim=null;}
 function attack(aimX,aimY,charged){
  if(busy()||atkT>0||useItem)return;
  if(aimX!==undefined&&!FPV){P.lookA=Math.atan2(aimY-(P.y-10),aimX-P.x);P.fx=Math.cos(P.lookA);P.fy=Math.sin(P.lookA);const ca=P.fx,sa=P.fy;P.face=Math.abs(ca)>Math.abs(sa)?(ca>0?'r':'l'):(sa>0?'d':'u');}
- atkT=ATK_CD;swingT=SWING;swingCharged=!!charged;
+ atkT=ATK_CD*(curBat()?1:1.95);swingT=SWING;swingCharged=!!charged;
  const b=curBat(),cx=P.x,cy=P.y-10,range=TS*(charged?1.75:1.55),arc=charged?1.25:1.0;
  const targets=ZOMBIES.filter(z=>{if(z.dead||z.born>0)return false;const dx=z.x-cx,dy=(z.y-10)-cy,d=Math.hypot(dx,dy);if(d>range)return false;
   return Math.abs(angDiff(Math.atan2(dy,dx),P.lookA))<=arc||d<TS*.55;});
  if(!targets.length){playSwing(false);return;}
- atkT=ATK_CD*1.75;
+ atkT=.95*(b?1:1.95);
  let used=0;
  targets.forEach(z=>{
   let dmg,crit=false;
-  if(!b)dmg=15;else if(b.sp)dmg=BAT_S.atk;else{crit=Math.random()<(charged?.5:BAT_N.crit);dmg=crit?BAT_N.critDmg:BAT_N.atk;}
+  if(!b)dmg=10;else if(b.sp)dmg=BAT_S.atk;else{crit=Math.random()<(charged?.5:BAT_N.crit);dmg=charged?(crit?BAT_N.critDmg:BAT_N.atk):(crit?75:30);}
   z.hp-=dmg;z.flash=.15;used+=dmg;
   const ka=Math.atan2(z.y-P.y,z.x-P.x),kb=(charged?340:170)+(crit?70:0)+(b&&b.sp?120:0);
   z.kx=Math.cos(ka)*kb;z.ky=Math.sin(ka)*kb;z.stun=charged?.5:.22;
@@ -1617,7 +1617,7 @@ function updateCombatHud(force){
  const key=[Math.ceil(S.hp),b?b.sp+'/'+Math.ceil(b.dur):'x',S.bats.length,S.items.energy,S.items.bandage,S.items.aid,k,useItem?Math.ceil(useItem.t*10):0].join('|');
  if(!force&&key===chCache)return;chCache=key;
  $('hpFill').style.width=(S.hp/HP_MAX*100)+'%';$('hpFill').classList.toggle('low',S.hp<=50);$('hpTxt').textContent='HP '+Math.ceil(S.hp)+' / '+HP_MAX;
- $('wpnName').textContent=b?(b.sp?'특수 방망이 · 1회용':'야구방망이 · '+Math.ceil(b.dur)+'/'+BAT_N.dur):'맨손 · 15';
+ $('wpnName').textContent=b?(b.sp?'특수 방망이 · 1회용':'야구방망이 · '+Math.ceil(b.dur)+'/'+BAT_N.dur):'맨손 · 10';
  $('durFill').style.width=(b?(b.sp?100:b.dur/BAT_N.dur*100):0)+'%';$('durFill').classList.toggle('sp',!!(b&&b.sp));
  $('batCount').textContent=S.bats.length+'/'+maxBats()+(S.items.bag?' 가방':'');
  ['energy','bandage','aid'].forEach(i=>{$('ic-'+i).textContent=S.items[i]||0;$('it-'+i).classList.toggle('empty',!(S.items[i]>0));});
