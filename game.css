@@ -224,6 +224,7 @@ body.editing .tbtn{outline:2px dashed #d8b13a}.lysel{outline:3px solid #c8322d!i
 
 /* end */
 #end{background:#000;flex-direction:column;text-align:center}
+#endLines .sys{color:#c8322d;font-size:.85em}#endLines .seo{color:#f2d7dc}
 #endLines{font-family:var(--term);font-size:clamp(14px,3.6vw,18px);line-height:2;color:#cfd8e8;min-height:12em;white-space:pre-wrap}
 #endLines .g{animation:glitch .18s steps(2) 3}
 @keyframes glitch{50%{transform:translateX(4px);color:var(--red)}}

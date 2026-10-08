@@ -566,7 +566,7 @@ function accountUI(){
   $('accReg').onclick=registerAccount;stopKeys($('accName'),registerAccount);if(fb)$('accOut').onclick=fbLogout;
  } else {
   const p=ACC.profile,ev=(p.ever||[]).filter(id=>R[id]).length,en=(p.endings||[]).length;
-  box.innerHTML='<div class="acc-k">기록자 <b></b></div><div class="acc-s">평생 기록 '+ev+' / '+TOTAL+' · 본 엔딩 '+en+' / 4 · 관측 회차 '+(6+(p.loops||0))+'</div><div class="acc-s dim">진행은 계정에 자동 저장돼요. 새로 기록하기를 누르면 진행만 초기화되고, 평생 기록과 엔딩은 남아요.</div>'+
+  box.innerHTML='<div class="acc-k">기록자 <b></b></div><div class="acc-s">평생 기록 '+ev+' / '+TOTAL+' · 본 엔딩 '+en+' / 5 · 관측 회차 '+(6+(p.loops||0))+'</div><div class="acc-s dim">진행은 계정에 자동 저장돼요. 새로 기록하기를 누르면 진행만 초기화되고, 평생 기록과 엔딩은 남아요.</div>'+
    (ACC.mode==='server'||ACC.mode==='firebase'?'<div class="acc-row"><button id="accOut" class="ghost">로그아웃</button></div>':'');
   box.querySelector('b').textContent=p.name||'';
   if(ACC.mode==='server')$('accOut').onclick=serverLogout;else if(ACC.mode==='firebase')$('accOut').onclick=fbLogout;
@@ -1023,7 +1023,7 @@ function nphoneAct(){
 function seoyunAct(){
  S.flags.seoyunTalk=(S.flags.seoyunTalk||0)+1;save();
  if(S.flags.seoyunTalk>=2&&has('seoyun')&&has('c1702')){
-  say([{s:'한서윤',t:'나랑 같이 내가 만든 카드 게임 할래?....',c:[{l:'응',f:launchCardGame},{l:'아니',f:()=>say([{s:'한서윤',t:'…그래. 축제는 내일도 하니까.'}])}]}]);return;}
+  say([{s:'한서윤',t:'나랑 카드 게임 할래?.... 내 카드로.',c:[{l:'응',f:launchCardGame},{l:'아니',f:()=>say([{s:'한서윤',t:'…그래. 축제는 내일도 하니까.'}])}]}]);return;}
  readRecord({rec:'seoyun'},()=>{if(!has('c1702'))say(['서윤의 손목에서 멈춘 시계가 눈에 들어온다.'],()=>readRecord({rec:'c1702'}));});
 }
 let cgResult=null;
@@ -1034,9 +1034,9 @@ function launchCardGame(){
  if(el){try{html=JSON.parse(el.textContent);}catch(e){}
   if(!html){say(['…카드 게임을 불러오지 못했다.']);return;}
   html=html.replace('<head>','<head><script>window.__RUINS_USER='+JSON.stringify(ru).replace(/</g,'\\u003c')+';<\/script>');}
- cardOpen=true;cgResult=null;refreshBusy();alog('USER 미니게임 · 서윤의 카드 게임');if(window.RuinsAudio)RuinsAudio.duck(true);
+ cardOpen=true;cgResult=null;refreshBusy();alog('USER 미니게임 · 서윤이와의 카드 게임');if(window.RuinsAudio)RuinsAudio.duck(true);
  const w=$('cgWrap');w.classList.remove('hidden','show');void w.offsetWidth;w.classList.add('cap');
- setTimeout(()=>{const f=document.createElement('iframe');f.id='cgFrame';f.title='서윤의 카드 게임';f.setAttribute('allow','autoplay');
+ setTimeout(()=>{const f=document.createElement('iframe');f.id='cgFrame';f.title='서윤이와의 카드 게임';f.setAttribute('allow','autoplay');
   if(html)f.srcdoc=html;else f.src='cardgame.html?name='+encodeURIComponent(ru.name)+'&colored='+(ru.colored?1:0);
   $('cgFrameBox').appendChild(f);},900);
  setTimeout(()=>{w.classList.remove('cap');w.classList.add('show');},2200);
@@ -3554,6 +3554,18 @@ function endC(){
  $('cY').onclick=()=>go(true);$('cN').onclick=()=>go(false);
 }
 const LOOPKEY='ruins-record-loop';
+function endStop(){
+ addEnding('STOP');alog('USER 응답 · 기록을 시작하지 않는다');
+ const el=$('end'),box=$('endLines');box.classList.remove('hidden');
+ const lines=['……아니.','나는 노트를 덮었다.','<span class="sys">ARCHIVE · USER 응답 없음.<br>관측자가 없으면 누리느엘은 유지될 수 없습니다.</span>','알아.',
+  '멀리서 시계탑 종이 울린다.','멈춰 있던 바늘이 움직인다. 17시 02분에서, 17시 03분으로.','끝나지 않던 10월 14일이, 끝난다.',
+  '누군가 내 이름을 부른다. 한 번도 들어 본 적 없는데, 잊은 적도 없는 이름.','"찾았다. 너, 이제 얼굴이 보여."','서윤이었다.','처음으로, 나는 기록되는 쪽이 되었다.'];
+ let i=0;const next=()=>{if(i>=lines.length){setTimeout(()=>{box.innerHTML='';box.classList.add('hidden');const c=$('endCard');c.classList.remove('hidden');
+   c.innerHTML='<h2>END ∞</h2><div class="q">17시 03분</div><p>기록자는 관측을 멈췄다.<br>끝나지 않던 10월 14일이 끝나고, 시간이 다시 흐르기 시작했다.</p><p class="next">관측 회차 종료. 다음 회차는 없다.</p><div class="t-btns"><button id="eNew">처음으로</button></div>';
+   $('eNew').onclick=()=>location.reload();},2400);return;}
+  const d=document.createElement('div');d.className='fl'+(i===8||i===9?' seo':'');d.innerHTML=lines[i];box.appendChild(d);while(box.children.length>4)box.removeChild(box.firstChild);i++;setTimeout(next,i===3?2600:2000);};
+ setTimeout(next,600);
+}
 function endTrue(){
  endOpen=true;refreshBusy();flash('#ffffff');
  const el=$('end');el.classList.remove('hidden','forget','truth','nuri','loop');
@@ -3573,7 +3585,7 @@ function endTrue(){
      const fin=()=>{box.innerHTML='';setTimeout(()=>{box.classList.add('hidden');const c=$('endCard');c.classList.remove('hidden');
       c.innerHTML='<h2>《폐허의 기록》</h2><div class="q">END?</div><p class="next">관측 회차 '+(6+loop)+' 종료.<br>기록자는 다시, 처음 온 사람처럼 눈을 뜬다.</p><div class="t-btns"><button id="eNew">DAY 1</button></div>';
       $('eNew').onclick=()=>location.reload();},2600);};
-     $('lY').onclick=fin;$('lN').onclick=fin;
+     $('lY').onclick=fin;$('lN').onclick=()=>{box.innerHTML='';endStop();};
     },2800);
    },3800);
   }),900);
