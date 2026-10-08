@@ -1441,7 +1441,28 @@ function update(dt){
 }
 
 /* ================= 전투: 노이즈 좀비 · 야구방망이 · 회복 아이템 ================= */
-const HP_MAX=150,Z_DMG=20,Z_CAP=12;
+const HP_MAX=150,Z_DMG=20,Z_CAP=10;
+/* 길찾기: 플레이어 위치에서 퍼져 나가는 거리 지도 (막힌 곳을 돌아서 쫓아옴) */
+let FLOW=null,flowT=0,flowKey='';
+function zWalk(x,y){const m=MAPS[S.area];if(x<0||y<0||x>=m.w||y>=m.h)return false;return !solidAt(x,y);}
+function buildFlow(){
+ const m=MAPS[S.area],W=m.w,H=m.h,px=Math.floor(P.x/TS),py=Math.floor((P.y-4)/TS),key=S.area+px+','+py;
+ if(FLOW&&flowKey===key&&FLOW.w===W)return;flowKey=key;
+ const d=new Int16Array(W*H).fill(-1),q=new Int32Array(W*H);let h=0,t=0;
+ if(px<0||py<0||px>=W||py>=H){FLOW=null;return;}
+ d[py*W+px]=0;q[t++]=py*W+px;
+ while(h<t){const c=q[h++],cx=c%W,cy=(c/W)|0,nd=d[c]+1;if(nd>60)continue;
+  for(const [ox,oy] of [[1,0],[-1,0],[0,1],[0,-1]]){const nx=cx+ox,ny=cy+oy;if(nx<0||ny<0||nx>=W||ny>=H)continue;const ni=ny*W+nx;if(d[ni]>=0||!zWalk(nx,ny))continue;d[ni]=nd;q[t++]=ni;}}
+ FLOW={w:W,h:H,d};
+}
+function flowDir(z){
+ if(!FLOW)return null;const W=FLOW.w,tx=Math.floor(z.x/TS),ty=Math.floor((z.y-3)/TS);if(tx<0||ty<0||tx>=W||ty>=FLOW.h)return null;
+ const cur=FLOW.d[ty*W+tx];if(cur>=0&&cur<=1)return null;
+ let best=null,bd=cur<0?1e9:cur;
+ for(const [ox,oy] of [[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]]){const nx=tx+ox,ny=ty+oy;if(nx<0||ny<0||nx>=W||ny>=FLOW.h)continue;
+  if(ox&&oy&&(!zWalk(tx+ox,ty)||!zWalk(tx,ty+oy)))continue;const v=FLOW.d[ny*W+nx];if(v>=0&&v<bd){bd=v;best=[nx,ny];}}
+ if(!best)return null;return [(best[0]+.5)*TS,(best[1]+.7)*TS];
+}
 const PIPES={factory:[[3,23.4,8,0],[3,26.6,8,0],[9.4,13,0,10]],lab:[[3,6.4,30,0],[3,8.6,30,0],[33.6,6,0,24]]};
 const GAS_PTS={factory:[[5,23.4],[9.4,18],[8,26.6]],lab:[[10,6.4],[22,8.6],[33.6,16]]};
 const BAT_N={atk:60,dur:300,crit:.35,critDmg:150},BAT_S={atk:300,dur:1};
@@ -1572,7 +1593,7 @@ function spawnCandidates(){
  return out;
 }
 function scheduleGroup(){
- const alive=ZOMBIES.filter(z=>!z.dead).length+ZMARK.length,room=Z_CAP-alive;if(room<=0)return;
+ const alive=ZOMBIES.filter(z=>!z.dead&&!z.boss).length+ZMARK.filter(m=>!m.boss).length,room=Z_CAP-alive;if(room<=0)return;
  const n=Math.min(room,groupSize()),c=spawnCandidates();if(!c.length)return;
  for(let i=0;i<n;i++){const p=c[Math.floor(Math.random()*c.length)];ZMARK.push({x:p.x+(Math.random()-.5)*10,y:p.y+(Math.random()-.5)*6,sx:p.sx,sy:p.sy,kind:p.kind,t:3});}
  if(!S.flags.zWarned){S.flags.zWarned=1;toast('붉은 표시가 뜬 곳에서 3초 뒤 노이즈 좀비가 나타난다',COL.red);}
@@ -1596,7 +1617,8 @@ function combatUpdate(dt){
  checkPickups();
  if(iframeT>0)iframeT-=dt;
  if(!combatOn()){if(ZOMBIES.length||ZMARK.length)clearZombies();return;}
- zSpawnT-=dt;if(zSpawnT<=0){zSpawnT=7.5+Math.random()*7.5;scheduleGroup();maybeRecorderZombie();}
+ zSpawnT-=dt;if(zSpawnT<=0){zSpawnT=7.5+Math.random()*7.5+3+Math.random()*2;scheduleGroup();maybeRecorderZombie();}
+ flowT-=dt;if(flowT<=0){flowT=.25;buildFlow();}
  ZMARK.forEach(mk=>{mk.t-=dt;if(mk.t<=0)spawnZombie(mk);});ZMARK=ZMARK.filter(mk=>mk.t>0);
  const px=P.x,py=P.y;
  ZOMBIES.forEach(z=>{
@@ -1606,7 +1628,7 @@ function combatUpdate(dt){
   let mx=z.kx*dt,my=z.ky*dt;z.kx*=Math.pow(.03,dt);z.ky*=Math.pow(.03,dt);
   const dx=px-z.x,dy=py-z.y,d=Math.hypot(dx,dy)||1;
   if(z.stun>0)z.stun-=dt;
-  if(d>18&&!(z.stun>0)){mx+=dx/d*z.sp*dt;my+=dy/d*z.sp*dt;}
+  if(d>18&&!(z.stun>0)){const fd=flowDir(z);if(fd){const ex=fd[0]-z.x,ey=fd[1]-z.y,el=Math.hypot(ex,ey)||1;mx+=ex/el*z.sp*dt;my+=ey/el*z.sp*dt;}else{mx+=dx/d*z.sp*dt;my+=dy/d*z.sp*dt;}}
   if(!zHit(z.x+mx,z.y))z.x+=mx;else if(!zHit(z.x,z.y+Math.sign(dy||1)*z.sp*dt))z.y+=Math.sign(dy||1)*z.sp*dt*.6;
   if(!zHit(z.x,z.y+my))z.y+=my;else if(!zHit(z.x+Math.sign(dx||1)*z.sp*dt,z.y))z.x+=Math.sign(dx||1)*z.sp*dt*.6;
   z.cd-=dt;
