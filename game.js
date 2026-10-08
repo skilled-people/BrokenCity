@@ -2777,7 +2777,48 @@ function figure(g,o,pal){const x=16,y=30;
  if(pal.eyes){fillc(g,'#1a1a1a',x-2.4,y-25.6,1,1.8);fillc(g,'#1a1a1a',x+1.4,y-25.6,1,1.8);fillc(g,'rgba(255,255,255,.9)',x-2.2,y-25.4,.4,.4);fillc(g,'rgba(255,255,255,.9)',x+1.6,y-25.4,.4,.4);}
  if(pal.extra)pal.extra(g,x,y);
 }
-OP.person=(g,R,o)=>{const seo=o.id==='seoyun';
+/* 서윤: 긴 머리, 앞머리와 머리핀, 블라우스와 리본, 주름치마, 무릎 양말, 멈춘 손목시계 */
+function drawSeoyun(g,o){const x=16,y=30,c=o.c||'#34406e',hair='#3a2b2a',hairL='#5a4442',skin='#f3e0d2',skinD='#e4c9b6';
+ shE(g,x,y,6.5,2,.12);
+ // long hair behind the body
+ g.fillStyle=hair;g.beginPath();g.moveTo(x-6,y-29);g.quadraticCurveTo(x-8.4,y-20,x-7.4,y-13);g.quadraticCurveTo(x-4,y-11.2,x,y-12);g.quadraticCurveTo(x+4,y-11.2,x+7.4,y-13);g.quadraticCurveTo(x+8.4,y-20,x+6,y-29);g.closePath();g.fill();
+ ln(g,hairL,.4,[[x-6.6,y-22],[x-6.8,y-14.6]]);ln(g,hairL,.4,[[x+6.6,y-22],[x+6.6,y-14.6]]);
+ // legs: knee socks + shoes
+ fillc(g,skin,x-3.6,y-9,2.6,3);fillc(g,skin,x+1,y-9,2.6,3);
+ fillc(g,'#f6f4f0',x-3.6,y-6.2,2.6,4.6);fillc(g,'#f6f4f0',x+1,y-6.2,2.6,4.6);fillc(g,'rgba(0,0,0,.08)',x-3.6,y-6.2,2.6,.5);fillc(g,'rgba(0,0,0,.08)',x+1,y-6.2,2.6,.5);
+ g.fillStyle='#2a2430';rr(g,x-4.2,y-1.8,3.6,2,.8);g.fill();rr(g,x+.6,y-1.8,3.6,2,.8);g.fill();
+ // pleated skirt
+ g.fillStyle=lighten(c,1.1);g.beginPath();g.moveTo(x-5,y-14.4);g.lineTo(x+5,y-14.4);g.lineTo(x+7,y-8.4);g.lineTo(x-7,y-8.4);g.closePath();g.fill();
+ for(let i=-5;i<=5;i+=2.5)ln(g,lighten(c,.75),.35,[[x+i*.72,y-14.2],[x+i,y-8.6]]);fillc(g,lighten(c,.8),x-7,y-8.9,14,.6);
+ // blouse + vest
+ g.fillStyle='#f7f5f0';rr(g,x-5.4,y-22,10.8,8.2,2);g.fill();
+ g.fillStyle=c;g.beginPath();g.moveTo(x-5,y-19);g.lineTo(x-1.4,y-14.4);g.lineTo(x-5,y-14.4);g.closePath();g.fill();g.beginPath();g.moveTo(x+5,y-19);g.lineTo(x+1.4,y-14.4);g.lineTo(x+5,y-14.4);g.closePath();g.fill();
+ fillc(g,lighten(c,.8),x-5.4,y-14.8,10.8,.8);
+ // sailor collar edge + ribbon
+ g.fillStyle='#f7f5f0';g.beginPath();g.moveTo(x-4,y-22);g.lineTo(x,y-18.6);g.lineTo(x+4,y-22);g.closePath();g.fill();ln(g,c,.45,[[x-3.6,y-21.8],[x,y-18.8],[x+3.6,y-21.8]]);
+ g.fillStyle='#e89aa8';g.beginPath();g.moveTo(x,y-19.4);g.lineTo(x-2.8,y-20.8);g.lineTo(x-2.6,y-17.8);g.closePath();g.fill();g.beginPath();g.moveTo(x,y-19.4);g.lineTo(x+2.8,y-20.8);g.lineTo(x+2.6,y-17.8);g.closePath();g.fill();
+ fillc(g,'#d97f90',x-.7,y-20.1,1.4,1.4);g.beginPath();g.moveTo(x-.6,y-18.8);g.lineTo(x-1.6,y-15.6);g.lineTo(x,y-16.4);g.fill();g.beginPath();g.moveTo(x+.6,y-18.8);g.lineTo(x+1.6,y-15.6);g.lineTo(x,y-16.4);g.fill();
+ // arms (sleeves) + hands + stopped wristwatch
+ fillc(g,'#eeebe4',x-7.6,y-21,2.4,6.4);fillc(g,'#eeebe4',x+5.2,y-21,2.4,6.4);fillc(g,skin,x-7.6,y-14.6,2.4,3);fillc(g,skin,x+5.2,y-14.6,2.4,3);
+ fillc(g,'#d8b13a',x+5,y-14.2,2.8,1.3);fillc(g,'#fff7dc',x+5.8,y-14,1.2,.9);
+ // neck + face
+ fillc(g,skinD,x-1.2,y-23,2.4,1.6);
+ g.fillStyle=skin;rr(g,x-4.3,y-30.2,8.6,8.6,3);g.fill();
+ // eyes with lashes, blush, smile
+ fillc(g,'#2a2226',x-2.6,y-26.4,1.3,1.6);fillc(g,'#2a2226',x+1.3,y-26.4,1.3,1.6);fillc(g,'rgba(255,255,255,.95)',x-2.3,y-26.2,.45,.45);fillc(g,'rgba(255,255,255,.95)',x+1.6,y-26.2,.45,.45);
+ ln(g,'#2a2226',.35,[[x-3,y-26.8],[x-1.1,y-26.6]]);ln(g,'#2a2226',.35,[[x+1,y-26.6],[x+2.9,y-26.8]]);
+ g.fillStyle='rgba(240,140,150,.45)';g.beginPath();g.ellipse(x-2.6,y-24.4,1.1,.55,0,0,Math.PI*2);g.fill();g.beginPath();g.ellipse(x+2.6,y-24.4,1.1,.55,0,0,Math.PI*2);g.fill();
+ g.strokeStyle='#b06a72';g.lineWidth=.35;g.beginPath();g.arc(x,y-24,.9,.2,Math.PI-.2);g.stroke();
+ // front hair: bangs + side locks
+ g.fillStyle=hair;g.beginPath();g.moveTo(x-5,y-25);g.quadraticCurveTo(x-5.6,y-31.8,x,y-32);g.quadraticCurveTo(x+5.6,y-31.8,x+5,y-25);
+ g.lineTo(x+3.6,y-27.6);g.lineTo(x+2,y-26.6);g.lineTo(x+.6,y-27.8);g.lineTo(x-1,y-26.8);g.lineTo(x-2.4,y-27.8);g.lineTo(x-3.8,y-26.8);g.closePath();g.fill();
+ g.beginPath();g.moveTo(x-4.8,y-27);g.quadraticCurveTo(x-5.8,y-23,x-4.6,y-19.6);g.lineTo(x-3.8,y-23.4);g.closePath();g.fill();
+ g.beginPath();g.moveTo(x+4.8,y-27);g.quadraticCurveTo(x+5.8,y-23,x+4.6,y-19.6);g.lineTo(x+3.8,y-23.4);g.closePath();g.fill();
+ g.strokeStyle='rgba(255,255,255,.25)';g.lineWidth=.45;g.beginPath();g.arc(x-1,y-29.2,2.8,Math.PI*1.1,Math.PI*1.6);g.stroke();
+ // hairpin (pink star)
+ g.fillStyle='#f4b6c2';g.beginPath();for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,r=i%2?.7:1.6;g.lineTo(x+3.6+Math.cos(a)*r,y-29.4+Math.sin(a)*r);}g.closePath();g.fill();fillc(g,'#fff',x+3.4,y-29.6,.5,.5);
+}
+OP.person=(g,R,o)=>{const seo=o.id==='seoyun';if(seo){drawSeoyun(g,o);return;}
  figure(g,o,{sh:.1,leg:'#3a3a44',shoe:'#22222a',bodyL:lighten(o.c,1.25),bodyD:o.c,arm:lighten(o.c,.9),skin:'#f1dccb',hair:seo?'#2a2a33':'#6b5a4e',eyes:1,
   extra:seo?(g,x,y)=>{fillc(g,'#e89aa8',x-6.6,y-15,13.2,2);fillc(g,'#ffffff',x-3,y-20.6,6,2.4);g.fillStyle='#e89aa8';g.beginPath();g.moveTo(x,y-18.6);g.lineTo(x-1.4,y-16);g.lineTo(x+1.4,y-16);g.closePath();g.fill();fillc(g,'#d8b13a',x+6.4,y-11.8,1.8,1.4);}:null});
 };
