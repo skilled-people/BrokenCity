@@ -28,10 +28,7 @@
   </div>
   <div class="hud-r">
     <button id="pastBtn" class="hbtn blue hidden"></button>
-    <button id="orientBtn" class="hbtn">가로 고정</button>
-    <button id="sndBtn" class="hbtn">소리</button>
-    <button id="layoutBtn" class="hbtn">조작 편집</button>
-    <button id="fpBtn" class="hbtn">1인칭</button>
+    <button id="setBtn" class="hbtn">설정</button>
     <button id="arcBtn" class="hbtn">기록 보관함<span id="recCount"></span></button>
   </div>
 </div>
@@ -97,6 +94,23 @@
 
 <div id="flash"></div>
 <div id="warp"></div>
+<div id="setOv" class="hidden"><div class="set-in">
+ <div class="set-head"><b>설정</b><button id="setClose">닫기</button></div>
+ <div class="set-row"><div><b>시점</b><span>탑다운과 1인칭을 바꿔요 · Z</span></div><button id="fpBtn" class="sbtn">1인칭</button></div>
+ <div class="set-row"><div><b>길 안내</b><span>다음 목표를 화살표와 별로 알려 줘요</span></div><button id="setGuide" class="sbtn">켜짐</button></div>
+ <div class="set-row"><div><b>미니맵</b><span>오른쪽 위 작은 지도</span></div><button id="setMini" class="sbtn">켜짐</button></div>
+ <div class="set-row"><div><b>지도</b><span>구역 전체 지도 보기 · M</span></div><button id="mapBtn" class="sbtn">열기</button></div>
+ <div class="set-row"><div><b>배경음</b><span>구역마다 흐르는 배경 소리</span></div><button id="sndBtn" class="sbtn">소리 켜짐</button></div>
+ <div class="set-row tonly"><div><b>가로 고정</b><span>안드로이드에서 화면을 가로로 고정해요</span></div><button id="orientBtn" class="sbtn">가로 고정</button></div>
+ <div class="set-row tonly"><div><b>조작 편집</b><span>조이스틱과 버튼의 위치·크기를 바꿔요</span></div><button id="layoutBtn" class="sbtn">편집</button></div>
+</div></div>
+<canvas id="minimap" width="240" height="240" title="지도 (M)"></canvas>
+<div id="mapOv" class="hidden"><div class="map-in">
+ <div class="map-head"><b id="mapTitle">지도</b><span class="map-r"><button id="guideTgl">길 안내 켜짐</button><button id="mapClose">닫기</button></span></div>
+ <div class="map-goal" id="mapGoal"></div>
+ <div class="map-cv"><canvas id="bigmap"></canvas></div>
+ <div class="map-legend"><span><i class="lg-me"></i>나</span><span><i class="lg-goal"></i>다음 목표</span><span><i class="lg-rec"></i>아직 읽지 않은 기록</span><span><i class="lg-door"></i>잠긴 문</span><span><i class="lg-way"></i>계단·출구</span></div>
+</div></div>
 <div id="hurt"></div><div id="deathTxt"></div>
 <div id="layoutEdit" class="hidden"><div class="ly-box"><b>조작 편집</b><span id="lySel">움직일 버튼을 끌어 보세요</span>
  <label>크기 <input id="lyScale" type="range" min="70" max="150" value="100"></label>
