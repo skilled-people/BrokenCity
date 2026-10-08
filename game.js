@@ -276,13 +276,15 @@ function buildNL(){
  return {w:50,h:44,g};
 }
 MAPS.nl=buildNL();
+function buildRoom(){const g=grid(12,9,'#');rect(g,1,1,10,7,'O');return {w:12,h:9,g};}
+MAPS.room=buildRoom();
 const NL_ZONES=[['중심부',4,1,20,8],['없던 길',13,9,2,5],['광장',0,14,28,10],['지하 3층',30,2,12,8],['옥상',30,13,12,7],['홀',30,23,18,12]];
 const CLOCKS=['c0400','c1500','c1650','c1658','c1702'];
 const LAB_ROOMS=[['ARCHIVE실',3,1,9,4],['서버실',23,1,10,4],['보안 게이트',3,10,8,6],['장치실',13,10,10,7],['폐쇄된 실험실',25,10,7,6],['NURI 회의실',13,19,12,7],['수직 통로',33,6,2,24],['탈출구 앞',10,30,25,8],['B3 복도',3,6,30,3],['계단',16,1,4,5]];
 const VENTS=[];MAPS.factory.g.forEach((row,y)=>row.forEach((c,x)=>{if(c==='v')VENTS.push([x,y]);}));
 const RUBBLE_S=new Set(['8,13','9,12','22,14','31,13']);
 const SOLID=new Set(['#','r','c','T','G','d','M','X','L','K','S','Q','J','V','B','C','P']);
-const AREA_NAME={city:'AREA 01 · 폐허 도시',school:'AREA 02 · 폐교',factory:'AREA 03 · 거대 공장',lab:'AREA 04 · 지하 연구시설',nl:'AREA 05 · 누리느엘'};
+const AREA_NAME={city:'AREA 01 · 폐허 도시',school:'AREA 02 · 폐교',factory:'AREA 03 · 거대 공장',lab:'AREA 04 · 지하 연구시설',nl:'AREA 05 · 누리느엘',room:'원룸'};
 
 /* ================= STATE ================= */
 function fresh(){return {area:'city',x:5.5*TS,y:27.6*TS,records:[],contra:[],flags:{},past:false,time:0,hp:150,bats:[{sp:false,dur:300}],items:{energy:0,bandage:0,aid:0},kills:{},loot:null};}
@@ -304,7 +306,7 @@ const TOKEN_KEY='ruins-record-token';
 const ACC={state:'loading',mode:'off',profile:null,cloud:null,be:null};
 let wiped=false,cloudPending=null,cloudBusy=false,cloudTimer=null,profChain=Promise.resolve();
 function save(){
- if(wiped||!started)return;
+ if(wiped||!started||S.area==='room')return;
  S.x=P.x;S.y=P.y;const str=JSON.stringify(Object.assign({},S,{past:false,savedAt:Date.now()}));
  try{localStorage.setItem(KEY,str);}catch(e){}
  if(ACC.state==='ready'&&ACC.profile){cloudPending=str;clearTimeout(cloudTimer);setSync('pending');cloudTimer=setTimeout(flushCloud,1200);}
@@ -607,6 +609,16 @@ function tile(x,y){
 
 /* ================= OBJECTS ================= */
 const OBJ={
+ room:[
+  {id:'rbed',x:1,y:1,w:2,t:'rbed',act:()=>bedAct(),solid:1},
+  {id:'rdesk',x:7,y:1,w:2,t:'rdesk',solid:1,act:()=>say(['책상 위에 노트 한 권이 놓여 있다.','펼쳐 봐도, 아무것도 적혀 있지 않다.'])},
+  {id:'rwin',x:5,y:0,t:'rwin',act:()=>say(['창밖이 하얗다.','아무것도 보이지 않는다. 소리도 들리지 않는다.'])},
+  {id:'rclock',x:9,y:0,t:'rclock',act:()=>say(['벽시계. 초침이 같은 자리에서 조금씩 떨리고 있다.'])},
+  {id:'rfridge',x:10,y:4,t:'rfridge',solid:1,act:()=>say(['작은 냉장고. 문을 열자 차가운 바람만 나온다.','안은 텅 비어 있다.'])},
+  {id:'rshelf',x:1,y:5,t:'rshelf',solid:1,act:()=>say(['책장에 책이 몇 권 꽂혀 있다.','제목이 모두 흐릿해서 읽을 수가 없다.'])},
+  {id:'rmirror',x:0,y:3,t:'rmirror',act:()=>say(['작은 거울. 피곤해 보이는 얼굴이 비친다.'])},
+  {id:'rdoor',x:6,y:8,t:'rdoor',act:()=>say(['현관문이다.','손잡이를 돌려 보지만 꿈쩍도 하지 않는다. 잠겨 있다.'])}
+ ],
  city:[
   {id:'news',x:16,y:11,t:'stand',rec:'news',solid:1},
   {id:'phone',x:13,y:26,t:'phone',rec:'phone',solid:1,tall:1},
@@ -810,7 +822,7 @@ function collect(id){
  if(S.records.length===1)setTimeout(()=>toast(isTouch?'오른쪽 위 "기록 보관함"에서 모은 기록을 다시 볼 수 있다':'Tab 키 또는 "기록 보관함"에서 모은 기록을 다시 볼 수 있다'),3000);
  else if(S.records.length===3&&S.contra.length===0)setTimeout(()=>toast('기록 보관함에서 두 기록을 비교하면 모순을 찾을 수 있다'),3000);
 }
-const OBJ_NAME={keypad:'정문 키패드',exitdoor:'철문',hatch:'철제 해치',lever:'레버',gen:'발전기',device:'하얀 장치',console:'방송 콘솔',ghost:'과거의 사람',coat:'흰 코트의 사람',terminal:'ARCHIVE 컴퓨터',codepad:'코드 패널',irondoor:'비상 탈출구',portal:'고리 장치',speaker:'스피커',fuse:'선반',none:'잔해',sign:'경고판',tower:'시계탑',clock:'시계',nphone:'공중전화',nstop:'정류장',schooldoor:'한결중학교 현관',kiosk:'가건물',upstair:'위층 계단',downstair:'아래층 계단',person:'사람',core:'빛의 핵',retgate:'하얀 고리',chair31:'빈 의자',hallexit:'작은 문',pedestal:'받침대',card:'정체 불명의 카드',b3sign:'안내판',nlstand:'신문 가판대',dpanel:'인증 패널'};
+const OBJ_NAME={keypad:'정문 키패드',exitdoor:'철문',hatch:'철제 해치',lever:'레버',gen:'발전기',device:'하얀 장치',console:'방송 콘솔',ghost:'과거의 사람',coat:'흰 코트의 사람',terminal:'ARCHIVE 컴퓨터',codepad:'코드 패널',irondoor:'비상 탈출구',portal:'고리 장치',speaker:'스피커',fuse:'선반',none:'잔해',sign:'경고판',tower:'시계탑',clock:'시계',nphone:'공중전화',nstop:'정류장',schooldoor:'한결중학교 현관',kiosk:'가건물',upstair:'위층 계단',downstair:'아래층 계단',person:'사람',core:'빛의 핵',retgate:'하얀 고리',chair31:'빈 의자',hallexit:'작은 문',pedestal:'받침대',card:'정체 불명의 카드',b3sign:'안내판',nlstand:'신문 가판대',dpanel:'인증 패널',rbed:'침대',rdesk:'책상',rwin:'창문',rclock:'벽시계',rfridge:'냉장고',rshelf:'책장',rmirror:'거울',rdoor:'현관문'};
 function interact(o){alog('USER 조사 · '+(o.rec?R[o.rec].title:(o.t==='lever'?o.L+' 레버':(OBJ_NAME[o.t]||'대상'))));if(o.act)o.act(o);else if(o.rec)readRecord(o);}
 const feedLines=[];let stepAcc=0,idleT=0,idleLogged=false,lastRoom='';
 function alog(msg){
@@ -1230,6 +1242,7 @@ function compare(){
 let hudCache='';
 function objective(){
  const f=S.flags;
+ if(S.area==='room')return '문은 잠겨 있다. …잠이나 잘까.';
  if(S.area==='city'){
   if(f.gateOpen)return '북쪽 정문을 지나 폐교로 들어가자.';
   if(!has('memo'))return '텅 빈 도시를 조사하자. 도로 북쪽 끝에 학교 정문이 있다.';
@@ -1546,7 +1559,7 @@ function beginCharge(ax,ay){if(busy()||useItem||chargeT>=0)return;chargeT=0;char
 function releaseCharge(){if(chargeT<0)return;const full=chargeT>=CHARGE_T,a=chargeAim;chargeT=-1;chargeAim=null;if(a)attack(a[0],a[1],full);else attack(undefined,undefined,full);}
 function cancelCharge(){chargeT=-1;chargeAim=null;}
 function attack(aimX,aimY,charged){
- if(busy()||atkT>0||useItem)return;
+ if(busy()||atkT>0||useItem||!combatOn())return;
  if(aimX!==undefined&&!FPV){P.lookA=Math.atan2(aimY-(P.y-10),aimX-P.x);P.fx=Math.cos(P.lookA);P.fy=Math.sin(P.lookA);const ca=P.fx,sa=P.fy;P.face=Math.abs(ca)>Math.abs(sa)?(ca>0?'r':'l'):(sa>0?'d':'u');}
  atkT=ATK_CD*(curBat()?1:1.95);swingT=SWING;swingCharged=!!charged;
  const b=curBat(),cx=P.x,cy=P.y-10,range=TS*(charged?1.75:1.55),arc=charged?1.25:1.0;
@@ -1729,7 +1742,7 @@ function drawMarksOverlay(t){
  FLOATS.forEach(f=>{ctx.globalAlpha=Math.max(0,1-f.t);ctx.fillStyle=f.col;ctx.font='bold 10px "Nanum Gothic Coding",monospace';ctx.textAlign='center';ctx.fillText(f.txt,f.x,f.y-f.t*16);ctx.textAlign='left';ctx.globalAlpha=1;});
 }
 function drawHeldBat(){
- const sx=P.x,sy=P.y-16;
+ if(!combatOn())return;const sx=P.x,sy=P.y-16;
  if(chargeT>=0){const k=Math.min(1,chargeT/CHARGE_T),full=k>=1;ctx.strokeStyle=full?'rgba(224,96,90,'+(.7+.3*Math.sin(NOW*30))+')':'rgba(242,239,232,.7)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(P.x,P.y-12,20,-Math.PI/2,-Math.PI/2+k*Math.PI*2);ctx.stroke();
   if(full){ctx.strokeStyle='rgba(224,96,90,.35)';ctx.lineWidth=5;ctx.beginPath();ctx.arc(P.x,P.y-12,20,0,Math.PI*2);ctx.stroke();}}
  const b=curBat();if(!b)return;let a=P.lookA;
@@ -1785,7 +1798,7 @@ function fpCombatSprites(list){
  ZMARK.forEach(mk=>{const c=document.createElement('canvas');c.width=96;c.height=96;c.getContext('2d').drawImage(markCanvas(NOW,mk.kind),0,0);list.push({x:mk.x/TS,y:mk.y/TS,sp:[mk.kind==='pipe'?1:.5,.8,'#c8322d',0],img:c,src:[0,0,96,96]});});
 }
 function drawFPWeapon(){
- const b=curBat(),W=cv.width,H=cv.height,u=Math.min(W,H)/700;let a=-.35;
+ if(!combatOn()){FLOATS.length=0;return;}const b=curBat(),W=cv.width,H=cv.height,u=Math.min(W,H)/700;let a=-.35;
  if(swingT>0){const k=1-swingT/SWING;a=-.35-(swingCharged?2.0:1.6)*Math.sin(k*Math.PI);}
  else if(chargeT>=0){const k=Math.min(1,chargeT/CHARGE_T);a=-.35+.75*k+(k>=1?Math.sin(NOW*40)*.03:0);}
  ctx.save();ctx.translate(W*.78,H*1.02);ctx.rotate(a);
@@ -1838,6 +1851,7 @@ function nearestUnread(ids){
 }
 function firstTile(chars){const m=MAPS[S.area];for(let y=0;y<m.h;y++)for(let x=0;x<m.w;x++)if(chars.indexOf(m.g[y][x])>=0)return {x:x+.5,y:y+.5};return null;}
 function guideTarget(){
+ if(S.area==='room'){const c=objCenter('rbed');return c?{x:c.x,y:c.y,label:'침대'}:null;}
  const f=S.flags,T=(id,label)=>{const c=objCenter(id);return c?{x:c.x,y:c.y,label}:null;};
  if(S.area==='city'){
   if(f.gateOpen){const g=firstTile('gG');return g?{x:g.x,y:g.y-.5,label:'정문 → 폐교'}:null;}
@@ -2087,8 +2101,14 @@ function wallCanvas(x,y,mode){
  const c=document.createElement('canvas');c.width=c.height=32*WSC;const g=c.getContext('2d');g.scale(WSC,WSC);
  const R=rng(Math.imul(x+101,73856093)^Math.imul(y+57,19349663)^(mode==='upper'?0x5bd1e995:0));
  if(a==='city')paintCity(g,R,x,y,mode);else if(a==='school')paintSchool(g,R,x,y,mode);else if(a==='factory')paintFactory(g,R,x,y,mode);
- else if(a==='lab')paintLab(g,R,x,y,mode);else if(a==='nl')paintNL(g,R,x,y,mode);
+ else if(a==='lab')paintLab(g,R,x,y,mode);else if(a==='nl')paintNL(g,R,x,y,mode);else if(a==='room')paintRoom(g,R,x,y,mode);
  return WALLC[key]=c;
+}
+function paintRoom(g,R,x,y,mode){
+ if(mode==='roof'){fillc(g,'#121110',0,0,32,32);const fl=t=>!isWall(t);if(fl(tile(x,y-1)))fillc(g,'#26231f',0,0,32,1.5);if(fl(tile(x-1,y)))fillc(g,'#26231f',0,0,1.5,32);if(fl(tile(x+1,y)))fillc(g,'#26231f',30.5,0,1.5,32);return;}
+ fillc(g,'#4a4640',0,0,32,32);for(let i=0;i<32;i+=4)fillc(g,'rgba(255,255,255,.035)',i,0,1.2,26);speck(g,R,0,0,32,26,30,74,8);
+ fillc(g,'#5a554d',0,0,32,1.2);fillc(g,'#2e2a25',0,26,32,6);fillc(g,'#3e3933',0,26,32,.8);
+ if(R()<.3){g.fillStyle='rgba(0,0,0,.12)';g.beginPath();g.ellipse(6+R()*20,8+R()*10,4,3,0,0,Math.PI*2);g.fill();}
 }
 function cityWindow(g,R,wx,wy,ww,wh){
  fillc(g,'#3c3c3c',wx-1,wy-1,ww+2,wh+2);fillc(g,'#2a2a2a',wx-1,wy+wh,ww+2,1);
@@ -2430,6 +2450,13 @@ TP['K']=(g,R,x,y)=>{fillc(g,'#141516',0,0,32,32);g.fillStyle=lg(g,2,0,30,0,[[0,'
 TP['k']=(g,R,x,y)=>{fillc(g,'#060707',0,0,32,32);g.fillStyle=lg(g,0,0,0,32,[[0,'rgba(170,200,230,.03)'],[1,'rgba(170,200,230,.16)']]);g.fillRect(3,0,26,32);
  for(const xx of [0,29]){fillc(g,'#d8b13a',xx,0,3,32);for(let k=2;k<32;k+=8)fillc(g,'#141414',xx,k,3,3);}
  fillc(g,'#2a2c2e',3,0,4,32);fillc(g,'#3c3f42',3,0,.6,32);fillc(g,'#0e0f10',7,0,.8,32);};
+TP['O']=(g,R,x,y)=>{
+ for(let i=0;i<4;i++){const v=58+R()*10,yy=i*8;fillc(g,grayc(v),0,yy,32,8);fillc(g,grayc(v+10),0,yy,32,.6);fillc(g,grayc(v-16),0,yy+7.5,32,.5);
+  const off=((x*3+y*5+i*7)%4)*8;fillc(g,grayc(v-14),off,yy,.6,8);fillc(g,grayc(v-14),(off+16)%32,yy,.6,8);
+  for(let k=0;k<3;k++){g.strokeStyle='rgba(0,0,0,.08)';g.lineWidth=.3;g.beginPath();const ly=yy+2+R()*4;g.moveTo(R()*10,ly);g.bezierCurveTo(10,ly-1,20,ly+1,32,ly);g.stroke();}}
+ g.fillStyle='rgba(255,236,200,.05)';g.fillRect(0,0,32,32);
+ const Wl=t=>isWall(t);if(Wl(tile(x,y-1))){g.fillStyle=lg(g,0,0,0,6,[[0,'rgba(0,0,0,.35)'],[1,'rgba(0,0,0,0)']]);g.fillRect(0,0,32,6);}
+};
 TP['m']=(g,R,x,y)=>{paintMetalFloor(g,R,x,y);factoryGuides(g,x,y);};
 function paintMetalFloor(g,R,x,y){const p=S.past,b=p?112:40;
  fillc(g,grayc(b),0,0,32,32);
@@ -2732,6 +2759,24 @@ OP.dpanel=(g,R,o)=>{shE(g,16,28,9,2.4,.45);
  g.fillStyle='#0d1015';rr(g,6,0,20,14,1.4);g.fill();fillc(g,'#2b2f35',6,0,20,.8);
  g.fillStyle=rg(g,16,7,1,12,[[0,'#2d3a22'],[1,'#121810']]);g.fillRect(7.5,1.5,17,10.5);
  fillc(g,'#d8b13a',9,3,8,.8);for(let i=0;i<3;i++)fillc(g,'rgba(216,177,58,.55)',9,5.4+i*1.8,6+R()*8,.5);fillc(g,'#c8322d',22,2.4,1.2,1.2);glassFill(g,7.5,1.5,17,10.5,.8);};
+OP.rbed=(g,R)=>{shE(g,32,28,30,4,.4);
+ g.fillStyle='#2e2a25';rr(g,1,0,62,28,2);g.fill();fillc(g,'#3e3933',1,0,62,1);
+ g.fillStyle='#d9d5cc';rr(g,3,2,58,23,2);g.fill();
+ g.fillStyle=lg(g,0,2,0,25,[[0,'#8d8a84'],[1,'#6c6964']]);rr(g,16,3,44,21,2);g.fill();for(let i=0;i<5;i++)ln(g,'rgba(0,0,0,.12)',.5,[[20+i*8,4],[18+i*8,23]]);
+ g.fillStyle='#ece8df';rr(g,4,5,10,16,3);g.fill();fillc(g,'rgba(0,0,0,.08)',4,17,10,1);};
+OP.rdesk=(g,R)=>{shE(g,32,26,28,3.5,.4);fillc(g,'#2a2622',4,18,2,8);fillc(g,'#2a2622',58,18,2,8);
+ g.fillStyle=lg(g,0,6,0,19,[[0,'#6a6258'],[1,'#4e4840']]);rr(g,2,6,60,13,1);g.fill();fillc(g,'#7a7268',2,6,60,.8);fillc(g,'#3a352f',2,18,60,1.6);
+ fillc(g,'#1e1e1e',22,7,16,10);fillc(g,'#e7e3da',23,8,14,8);fillc(g,'#c8322d',22,7,1.2,10);ln(g,'#9a968e',.3,[[30,8],[30,16]]);
+ g.fillStyle='#3a3836';g.beginPath();g.ellipse(50,9,4,2,0,0,Math.PI*2);g.fill();fillc(g,'#c9c2a8',48.5,4,3,5);g.fillStyle='rgba(255,236,200,.25)';g.beginPath();g.arc(50,6,8,0,Math.PI*2);g.fill();};
+OP.rwin=(g,R)=>{fillc(g,'#2a2622',4,4,24,22);fillc(g,'#f2f2f0',6,6,20,18);g.fillStyle='rgba(255,255,255,.6)';g.fillRect(6,6,20,18);fillc(g,'#2a2622',15.4,6,1.2,18);fillc(g,'#2a2622',6,14.4,20,1.2);fillc(g,'#3a352f',3,25,26,2);};
+OP.rclock=(g,R)=>{g.fillStyle='#2a2622';g.beginPath();g.arc(16,14,8,0,Math.PI*2);g.fill();g.fillStyle='#e7e3da';g.beginPath();g.arc(16,14,6.6,0,Math.PI*2);g.fill();
+ ln(g,'#1e1e1e',.9,[[16,14],[16,9.6]]);ln(g,'#1e1e1e',.6,[[16,14],[19.6,15.6]]);ln(g,'#c8322d',.3,[[16,14],[13.4,18.6]]);bolt(g,16,14,'#1e1e1e');};
+OP.rfridge=(g,R)=>{shE(g,16,29,11,2.4,.4);g.fillStyle=lg(g,4,0,28,0,[[0,'#d6d3cc'],[1,'#a9a69f']]);rr(g,5,-8,22,36,2);g.fill();fillc(g,'#8a8780',5,6,22,.8);fillc(g,'#6e6b65',23,-4,1.2,7);fillc(g,'#6e6b65',23,9,1.2,9);};
+OP.rshelf=(g,R)=>{shE(g,16,29,13,2.4,.4);fillc(g,'#3a352f',3,-10,26,38);fillc(g,'#2a2622',5,-8,22,34);
+ for(let r=0;r<3;r++){fillc(g,'#4a443c',5,1+r*10,22,1.4);for(let b=0;b<6;b++){if(R()<.2)continue;const h=6+R()*2.5;fillc(g,grayc(70+R()*60),6+b*3.5,1+r*10-h,2.8,h);}}};
+OP.rmirror=(g,R)=>{fillc(g,'#2a2622',18,4,10,20);g.fillStyle=lg(g,19,5,27,23,[[0,'#cfd3d6'],[.5,'#8a9095'],[1,'#b9bec2']]);g.fillRect(19,5,8,18);fillc(g,'rgba(255,255,255,.4)',20,6,1.4,10);};
+OP.rdoor=(g,R)=>{fillc(g,'#1a1816',4,0,24,32);g.fillStyle=lg(g,6,0,26,0,[[0,'#5a5148'],[1,'#3a342e']]);g.fillRect(6,2,20,30);fillc(g,'#6a6056',6,2,20,.8);
+ fillc(g,'#c9c2a8',21,15,3,3);fillc(g,'#8a8478',21.5,18,2,1.4);fillc(g,'#2a2622',14,6,4,1.4);};
 OP.b3sign=(g,R)=>{fillc(g,'rgba(0,0,0,.35)',5.6,6.6,22,15);fillc(g,'#1e2022',5,6,22,14.4);fillc(g,'#2e3134',5.6,6.6,20.8,13.2);fillc(g,'#3e4144',5.6,6.6,20.8,.5);
  tx(g,'B3',11.6,15.6,6,'#e7e3da');g.fillStyle='#d8b13a';g.beginPath();g.moveTo(20,10);g.lineTo(24,10);g.lineTo(24,14);g.lineTo(26,14);g.lineTo(22,18.4);g.lineTo(18,14);g.lineTo(20,14);g.closePath();g.fill();
  tx(g,'지하 연구시설',16,19.2,2,'#9a968e');[[6.4,7.6],[25.6,7.6],[6.4,18.8],[25.6,18.8]].forEach(q=>bolt(g,q[0],q[1],'#5a5d60'));};
@@ -3400,6 +3445,7 @@ function draw(t){
  else if(S.area==='lab'){rad=TS*5.2*(1+.02*Math.sin(t*5));dark=.82;}
  else if(S.area==='nl'){const inB=P.x>29*TS&&P.x<43*TS&&P.y<11*TS;rad=TS*5.5;dark=inB?.5:0;}
  else if(S.area==='factory'){if(S.past){rad=TS*9;dark=.3;}else if(S.flags.power){rad=TS*6.5;dark=.62;}else{rad=TS*4.6*(1+.03*Math.sin(t*7));dark=.88;}}
+ else if(S.area==='room'){rad=TS*7;dark=.45;}
  else if(S.past){rad=TS*9;dark=.3;}
  else{rad=TS*4.3*(1+.03*Math.sin(t*9))*(Math.random()<.008?.8:1);dark=.9;}
  drawVision(pcx,pcy,rad,dark,camX,camY,k);
@@ -3443,6 +3489,7 @@ function mixc(c,f,t){return 'rgb('+Math.round(c[0]+(f[0]-c[0])*t)+','+Math.round
 function fpPal(){
  const a=S.area,p=S.past,nl=a==='nl',inB=nl&&P.x>29*TS&&P.x<43*TS&&P.y<11*TS;
  if(nl)return inB?{fog:'#1d1a2a',sky:'#2a2540',floor:'#3a3453'}:{fog:'#e9edf5',sky:'#cfe0f5',floor:'#efece5'};
+ if(a==='room')return {fog:'#141210',sky:'#1e1c19',floor:'#3a3631'};
  if(a==='city')return {fog:'#0c0c0c',sky:'#1c1c1c',floor:'#333333'};
  if(a==='school')return p?{fog:'#4a4a48',sky:'#9a9a96',floor:'#767673'}:{fog:'#050505',sky:'#181818',floor:'#2d2d2c'};
  if(a==='factory')return p?{fog:'#4a4d4d',sky:'#8a8d8d',floor:'#6f7272'}:{fog:S.flags.power?'#141412':'#080909',sky:'#171818',floor:'#2a2c2c'};
@@ -3461,13 +3508,13 @@ function wallH(t){if(t==='V')return 4;if(t==='B')return 1.8;if(t==='#'&&S.area==
 const SPR={stand:[.6,.7,'#4d4d4d'],phone:[1.25,.6,'#333333'],graffiti:[.3,1.2,'#7a2422',.4],radio:[.35,.65,'#2a2f2f',.3],busstop:[1.3,.35,'#8d8a83'],mailbox:[.35,.4,'#444444',.35],
  keypad:[.28,.28,'#2a2a2a',.45],book:[.45,.6,'#4a4a48'],board:[.4,1.6,'#1d221e',.35],camera:[.62,.45,'#3a3a3a'],docs:[.45,.6,'#4a4a48'],speaker:[.2,.35,'#3d3d3d',.65],
  fuse:[.5,.6,'#4d4d4d'],memo:[.45,.6,'#d8dee8'],console:[.62,.8,'#333333'],hatch:[.04,.65,'#3a3a38'],exitdoor:[.95,.9,'#403b39'],monitor:[.62,.7,'#1d2b44'],
- lever:[.45,.35,'#2b2d2d',.3],gen:[.95,1.7,'#2f3131'],device:[.6,.55,'#eaf2ff',.25],coat:[.9,.42,'#eef2fa'],ghost:[.88,.42,'#b4cbf2'],sign:[.35,.5,'#6b5a1a',.45],b3sign:[.36,.58,'#2a2c2e',.42],dpanel:[.75,.5,'#1a1d21'],nlstand:[.6,.7,'#f6f3ed'],
+ lever:[.45,.35,'#2b2d2d',.3],gen:[.95,1.7,'#2f3131'],device:[.6,.55,'#eaf2ff',.25],coat:[.9,.42,'#eef2fa'],ghost:[.88,.42,'#b4cbf2'],sign:[.35,.5,'#6b5a1a',.45],b3sign:[.36,.58,'#2a2c2e',.42],dpanel:[.75,.5,'#1a1d21'],rbed:[.42,.9,'#8d8a84'],rdesk:[.55,.9,'#5a544c'],rfridge:[.95,.6,'#c9c6bf'],rshelf:[1.05,.75,'#3a352f'],rdoor:[1,.8,'#4a443c'],rwin:[.45,.6,'#f2f2f0',.35],rclock:[.25,.25,'#e7e3da',.6],rmirror:[.4,.25,'#b9bec2',.35],nlstand:[.6,.7,'#f6f3ed'],
  terminal:[.75,1.3,'#15171a'],term:[.62,.7,'#1b2536'],recorder:[.3,.6,'#3c3f44'],tank:[1.15,.6,'#9fc4d8'],codepad:[.26,.45,'#5a4c18',.42],portal:[1.15,1.5,'#d8dce6'],
  irondoor:[1.7,2.9,'#3a3533'],clock:[1.25,.38,'#f4f4f0'],tower:[2.3,1.9,'#d8c6f1'],nphone:[1.25,.6,'#e87a8a'],nstop:[1.3,.35,'#bfd0f6'],schooldoor:[.95,.9,'#8fa9d6'],
  kiosk:[1.25,.8,'#b9e4cf'],upstair:[.95,.7,'#fafafa'],downstair:[.95,.7,'#fafafa'],hallexit:[.05,.7,'#d9c7a3'],person:[.88,.42,'#888888'],core:[1.5,1.7,'#ffffff',.1],
  pedestal:[.55,.45,'#fafafa'],retgate:[.75,.6,'#e8eaf2'],chair31:[.5,.5,'#fafafa'],card:[.06,.35,'#e89aa8']};
 const FIG=new Set(['coat','ghost','person']);
-const FPTEX={dpanel:[6,0,20,28],nlstand:[1,2,30,26],b3sign:[5,6,22,15],phone:[5,-18,22,46],nphone:[5,-18,22,46],stand:[1,2,30,26],busstop:[1,-19,30,47],nstop:[1,-19,30,47],mailbox:[5,7,22,20],keypad:[8,7,16,22],radio:[1,4,30,25],
+const FPTEX={rbed:[1,0,62,28],rdesk:[2,4,60,16],rfridge:[5,-8,22,36],rshelf:[3,-10,26,38],rdoor:[4,0,24,32],dpanel:[6,0,20,28],nlstand:[1,2,30,26],b3sign:[5,6,22,15],phone:[5,-18,22,46],nphone:[5,-18,22,46],stand:[1,2,30,26],busstop:[1,-19,30,47],nstop:[1,-19,30,47],mailbox:[5,7,22,20],keypad:[8,7,16,22],radio:[1,4,30,25],
  graffiti:[-10,6,52,24],book:[4,4,24,16],camera:[4,4,24,16],docs:[4,4,24,16],memo:[4,4,24,16],board:[-16,1,64,26],speaker:[9,6,14,12],fuse:[2,3,28,25],console:[0,0,32,28],
  exitdoor:[0,0,32,32],monitor:[2,0,28,19],lever:[8,4,16,23],gen:[-12,2,56,26],sign:[6,6,20,15],terminal:[-10,-12,52,40],term:[3,0,26,27],recorder:[4,10,24,15],tank:[4,-12,24,42],
  codepad:[22,7,20,17],irondoor:[-6,-44,108,76],tower:[5,-72,54,104],schooldoor:[0,0,32,32],kiosk:[1,-13,30,41],upstair:[4,4,24,28],downstair:[4,4,24,28],pedestal:[7,4,18,26],chair31:[7,3,18,24]};
@@ -3487,19 +3534,19 @@ function rubble3D(x,y){
  if(R()<.5){const h=.3+R()*.25;out.push({bar:{x:x+.3+R()*.4,y:y+.3+R()*.4,sp:[h,.025,'#1c1c1c'],col:'#1c1c1c'}});}
  return RUB3D[key]=out;
 }
-const BOXT=new Set(['dpanel','nlstand','b3sign','stand','phone','graffiti','radio','mailbox','keypad','book','board','camera','docs','speaker','fuse','memo','console','hatch','exitdoor','monitor','lever','gen','sign','terminal','term','recorder','tank','codepad','irondoor','tower','nphone','nstop','schooldoor','kiosk','upstair','downstair','hallexit','pedestal','chair31','busstop']);
+const BOXT=new Set(['rbed','rdesk','rfridge','rshelf','rdoor','dpanel','nlstand','b3sign','stand','phone','graffiti','radio','mailbox','keypad','book','board','camera','docs','speaker','fuse','memo','console','hatch','exitdoor','monitor','lever','gen','sign','terminal','term','recorder','tank','codepad','irondoor','tower','nphone','nstop','schooldoor','kiosk','upstair','downstair','hallexit','pedestal','chair31','busstop']);
 function lighten(h,f){const c=rgb(h);return '#'+c.map(v=>Math.min(255,Math.round(v*f)).toString(16).padStart(2,'0')).join('');}
 const LOWT={r:[.35,.95,'#4f4f4f'],c:[.5,1,'#474747'],d:[.42,.78,'#4a4a4a'],C:[.5,.55,null],T:[1.7,.14,'#161616']};
 /* 바닥 텍스처 투영 (1인칭) */
 const FTEXC={};
-const FLOOR_OF={'p':'p','Z':'Z','k':'k',',':',','.':'.','f':'f','m':'m','n':'n','w':'w','o':'o','Y':'Y','R':'R','W':'W','v':'v','c':'.','g':'.','G':'.','T':',','N':'o','C':'w','S':'n','q':'n','j':'n','d':'f','H':'f','U':'U'};
+const FLOOR_OF={'O':'O','p':'p','Z':'Z','k':'k',',':',','.':'.','f':'f','m':'m','n':'n','w':'w','o':'o','Y':'Y','R':'R','W':'W','v':'v','c':'.','g':'.','G':'.','T':',','N':'o','C':'w','S':'n','q':'n','j':'n','d':'f','H':'f','U':'U'};
 function floorTexData(t,x,y){
  const key=S.area+t+(S.past?1:0)+'|'+x+','+y;let d=FTEXC[key];if(d)return d;
  const cv2=tileCanvas(t,x,y).cv;let data=null;
  try{const g=cv2.getContext('2d');data=g.getImageData(0,0,64,64).data;if(!data||typeof data.length!=='number'||data.length<16384)data=null;}catch(e){data=null;}
  return FTEXC[key]=data||new Uint8ClampedArray(64*64*4).fill(60);
 }
-function defFloor(){return {city:',',school:'f',factory:'m',lab:'n',nl:'w'}[S.area]||',';}
+function defFloor(){return {city:',',school:'f',factory:'m',lab:'n',nl:'w',room:'O'}[S.area]||',';}
 let FIMG=null;
 function floorCast(c,W,H,hor,posX,posY,dirX,dirY,plX,plY,maxD,pal){
  const y0=Math.max(0,Math.ceil(hor+1));if(y0>=H)return;const rows=H-y0;
@@ -3531,7 +3578,7 @@ function drawFP(t){
  if(fpc.width!==W||fpc.height!==H){fpc.width=W;fpc.height=H;}
  const c=fctx,pal=fpPal(),fog=rgb(pal.fog);
  const posX=P.x/TS,posY=(P.y-6)/TS,A=P.lookA,dirX=Math.cos(A),dirY=Math.sin(A),pl=Math.tan(1.2/2),plX=-dirY*pl,plY=dirX*pl;
- let rad=TS*5;if(S.area==='city')rad=TS*6;else if(S.area==='nl')rad=TS*6;else if(S.past)rad=TS*9;else if(S.area==='factory')rad=TS*(S.flags.power?6.5:4.6);else if(S.area==='lab')rad=TS*5.2;else rad=TS*4.3;
+ let rad=TS*5;if(S.area==='city')rad=TS*6;else if(S.area==='nl')rad=TS*6;else if(S.past)rad=TS*9;else if(S.area==='factory')rad=TS*(S.flags.power?6.5:4.6);else if(S.area==='lab')rad=TS*5.2;else if(S.area==='room')rad=TS*7;else rad=TS*4.3;
  const maxD=rad*VISION_BOOST/TS*(S.area==='nl'?1.6:1);
  const bob=P.walkW*(1.2+1.8*P.runW)*Math.sin(P.phase*2)*H/220;const hor=H/2+bob;
  let g=c.createLinearGradient(0,0,0,hor);g.addColorStop(0,pal.sky);g.addColorStop(1,pal.fog);c.fillStyle=g;c.fillRect(0,0,W,hor+1);
@@ -3723,6 +3770,7 @@ requestAnimationFrame(loop);
 /* ================= TITLE / END ================= */
 $('tCtl').innerHTML=isTouch?'화면 왼쪽을 끌어 이동하고, 조사 버튼으로 기록을 살핍니다.':'WASD 또는 방향키로 이동 · Shift로 달리기 · Enter로 조사<br>Space나 마우스 클릭으로 공격 (꾹 누르면 강공격) · Q 무기 전환 · 1·2·3 아이템<br>Tab으로 기록 보관함 · M으로 지도 · Z로 1인칭 시점';
 accountUI();initAccount();
+setTimeout(()=>{let go=false;try{go=sessionStorage.getItem('ruins-day1')==='1';sessionStorage.removeItem('ruins-day1');}catch(e){}if(go&&!started)beginNew();},300);
 $('btnNew').onclick=()=>{
  if(!loadSave()){beginNew();return;}
  const bt=$('tBtns');const keep=bt.innerHTML;
@@ -3808,7 +3856,8 @@ function endC(){
  box.innerHTML='<div class="nq">기록을 시작하시겠습니까?</div><div class="t-yn nyn"><button id="cY">YES</button><button id="cN">NO</button></div>';
  wipeSave();
  const go=yes=>{
-  serifLines(yes?['나는 고개를 끄덕였다.','발끝부터 몸이 가벼워진다. 나는 빛이 되어 간다.','서윤이 웃는다. 어디선가 축제 음악이 들린다.','이제, 아무것도 끝나지 않는다.']:['나는 고개를 저었다.','하지만 빛은 이미 나를 적고 있었다.','……기록은 이미 시작되었습니다.'],1700,()=>{
+  if(!yes){serifLines(['나는 고개를 저었다.','빛이 천천히 꺼진다.','……','눈을 뜨자, 낯익은 천장이었다.'],1700,enterRoom);return;}
+  serifLines(['나는 고개를 끄덕였다.','발끝부터 몸이 가벼워진다. 나는 빛이 되어 간다.','서윤이 웃는다. 어디선가 축제 음악이 들린다.','이제, 아무것도 끝나지 않는다.'],1700,()=>{
    box.classList.add('hidden');const c=$('endCard');c.classList.remove('hidden');
    addEnding('C');
    c.innerHTML='<h2>END C</h2><div class="q">누리느엘</div><p>누리느엘의 중심에서, 기록자는 도시와 함께 영원히 기록되었다.<br>31번째 의자는 더 이상 비어 있지 않다.</p><p class="next">탈출구에는 아직 고르지 않은 선택지가 남아 있다.</p><div class="t-btns"><button id="eNew">다시 기록하기</button></div>';
@@ -3816,6 +3865,20 @@ function endC(){
   });
  };
  $('cY').onclick=()=>go(true);$('cN').onclick=()=>go(false);
+}
+function enterRoom(){
+ const el=$('end');el.classList.add('hidden');el.classList.remove('nuri');$('endLines').classList.add('hidden');$('endCard').classList.add('hidden');
+ endOpen=false;S.area='room';S.past=false;P.x=3.5*TS;P.y=3.6*TS;P.lookA=Math.PI/2;clearZombies();
+ document.body.classList.remove('bright');updateHUD(true);updateCombatHud(true);refreshBusy();alog('USER 위치 · 원룸');
+ say(['작은 원룸. 내 방이다.','…언제부터 여기 있었지?']);
+}
+function bedAct(){
+ if(S.area!=='room')return;
+ say([{t:'침대. 이불이 반듯하게 정돈되어 있다.',c:[{l:'잠을 잔다',f:sleepToDay1},{l:'아직은'}]}]);
+}
+function sleepToDay1(){
+ cinema=true;refreshBusy();const f=$('fade');
+ say(['눈을 감았다.'],()=>{f.classList.add('on');setTimeout(()=>{try{sessionStorage.setItem('ruins-day1','1');}catch(e){}location.reload();},1600);});
 }
 const LOOPKEY='ruins-record-loop';
 function endStop(){

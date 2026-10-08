@@ -151,7 +151,7 @@ body.bright #minimap{border-color:#b8b4c6}
 #title h1{font-size:clamp(46px,11vw,96px);font-weight:900;margin:0;letter-spacing:-.02em;line-height:1.05;position:relative;display:inline-block}
 #title h1{text-shadow:0 0 22px rgba(231,227,218,.10),0 2px 0 rgba(0,0,0,.6)}
 #title h1::before,#title h1::after{content:attr(data-t);position:absolute;inset:0;pointer-events:none;opacity:0}
-#title h1::before{color:rgba(200,50,45,.8);animation:tglA 7s infinite steps(1)}
+#title h1::before{color:rgba(160,160,155,.75);animation:tglA 7s infinite steps(1)}
 #title h1::after{color:rgba(231,227,218,.7);animation:tglB 7s infinite steps(1)}
 @keyframes tglA{0%,90%,100%{opacity:0;transform:none;clip-path:inset(0)}91%{opacity:1;transform:translateX(-4px);clip-path:inset(16% 0 62% 0)}92.5%{opacity:1;transform:translateX(3px);clip-path:inset(58% 0 20% 0)}94%{opacity:0}}
 @keyframes tglB{0%,90.5%,100%{opacity:0;transform:none;clip-path:inset(0)}91.5%{opacity:1;transform:translateX(5px);clip-path:inset(38% 0 42% 0)}93%{opacity:0}}
