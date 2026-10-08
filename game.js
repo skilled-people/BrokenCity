@@ -70,7 +70,7 @@ const R={
  code:{title:'최종 잠금 해제 코드',type:'연구 자료',place:'지하 연구시설, ARCHIVE실',date:'날짜 불명',color:'red',esc:true,
   text:'비상 탈출구 최종 잠금 해제 코드.\n\n코드 = [관측 대상의 수] + [누리느엘 개방 시각의 분]\n\n네 자리. 기록을 기억하는 자만 문을 열 수 있다.\n\n탈출구로 이어지는 마지막 기록이다.'},
  notfirst:{title:'피험자 31 관찰 기록',type:'연구 자료',place:'지하 연구시설, 폐쇄된 실험실',date:'2026.10.14',color:'red',
-  text:'피험자 31. 스스로를 기록자라 인식함. 이전 회차의 기억 없음.\n\n관측자는 관측되지 않는다. 피험자 31의 얼굴은 어떤 영상에도 남지 않는다.\n\n회차: 5\n\n마지막 줄, 붉은 펜으로 덧쓴 글씨.\n\n"기록자는 이곳에 처음 온 사람이 아니다."'},
+  text:'피험자 31. 첫 번째 기록자. 2011.10.14 이후 관측 불가.\n\n관측자는 관측되지 않는다. 기록자의 얼굴은 어떤 영상에도 남지 않는다.\n\n후속 기록자: 2 · 3 · 4 · 5 — 관측 종료.\n현재 기록자: 6 — 관측 중. 이전 기록자의 기억 없음.\n\n마지막 줄, 붉은 펜으로 덧쓴 글씨.\n\n"이 노트를 든 사람은 네가 처음이 아니다."'},
  c0400:{title:'광장의 가로등 시계',type:'시계',place:'누리느엘, 광장',date:'04:00',color:'white',
   text:'광장 가로등에 매달린 시계는 04시 00분에서 멈춰 있다.\n\n신문이 말한 사고 시각이다. 그런데 이 시계만 유독 색이 바래 있다. 누군가 억지로 바늘을 돌려 놓은 것처럼.'},
  c1500:{title:'강당 시계',type:'시계',place:'누리느엘, 홀',date:'15:00',color:'nuri',
@@ -82,12 +82,12 @@ const R={
  c1702:{title:'서윤의 손목시계',type:'시계',place:'누리느엘, 홀',date:'17:02',color:'nuri',
   text:'서윤의 손목시계는 17시 02분에서 멈춰 있다.\n\n방송이 흘러나오고, 누리느엘이 열린 시각.'},
  seoyun:{title:'한서윤',type:'사람',place:'누리느엘, 홀',date:'2011.10.14',color:'nuri',
-  text:'홀 한가운데, 교복 차림의 소녀가 웃고 있다. 폴라로이드 속 그 얼굴이다.\n\n"오늘 축제 진짜 재밌었지? 내일도 축제야. 모레도."\n\n"너 그날 하루 종일 노트에 뭘 적었잖아. 내 이름도, 내 얼굴도. 그래서 나는 여기 온전히 있는 거래."\n\n"여기선 아무도 늙지 않아. 아무것도 끝나지 않아. …근데 너는 왜 자꾸 떠나?"'},
+  text:'홀 한가운데, 교복 차림의 소녀가 웃고 있다. 폴라로이드 속 그 얼굴이다.\n\n"오늘 축제 진짜 재밌었지? 내일도 축제야. 모레도."\n\n"…어? 너도 그 노트 들고 있네. 근데 너는 그 애가 아니구나."\n\n"그 애는 그날 하루 종일 노트에 우리를 적었어. 내 이름도, 내 얼굴도. 그래서 나는 여기 온전히 있는 거래. …근데 그 애는, 자기 이름은 끝내 못 적었어."\n\n"여기선 아무도 늙지 않아. 아무것도 끝나지 않아. 너는 몇 번째야?"'},
  phone2:{title:'누리느엘의 공중전화',type:'전화기',place:'누리느엘, 광장',date:'날짜 불명',color:'red',
   text:'수화기를 들자, 입이 저절로 움직였다.\n\n"……거기 누구 있어요? 신문은 믿지 마세요. 그날, 학교엔 사람들이 있었어요."\n\n도시의 공중전화에서 들었던 그 목소리. 그건 나였다.',
   pages:[{t:'공중전화가 울린다. 수화기를 들었다.'},{t:'상대편에서는 잡음만 들린다. 그런데 내 입이 저절로 움직였다.'},{s:'나',t:'……거기 누구 있어요?'},{s:'나',t:'신문은 믿지 마세요. 그날, 학교엔 사람들이 있었어요.'},{s:'나',t:'다들 아직… 아직 거기서……'},{s:'나',t:'……기록자님?'},{t:'뚝.'},{t:'도시의 공중전화에서 들었던 목소리.\n그건, 나였다.'}]},
  nlcore:{title:'기록자의 기록',type:'기록',place:'누리느엘, 중심부',date:'모든 회차',color:'nuri',
-  text:'모든 회차의 기록자가 남긴 한 권의 기록.\n\n1회차: 축제 날, 노트에 모두를 적었다. 17:02, 문이 열렸다.\n2회차: 흰 코트를 입고 레버를 당겼다. 같은 날을 다시 열기 위해. 그리고 잊었다.\n3회차: 이곳에서 빛에 닿았다. 기록이 되었다.\n4회차: 문을 열었다. 진실을 안 채 떠났다. 그리고 다시 DAY 1.\n5회차: 기록을 지켰다. 이곳에 왔다. 되돌아갔다.\n\n한 번도, 모든 기록을 가져간 적은 없다.\n\n6회차: ____'}
+  text:'지금까지 이 노트를 이어받은 기록자들의 이름 없는 명단.\n\n첫 번째: 축제 날의 31번. 모두를 적었지만, 자기 이름을 적어 줄 사람은 없었다. → 노이즈\n두 번째: 흰 코트를 입고 레버를 당겼다. 같은 날을 다시 열면 첫 번째를 구할 수 있다고 믿었다. → 노이즈\n세 번째: 스스로 빛 속으로 들어가려 했다. 영혼만 건너갔다. → 노이즈\n네 번째: 진실을 안 채 탈출구를 열었다. → 바깥\n다섯 번째: 모든 기록을 지키려다 시간을 잃었다. → 노이즈\n\n넷은 몸으로 남았고, 하나는 나갔다.\n\n여섯 번째: ____'}
  ,kc1:{title:'노이즈 좀비의 주민증',type:'처치 기록',place:'폐허 도시, 쓰러진 좀비',date:'날짜 불명',color:'white',
   text:'쓰러진 좀비의 주머니에서 나온 삼실특별시 주민등록증.\n\n사진 칸의 얼굴만 지지직거리는 노이즈로 번져 있다. 이름과 주소는 멀쩡한데.\n\n이 사람은 이 도시에 살던 주민이었다.'}
  ,kc5:{title:'구겨진 쪽지',type:'처치 기록',place:'폐허 도시, 쓰러진 좀비',date:'2011.10.14',color:'white',
@@ -118,6 +118,16 @@ const R={
   text:'[대안 1] 도시 전체 이주 — 기각.\n시험 이주한 세 가구의 사진도 새 주소에서 지워졌다. 소실은 장소가 아니라 사람을 따라온다.\n\n[대안 2] 석말공장 가동 중단 — 기각.\n사흘간 멈추자 소실 속도가 두 배가 되었다. 누리 신호가 약해지면 관측도 함께 줄어든다. 공장은 멈출 수 없다.\n\n[대안 3] 전 시민 기록 보관(ARCHIVE만 운영) — 기각.\n기록은 남지만 사람은 계속 사라진다. "기록만 남은 도시"가 될 뿐이다.\n\n[대안 4] 단계적 시험 개방 — 중단.\n관측 대상 31명 중 일부에게서 영혼과 육체가 분리되는 현상 확인. 그러나 소실이 가속되어, 남은 시간이 없다.\n\n→ 전면 개방으로 결정.'}
  ,nuriobj:{title:'마지막 반대 의견',type:'메모',place:'지하 연구시설, NURI 회의실',date:'2011.10.07',color:'red',
   text:'회의록에 실리지 않은 한 장.\n\n"영혼만 들어가고 몸이 남는다면, 남은 몸은 누가 기록합니까? 우리는 사람을 구하는 게 아니라, 사람을 둘로 쪼개는 겁니다."\n\n"표결 18 대 1. 반대한 사람은 나 하나였다. 그래도 적어 둔다. 언젠가 누군가 이걸 읽고, 남겨진 쪽을 기억해 주기를."'}
+ ,rz1:{title:'첫 번째 기록자의 노트',type:'기록자의 노트',place:'폐교, 노트를 든 좀비',date:'2011.10.14',color:'red',
+  text:'교복 차림의 좀비가 품에 안고 있던 노트. 명찰에는 "기록자"라고만 적혀 있다.\n\n"17:00. 줄이 끝나지 않는다. 서윤이 얼굴은 다 적었다. 이제 남은 사람들도—"\n"17:02. 빛이 열렸다. 다들 걸어간다. 나도 가야 하는데."\n\n"내 이름은 누가 적어 주지?"\n\n마지막 페이지는 비어 있다.'}
+ ,rz2:{title:'두 번째 기록자의 노트',type:'기록자의 노트',place:'거대 공장, 노트를 든 좀비',date:'날짜 불명',color:'red',
+  text:'흰 코트를 걸친 좀비의 노트.\n\n"첫 번째는 자기 이름을 적지 못해서 몸만 남았다. 같은 날을 다시 열면, 이번엔 내가 그 애 이름을 적어 줄 수 있다."\n\n"레버 순서는 B, C, A. 매뉴얼은 일부러 틀리게 써 두었다. 다른 누구도 이 문을 다시 열지 못하게."\n\n"레버를 당기는 순간, 손등부터 지지직 번지기 시작했다."'}
+ ,rz3:{title:'세 번째 기록자의 노트',type:'기록자의 노트',place:'지하 연구시설, 노트를 든 좀비',date:'날짜 불명',color:'red',
+  text:'빛에 그을린 듯한 좀비의 노트.\n\n"적히면 사라지지 않는다. 그러니 내가 직접 빛 속으로 들어가면 된다. 누리느엘이 나를 기록해 줄 테니까."\n\n"손을 뻗었다. 영혼만 건너갔다. 몸은 여기 서 있다."\n\n"이걸 쓰고 있는 손이, 아직 내 손인지 모르겠다."'}
+ ,rz5:{title:'다섯 번째 기록자의 노트',type:'기록자의 노트',place:'폐허 도시, 노트를 든 좀비',date:'날짜 불명',color:'red',
+  text:'후드를 깊게 눌러쓴 좀비의 노트. 글씨가 빽빽하다.\n\n"하나도 지우지 않겠다. 모든 기록을 지키겠다. 그러면 언젠가 모두를 꺼낼 수 있다."\n\n"기록을 세다가 시간이 다 됐다. 나가지도, 들어가지도 못했다."\n\n"여섯 번째에게. 노트를 끝까지 혼자 들고 있지 마."'}
+ ,esc4:{title:'네 번째 기록자의 쪽지',type:'쪽지',place:'폐허 도시, 철문 틈',date:'날짜 불명',color:'blue',
+  text:'처음 눈을 뜬 곳 옆, 철문 틈에 접힌 쪽지가 끼워져 있다.\n\n"나는 나간다. 진실은 알았지만, 기록은 다 두고 간다."\n\n"넷 중 셋은 노이즈가 되었고, 한 명은 아직 노트를 들고 이 도시를 헤맨다. 그 애들을 괴물이라고 부르지 마."\n\n"문 밖이 어땠는지는 적지 않겠다. 다음 기록자가, 직접 보기를. — 네 번째"'}
  ,nlpaper:{title:'누리느엘 일보',type:'신문',place:'누리느엘, 광장 가판대',date:'매일 10월 14일',color:'nuri',
   text:'[1면] 들어오지 못한 사람들\n\n17시 02분, 많은 이들이 누리느엘로 향했다. 기록자의 노트에 적힌 사람은 온전히 닿았다. 적히지 못한 사람은 영혼만 이곳에 닿고, 육체는 폐허에 남았다.\n\n남겨진 몸에는 의식이 없다. 얼굴은 기록되지 않아 노이즈로 번지고, 본능만 남아 움직인다. 폐허를 떠도는 그들은 괴물이 아니다.\n\n그러니 누리느엘에는 그들이 없다. 그들은 이미, 여기 있으니까.'}
 };
@@ -146,7 +156,7 @@ const CONTRA=[
  {a:'manual',b:'resdiary',flag:'manualLie',title:'거짓 매뉴얼',
   text:'매뉴얼은 A, B, C 순서를 지시한다.\n연구원은 매뉴얼대로 당기면 발전기가 폭주한다고 적었다.\n\n믿을 수 있는 건 그날 흰 코트의 사람이 당긴 순서뿐이다.'},
  {a:'cctv',b:'video',title:'노트를 든 사람',
-  text:'축제 영상 속 "기록자" 명찰의 학생. CCTV 속 흰 코트의 어른.\n둘 다 같은 노트에 무언가를 계속 적고 있다.\n\n학생은 처음의 나. 흰 코트는, 같은 날로 다시 돌아온 나.'},
+  text:'축제 영상 속 "기록자" 명찰의 학생. CCTV 속 흰 코트의 어른.\n둘 다 같은 노트에 무언가를 계속 적고 있다.\n\n같은 노트, 다른 사람. 노트는 기록자에서 기록자로 넘어갔다.'},
  {a:'nuri',b:'nuriel',title:'지워진 이름',
   text:'학교의 보고서에서 검게 지워져 있던 네 글자.\n공장의 문서는 그 이름을 숨기지 않는다.\n\n누리느엘. 도시가 사라진 이유는 그곳에 있다.'},
  {a:'accesslog',b:'diary2',title:'매년 같은 날',
@@ -182,8 +192,14 @@ const CONTRA=[
  {a:'nurialt',b:'archive',title:'기각된 대안이 남았다',text:'기각된 대안 3: ARCHIVE만 운영하면 "기록만 남은 도시"가 된다.\n지금 이 도시에는 사람이 없고, ARCHIVE만 돌아가고 있다.\n\n버린 대안이, 결국 이 도시의 모습이 되었다.'},
  {a:'nuriobj',b:'nlpaper',title:'예견된 몸',text:'반대 의견: "남은 몸은 누가 기록합니까?"\n누리느엘 일보: 영혼은 닿았지만 육체는 폐허에 남았다.\n\n단 한 사람이 경고한 일이, 그대로 일어났다.'},
  {a:'nurimeet',b:'kc1',title:'소실의 흔적',text:'회의록: 사라지는 사람은 먼저 사진 속 얼굴이 노이즈로 번진다.\n좀비의 주민증: 얼굴만 노이즈로 지워져 있었다.\n\n좀비의 노이즈는, 소실이 남긴 자국이다.'},
- {a:'nlpaper',b:'seoyun',title:'적어 준 사람',text:'누리느엘 일보: 기록되지 못한 사람은 몸을 남겼다.\n서윤: "너가 내 얼굴을 적어 줬잖아. 그래서 나는 여기 온전히 있어."\n\n서윤은 기록자가 끝까지 적어 준 사람이었다.'},
- {a:'cctv',b:'notfirst',title:'노이즈 속 얼굴',text:'CCTV 속 흰 코트의 얼굴은 노이즈에 가려져 있다.\n피험자 31 관찰 기록: 관측자의 얼굴은 어떤 영상에도 남지 않는다.\n\n레버를 당긴 그 사람은, 나였다.'}
+ {a:'nlpaper',b:'seoyun',title:'적어 준 사람',text:'누리느엘 일보: 기록되지 못한 사람은 몸을 남겼다.\n서윤: "그 애가 내 얼굴을 적어 줬어. 그래서 나는 여기 온전히 있어."\n\n서윤은 첫 번째 기록자가 끝까지 적어 준 사람이었다.'},
+ {a:'cctv',b:'notfirst',title:'노이즈 속 얼굴',text:'CCTV 속 흰 코트의 얼굴은 노이즈에 가려져 있다.\n관찰 기록: 기록자의 얼굴은 어떤 영상에도 남지 않는다.\n\n레버를 당긴 그 사람도, 이 노트를 들었던 기록자였다.'},
+ {a:'rz1',b:'roll',title:'적히지 못한 31번',text:'출석부에는 30명뿐이다.\n첫 번째 기록자의 노트: "내 이름은 누가 적어 주지?"\n\n모두를 적은 아이만, 어디에도 적히지 못했다.'},
+ {a:'rz2',b:'cctv',title:'흰 코트의 정체',text:'CCTV 속 흰 코트의 사람이 레버를 당긴다.\n두 번째 기록자의 노트: 흰 코트를 입고, 첫 번째를 구하려고 같은 날을 다시 열었다.\n\n흰 코트는 두 번째 기록자였다.'},
+ {a:'rz2',b:'manual',title:'일부러 틀린 매뉴얼',text:'정비 매뉴얼: A → B → C.\n두 번째 기록자의 노트: 매뉴얼은 일부러 틀리게 써 두었다.\n\n함정은, 다음 기록자를 막으려던 앞선 기록자의 흔적이었다.'},
+ {a:'rz3',b:'nlpaper',title:'건너가지 못한 기록자',text:'누리느엘 일보: 영혼은 닿았지만, 육체는 폐허에 남았다.\n세 번째 기록자의 노트: 스스로 빛에 들어갔지만, 몸은 여기 서 있다.\n\n기록자조차, 온전히 건너가지 못했다.'},
+ {a:'esc4',b:'nlcore',title:'넷과 하나',text:'네 번째 기록자의 쪽지: "그 애들을 괴물이라고 부르지 마."\n기록자들의 명단: 넷은 노이즈로 남았고, 하나는 나갔다.\n\n내가 쓰러뜨린 노트를 든 좀비들은, 나보다 먼저 이 노트를 들었던 사람들이다.'},
+ {a:'rz5',b:'nlcore',title:'여섯 번째에게',text:'다섯 번째 기록자의 노트: "여섯 번째에게. 노트를 끝까지 혼자 들고 있지 마."\n기록자들의 명단, 마지막 줄: 여섯 번째: ____\n\n빈칸은, 나다.'}
 ];
 const ESC=[{id:'map',l:'출입구 위치 기록',a:'폐허 도시'},{id:'broadcast',l:'대피 방송 기록',a:'폐교'},{id:'power',l:'전력 공급 기록',a:'거대 공장'},{id:'code',l:'최종 잠금 해제 코드',a:'지하 연구시설'}];
 
@@ -1063,6 +1079,7 @@ function retAct(){
  say([{t:'작은 하얀 고리. 너머로 연구시설의 장치실이 보인다.',c:[{l:'연구시설로 돌아간다',f:()=>goArea('lab',18*TS,15.3*TS)},{l:'그만둔다'}]}]);
 }
 function exitDoorAct(){
+ if(!has('esc4')){say(['철문 틈에 접힌 종이가 끼워져 있다.'],()=>readRecord({rec:'esc4'},exitDoorAct));return;}
  const n=S.records.length;
  say([
   '건물 벽에 박힌 거대한 철문. 이 도시에서 처음 눈을 뜬 곳 바로 옆이다.',
@@ -1535,7 +1552,8 @@ function saveSoon(){clearTimeout(saveSoonT);saveSoonT=setTimeout(save,1500);}
 let AC=null;function playSwing(hit){try{if(!AC)AC=new (window.AudioContext||window.webkitAudioContext)();const t=AC.currentTime,o=AC.createOscillator(),g=AC.createGain();
  o.type=hit?'square':'sine';o.frequency.setValueAtTime(hit?140:420,t);o.frequency.exponentialRampToValueAtTime(hit?60:180,t+.12);g.gain.setValueAtTime(hit?.08:.03,t);g.gain.exponentialRampToValueAtTime(.001,t+.14);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+.15);}catch(e){}}
 function killZombie(z){
- z.dead=true;z.deadT=0;const a=S.area;S.kills[a]=(S.kills[a]||0)+1;const n=S.kills[a];alog('USER 처치 · 노이즈 좀비 ('+n+')');
+ z.dead=true;z.deadT=0;
+ if(z.boss&&!has(z.boss.rec)){collect(z.boss.rec);alog('USER 처치 · '+z.boss.name);FLOATS.push({x:z.x,y:z.y-70,txt:z.boss.name+'의 노트',col:'#d8b13a',t:0});}const a=S.area;S.kills[a]=(S.kills[a]||0)+1;const n=S.kills[a];alog('USER 처치 · 노이즈 좀비 ('+n+')');
  const idx=KILL_STEPS.indexOf(n);if(idx>=0){const id=KILL_RECS[a][idx];if(!has(id)){collect(id);FLOATS.push({x:z.x,y:z.y-60,txt:'기록 획득',col:'#d8b13a',t:0});}}
  updateCombatHud(true);
 }
@@ -1559,7 +1577,12 @@ function scheduleGroup(){
  for(let i=0;i<n;i++){const p=c[Math.floor(Math.random()*c.length)];ZMARK.push({x:p.x+(Math.random()-.5)*10,y:p.y+(Math.random()-.5)*6,sx:p.sx,sy:p.sy,kind:p.kind,t:3});}
  if(!S.flags.zWarned){S.flags.zWarned=1;toast('붉은 표시가 뜬 곳에서 3초 뒤 노이즈 좀비가 나타난다',COL.red);}
 }
-function spawnZombie(mk){const hp=70+Math.floor(Math.random()*81);ZOMBIES.push({x:mk.x,y:mk.y,hp,max:hp,sp:30+Math.random()*16,v:Math.floor(Math.random()*3),cd:.8,flash:0,kx:0,ky:0,ph:Math.random()*6,dead:false,deadT:0,born:.4});}
+const REC_Z={school:{n:1,name:'첫 번째 기록자',rec:'rz1',shirt:'#d9d6cf',pants:'#2c3450',tag:1},factory:{n:2,name:'두 번째 기록자',rec:'rz2',shirt:'#e8e8e4',pants:'#2a2a2a',coat:1},
+ lab:{n:3,name:'세 번째 기록자',rec:'rz3',shirt:'#9aa0aa',pants:'#22252a',glow:1},city:{n:5,name:'다섯 번째 기록자',rec:'rz5',shirt:'#3a3a3e',pants:'#26262a',hood:1}};
+function spawnZombie(mk){if(mk.boss){const b=REC_Z[S.area];ZOMBIES.push({x:mk.x,y:mk.y,hp:240,max:240,sp:30,v:0,cd:1,flash:0,kx:0,ky:0,ph:Math.random()*6,dead:false,deadT:0,born:.6,boss:b,dmg:25});toast(b.name+' — 노트를 든 그림자가 나타났다',COL.red);alog('USER 조우 · '+b.name);return;}
+ const hp=70+Math.floor(Math.random()*81);ZOMBIES.push({x:mk.x,y:mk.y,hp,max:hp,sp:30+Math.random()*16,v:Math.floor(Math.random()*3),cd:.8,flash:0,kx:0,ky:0,ph:Math.random()*6,dead:false,deadT:0,born:.4});}
+function maybeRecorderZombie(){const b=REC_Z[S.area];if(!b||has(b.rec)||(S.kills[S.area]||0)<3)return;if(ZOMBIES.some(z=>z.boss&&!z.dead)||ZMARK.some(m=>m.boss))return;
+ const c=spawnCandidates();if(!c.length)return;const p=c[Math.floor(Math.random()*c.length)];ZMARK.push({x:p.x,y:p.y,sx:p.sx,sy:p.sy,kind:p.kind,t:3,boss:1});toast('노트를 든 그림자가 다가온다…',COL.red);}
 function zHit(x,y){const pts=[[x-6,y-6],[x+6,y-6],[x-6,y+1],[x+6,y+1]];return pts.some(p=>SOLID.has(tile(Math.floor(p[0]/TS),Math.floor(p[1]/TS))));}
 function clearZombies(){ZOMBIES=[];ZMARK=[];FLOATS=[];zSpawnT=6+Math.random()*4;}
 /* ---- 매 프레임 ---- */
@@ -1573,7 +1596,7 @@ function combatUpdate(dt){
  checkPickups();
  if(iframeT>0)iframeT-=dt;
  if(!combatOn()){if(ZOMBIES.length||ZMARK.length)clearZombies();return;}
- zSpawnT-=dt;if(zSpawnT<=0){zSpawnT=7.5+Math.random()*7.5;scheduleGroup();}
+ zSpawnT-=dt;if(zSpawnT<=0){zSpawnT=7.5+Math.random()*7.5;scheduleGroup();maybeRecorderZombie();}
  ZMARK.forEach(mk=>{mk.t-=dt;if(mk.t<=0)spawnZombie(mk);});ZMARK=ZMARK.filter(mk=>mk.t>0);
  const px=P.x,py=P.y;
  ZOMBIES.forEach(z=>{
@@ -1587,8 +1610,8 @@ function combatUpdate(dt){
   if(!zHit(z.x+mx,z.y))z.x+=mx;else if(!zHit(z.x,z.y+Math.sign(dy||1)*z.sp*dt))z.y+=Math.sign(dy||1)*z.sp*dt*.6;
   if(!zHit(z.x,z.y+my))z.y+=my;else if(!zHit(z.x+Math.sign(dx||1)*z.sp*dt,z.y))z.x+=Math.sign(dx||1)*z.sp*dt*.6;
   z.cd-=dt;
-  if(d<22&&z.cd<=0&&iframeT<=0){z.cd=1.1;iframeT=.45;hurtT=.35;S.hp=Math.max(0,S.hp-Z_DMG);shakeT=Math.max(shakeT,.18);
-   FLOATS.push({x:px,y:py-46,txt:'-'+Z_DMG,col:'#e0605a',t:0});updateCombatHud(true);if(S.hp<=0)playerDie();}
+  if(d<22&&z.cd<=0&&iframeT<=0){const zd=z.dmg||Z_DMG;z.cd=1.1;iframeT=.45;hurtT=.35;S.hp=Math.max(0,S.hp-zd);shakeT=Math.max(shakeT,.18);
+   FLOATS.push({x:px,y:py-46,txt:'-'+zd,col:'#e0605a',t:0});updateCombatHud(true);if(S.hp<=0)playerDie();}
  });
  ZOMBIES.forEach((a,i)=>{if(a.dead)return;for(let j=i+1;j<ZOMBIES.length;j++){const b=ZOMBIES[j];if(b.dead)continue;const dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy);if(d>0&&d<14){const p=(14-d)/2,ux=dx/d,uy=dy/d;if(!zHit(a.x-ux*p,a.y-uy*p)){a.x-=ux*p;a.y-=uy*p;}if(!zHit(b.x+ux*p,b.y+uy*p)){b.x+=ux*p;b.y+=uy*p;}}}});
  ZOMBIES=ZOMBIES.filter(z=>!z.dead||z.deadT<.7);
@@ -1627,7 +1650,7 @@ function updateCombatHud(force){
 }
 /* ---- 그리기 (탑다운) ---- */
 function drawZombie(z,t){
- const x=Math.round(z.x),y=Math.round(z.y);const born=z.born>0?1-z.born/.4:1;const da=z.dead?Math.max(0,1-z.deadT/.7):1;
+ const x=Math.round(z.x),y=Math.round(z.y);if(z.boss){ctx.save();ctx.translate(x,y);ctx.scale(1.15,1.15);ctx.translate(-x,-y);}const born=z.born>0?1-z.born/.4:1;const da=z.dead?Math.max(0,1-z.deadT/.7):1;
  ctx.save();ctx.globalAlpha=da*born;ctx.translate(x,y);if(z.dead)ctx.rotate(Math.min(1.3,z.deadT*3)*(z.v%2?1:-1));
  const sw=Math.sin(z.ph),bob=Math.abs(Math.cos(z.ph))*1.2;const shirt=['#5c5a55','#4a4f4c','#56504a'][z.v],pants=['#2c2c2c','#30302a','#262a2c'][z.v];
  ctx.fillStyle='rgba(0,0,0,.45)';ctx.beginPath();ctx.ellipse(0,0,9,3,0,0,Math.PI*2);ctx.fill();
@@ -1639,9 +1662,19 @@ function drawZombie(z,t){
  fr('#9a9790',-4.5,-30-bob,9,9);fr('#2a2a2a',-4.8,-31-bob,9.6,3);
  const nf=Math.floor(t*14+z.ph*3);for(let i=0;i<4;i++)for(let j=0;j<4;j++){const v=(h2(i+nf*7,j+z.v*13)*255)|0;ctx.fillStyle='rgb('+v+','+v+','+v+')';ctx.fillRect(-3.6+i*1.8,-28.6-bob+j*1.7,1.8,1.7);}
  if(Math.sin(t*9+z.ph)>.6)fr('rgba(200,50,45,.6)',-3.6,-27-bob+((nf%4)*1.7),7.2,.5);
+ if(z.boss){const b=z.boss;
+  if(b.glow){ctx.globalAlpha=da*born*(.25+.15*Math.sin(t*3));fr('#eaf2ff',-8,-32-bob,16,32);ctx.globalAlpha=da*born;}
+  fr(b.shirt,-6.5,-21-bob,13,13);fr(b.pants,-4.6,-9-bob*.3,3.6,9-Math.max(0,sw)*2);fr(b.pants,1,-9-bob*.3,3.6,9-Math.max(0,-sw)*2);
+  if(b.coat){fr('#f2f2ee',-7.4,-21-bob,3.2,17);fr('#f2f2ee',4.2,-21-bob,3.2,17);fr('#c8c8c2',-.4,-20-bob,.8,12);}
+  if(b.hood){fr('#2e2e32',-5.4,-32-bob,10.8,4.4);fr('#2e2e32',-5.4,-30-bob,2,7);fr('#2e2e32',3.4,-30-bob,2,7);}
+  if(b.tag){fr('#f2efe8',1.6,-19-bob,4,1.6);fr('#c8322d',1.6,-19-bob,1,1.6);}
+  fr('#1e1e1e',-9.4,-15-bob,5,6.4);fr('#e7e3da',-8.8,-14.4-bob,3.8,5.2);fr('#c8322d',-9.4,-15-bob,.8,6.4);
+  const nf2=Math.floor(t*14+z.ph*3);for(let i=0;i<4;i++)for(let j=0;j<4;j++){const v=(h2(i+nf2*7,j+31)*255)|0;ctx.fillStyle='rgb('+v+','+v+','+v+')';ctx.fillRect(-3.6+i*1.8,-28.6-bob+j*1.7,1.8,1.7);}}
  if(z.flash>0){ctx.globalCompositeOperation='lighter';fr('rgba(255,255,255,.6)',-7,-31-bob,14,31);ctx.globalCompositeOperation='source-over';}
  ctx.restore();
+ if(z.boss&&!z.dead){ctx.font='bold 8px "Nanum Gothic Coding",monospace';ctx.textAlign='center';ctx.fillStyle='rgba(0,0,0,.6)';const tw=ctx.measureText(z.boss.name).width;ctx.fillRect(x-tw/2-3,y-66,tw+6,11);ctx.fillStyle='#e0605a';ctx.fillText(z.boss.name,x,y-57.5);ctx.textAlign='left';}
  if(!z.dead&&z.hp<z.max){fr('rgba(0,0,0,.6)',x-12,y-50,24,3);fr('#c8322d',x-12,y-50,24*z.hp/z.max,3);}
+ if(z.boss)ctx.restore();
 }
 function drawPickupsAndMarks(t){
  if(combatOn()&&S.drops&&S.drops[S.area]){const d=S.drops[S.area],pul=.5+.5*Math.sin(t*3);
@@ -1695,6 +1728,14 @@ function zombieFrame(v,f){const k=v+'_'+f;if(ZFC[k])return ZFC[k];const c=docume
  for(let i=0;i<5;i++)for(let j=0;j<4;j++){const vv=(h2(i+f*31,j+v*17)*255)|0;g.fillStyle='rgb('+vv+','+vv+','+vv+')';g.fillRect(-4.2+i*1.7,-34+j*1.9,1.7,1.9);}
  g.fillStyle='rgba(200,50,45,.55)';g.fillRect(-4.2,-34+(f%4)*1.9,8.5,.6);
  return ZFC[k]=c;}
+const BFC={};
+function bossFrame(b,f){const k=b.n+'_'+f;if(BFC[k])return BFC[k];const c=document.createElement('canvas');c.width=96;c.height=132;const g=c.getContext('2d');g.drawImage(zombieFrame(0,f),0,0);g.scale(3,3);g.translate(16,40);
+ g.fillStyle=b.pants;g.fillRect(-5,-11,4.4,11);g.fillRect(.8,-11,4.4,11);g.fillStyle=b.shirt;g.fillRect(-7.5,-25,15,15);g.fillRect(-10.5,-23,3.2,9);g.fillRect(7.3,-23,3.2,9);
+ if(b.coat){g.fillStyle='#f2f2ee';g.fillRect(-8.4,-25,3.4,20);g.fillRect(5,-25,3.4,20);}
+ if(b.hood){g.fillStyle='#2e2e32';g.fillRect(-6,-38,12,4.6);g.fillRect(-6,-36,2.2,8);g.fillRect(3.8,-36,2.2,8);}
+ if(b.tag){g.fillStyle='#f2efe8';g.fillRect(1.6,-22,4.4,1.8);}
+ g.fillStyle='#1e1e1e';g.fillRect(-11,-17,5.6,7.2);g.fillStyle='#e7e3da';g.fillRect(-10.4,-16.4,4.4,6);g.fillStyle='#c8322d';g.fillRect(-11,-17,.9,7.2);
+ return BFC[k]=c;}
 const PKC={};
 function pickupCanvas(k){if(PKC[k])return PKC[k];const c=document.createElement('canvas');c.width=96;c.height=48;const g=c.getContext('2d');g.scale(3,3);
  if(k==='bat'||k==='batsp'){g.translate(16,10);g.rotate(-.2);g.fillStyle=k==='batsp'?'#8a4a44':'#b3ada2';g.beginPath();g.moveTo(-13,-1.4);g.lineTo(5,-2.8);g.lineTo(13,-3.2);g.lineTo(13,3.2);g.lineTo(5,2.8);g.lineTo(-13,1.4);g.closePath();g.fill();g.fillStyle='#1e1e1e';g.fillRect(-13,-1.5,6,3);if(k==='batsp'){g.fillStyle='#c8322d';g.fillRect(-2,-2.8,2.4,5.6);}}
@@ -1714,7 +1755,7 @@ function markCanvas(t,kind){const g=MKC.getContext('2d');g.setTransform(1,0,0,1,
  g.fillStyle='rgba(224,96,90,'+(.6+.4*pul)+')';g.font='bold 9px sans-serif';g.textAlign='center';g.fillText('!',16,22);return MKC;}
 function fpCombatSprites(list){
  if(!combatOn())return;
- ZOMBIES.forEach(z=>{if(z.dead&&z.deadT>.35)return;const f=Math.floor(NOW*10+z.ph*3)%4;list.push({x:z.x/TS,y:(z.y-6)/TS,sp:[.95,.7,'#5c5a55',0],img:zombieFrame(z.v,f),src:[0,0,96,132],zb:z});});
+ ZOMBIES.forEach(z=>{if(z.dead&&z.deadT>.35)return;const f=Math.floor(NOW*10+z.ph*3)%4;list.push({x:z.x/TS,y:(z.y-6)/TS,sp:z.boss?[1.08,.8,'#5c5a55',0]:[.95,.7,'#5c5a55',0],img:z.boss?bossFrame(z.boss,f):zombieFrame(z.v,f),src:[0,0,96,132],zb:z});});
  if(S.loot&&S.loot[S.area]){const L=S.loot[S.area];L.bats.forEach(b=>{if(!b.got)list.push({x:b.x+.5,y:b.y+.5,sp:[.16,.5,'#a39e94',0],img:pickupCanvas(b.sp?'batsp':'bat'),src:[0,0,96,48]});});
   L.items.forEach(it=>{if(!it.got)list.push({x:it.x+.5,y:it.y+.5,sp:[.16,.5,'#e7e3da',0],img:pickupCanvas(it.k),src:[0,0,96,48]});});}
  if(S.drops&&S.drops[S.area]){const d=S.drops[S.area];list.push({x:d.x/TS,y:d.y/TS,sp:[.22,.6,'#e7e3da',0],img:pickupCanvas('drop'),src:[0,0,96,48]});}
@@ -3760,7 +3801,7 @@ function endStop(){
  const el=$('end'),box=$('endLines');box.classList.remove('hidden');
  const lines=['……아니.','나는 노트를 덮었다.','<span class="sys">ARCHIVE · USER 응답 없음.<br>관측자가 없으면 누리느엘은 유지될 수 없습니다.</span>','알아.',
   '멀리서 시계탑 종이 울린다.','멈춰 있던 바늘이 움직인다. 17시 02분에서, 17시 03분으로.','끝나지 않던 10월 14일이, 끝난다.',
-  '누군가 내 이름을 부른다. 한 번도 들어 본 적 없는데, 잊은 적도 없는 이름.','"찾았다. 너, 이제 얼굴이 보여."','서윤이었다.','처음으로, 나는 기록되는 쪽이 되었다.'];
+  '누군가 내 이름을 부른다. 한 번도 들어 본 적 없는데, 잊은 적도 없는 이름.','"찾았다. 이번 기록자는, 얼굴이 보여."','서윤이었다.','처음으로, 나는 기록되는 쪽이 되었다.'];
  let i=0;const next=()=>{if(i>=lines.length){setTimeout(()=>{box.innerHTML='';box.classList.add('hidden');const c=$('endCard');c.classList.remove('hidden');
    c.innerHTML='<h2>END ∞</h2><div class="q">17시 03분</div><p>기록자는 관측을 멈췄다.<br>끝나지 않던 10월 14일이 끝나고, 시간이 다시 흐르기 시작했다.</p><p class="next">관측 회차 종료. 다음 회차는 없다.</p><div class="t-btns"><button id="eNew">처음으로</button></div>';
    $('eNew').onclick=()=>location.reload();},2400);return;}
@@ -3784,7 +3825,7 @@ function endTrue(){
     setTimeout(()=>{
      box.innerHTML='<div class="t-q">기록을 시작하시겠습니까?</div><div class="t-yn"><button id="lY">YES</button><button id="lN">NO</button></div>';
      const fin=()=>{box.innerHTML='';setTimeout(()=>{box.classList.add('hidden');const c=$('endCard');c.classList.remove('hidden');
-      c.innerHTML='<h2>《폐허의 기록》</h2><div class="q">END?</div><p class="next">관측 회차 '+(6+loop)+' 종료.<br>기록자는 다시, 처음 온 사람처럼 눈을 뜬다.</p><div class="t-btns"><button id="eNew">DAY 1</button></div>';
+      c.innerHTML='<h2>《폐허의 기록》</h2><div class="q">END?</div><p class="next">관측 회차 '+(6+loop)+' 종료.<br>노트는 다음 기록자에게 넘어간다.<br>그 사람도, 처음 온 사람처럼 눈을 뜰 것이다.</p><div class="t-btns"><button id="eNew">DAY 1</button></div>';
       $('eNew').onclick=()=>location.reload();},2600);};
      $('lY').onclick=fin;$('lN').onclick=()=>{box.innerHTML='';endStop();};
     },2800);
