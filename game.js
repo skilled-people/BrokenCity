@@ -1053,7 +1053,13 @@ function seoyunAct(){
  S.flags.seoyunTalk=(S.flags.seoyunTalk||0)+1;save();
  if(S.flags.seoyunTalk>=2&&has('seoyun')&&has('c1702')){
   say([{s:'한서윤',t:'나랑 카드 게임 할래?.... 내 카드로.',c:[{l:'응',f:launchCardGame},{l:'아니',f:()=>say([{s:'한서윤',t:'…그래. 축제는 내일도 하니까.'}])}]}]);return;}
- readRecord({rec:'seoyun'},()=>{if(!has('c1702'))say(['서윤의 손목에서 멈춘 시계가 눈에 들어온다.'],()=>readRecord({rec:'c1702'}));});
+ const cont=()=>readRecord({rec:'seoyun'},()=>{if(!has('c1702'))say(['서윤의 손목에서 멈춘 시계가 눈에 들어온다.'],()=>readRecord({rec:'c1702'}));});
+ if(S.flags.seoyunTalk===1){
+  say([{s:'한서윤',t:'아, 소멸이 진행됐는데 넌 어떻게 왔냐고? 넌 소멸이 여기 사람들보다 많이 느려...',c:[
+   {l:'왜?',f:()=>say([{s:'한서윤',t:"왜냐고? 넌 '기록자'니까."}],cont)},
+   {l:'아 그런거였구나...',f:()=>say([{s:'한서윤',t:'응...'}],cont)}]}]);
+  return;}
+ cont();
 }
 let cgResult=null;
 function launchCardGame(){
@@ -3770,7 +3776,6 @@ requestAnimationFrame(loop);
 /* ================= TITLE / END ================= */
 $('tCtl').innerHTML=isTouch?'화면 왼쪽을 끌어 이동하고, 조사 버튼으로 기록을 살핍니다.':'WASD 또는 방향키로 이동 · Shift로 달리기 · Enter로 조사<br>Space나 마우스 클릭으로 공격 (꾹 누르면 강공격) · Q 무기 전환 · 1·2·3 아이템<br>Tab으로 기록 보관함 · M으로 지도 · Z로 1인칭 시점';
 accountUI();initAccount();
-setTimeout(()=>{let go=false;try{go=sessionStorage.getItem('ruins-day1')==='1';sessionStorage.removeItem('ruins-day1');}catch(e){}if(go&&!started)beginNew();},300);
 $('btnNew').onclick=()=>{
  if(!loadSave()){beginNew();return;}
  const bt=$('tBtns');const keep=bt.innerHTML;
@@ -3801,8 +3806,8 @@ const contHandler=$('btnCont').onclick;
 function startGame(){
  $('title').classList.add('hidden');$('tSeq').classList.add('hidden');$('hud').classList.remove('hidden');
  started=true;ensureCombatState();updateHUD(true);updateCombatHud(true);save();
- say(['…눈을 뜨자, 텅 빈 도로 위였다.','꺼진 간판, 멈춘 차들, 소리 없는 신호등. 이 도시에는 아무도 없다.','나는 기록자다. 이 도시에 남은 기록을 모으러 왔다.','…언제, 어떻게 이곳에 왔는지는 기억나지 않는다.','손에는 새 야구방망이 하나가 쥐어져 있다.'].concat(getLoops()?['…그런데 어째서인지, 이 거리를 알고 있는 것 같다.']:[]),
-  ()=>toast(isTouch?'조사 버튼으로 기록을 살피고, 공격 버튼으로 방망이를 휘두르자':'Enter로 조사, Space나 마우스 클릭으로 방망이를 휘두르자'));
+ say(['…눈을 뜨자, 텅 빈 도로 위였다.','꺼진 간판, 멈춘 차들, 소리 없는 신호등. 이 도시에는 아무도 없다.','나는 기록자다. 이 도시에 남은 기록을 모으러 왔다.','…언제, 어떻게 이곳에 왔는지는 기억나지 않는다.','손에는 새 야구방망이 하나가 쥐어져 있다.'].concat(PENDING_ENDC?['발밑에 낡은 카메라 하나가 떨어져 있다.','렌즈에 금이 가 있다. 누군가 마지막까지 쥐고 있던 것 같다.','…나는 그 카메라를 집어 들었다.']:getLoops()?['…그런데 어째서인지, 이 거리를 알고 있는 것 같다.']:[]),
+  ()=>{if(PENDING_ENDC){PENDING_ENDC=false;setTimeout(showEndCAfterLoop,600);return;}toast(isTouch?'조사 버튼으로 기록을 살피고, 공격 버튼으로 방망이를 휘두르자':'Enter로 조사, Space나 마우스 클릭으로 방망이를 휘두르자');});
 }
 function runLines(lines,glitch,done,slowAt){
  endOpen=true;refreshBusy();const el=$('end');el.classList.remove('hidden','forget','truth','nuri','loop');
@@ -3876,9 +3881,23 @@ function bedAct(){
  if(S.area!=='room')return;
  say([{t:'침대. 이불이 반듯하게 정돈되어 있다.',c:[{l:'잠을 잔다',f:sleepToDay1},{l:'아직은'}]}]);
 }
+let PENDING_ENDC=false;
 function sleepToDay1(){
  cinema=true;refreshBusy();const f=$('fade');
- say(['눈을 감았다.'],()=>{f.classList.add('on');setTimeout(()=>{try{sessionStorage.setItem('ruins-day1','1');}catch(e){}location.reload();},1600);});
+ say(['눈을 감았다.','…발끝부터 감각이 사라진다.','누리느엘의 빛은 이 방까지 닿지 않는다.','나는 잠든 채로, 조용히 지워졌다.'],()=>{f.classList.add('on');setTimeout(()=>{
+  PENDING_ENDC=true;started=false;cinema=false;endOpen=false;dlg=null;
+  $('hud').classList.add('hidden');$('title').classList.remove('hidden');refreshBusy();
+  beginNew();setTimeout(()=>f.classList.remove('on'),200);
+ },1600);});
+}
+function showEndCAfterLoop(){
+ endOpen=true;refreshBusy();addEnding('C');alog('USER 기록 · END C');
+ const el=$('end');el.classList.remove('hidden','forget','truth','loop');el.classList.add('nuri');
+ $('endLines').classList.add('hidden');const c=$('endCard');c.classList.remove('hidden');
+ c.innerHTML='<h2>END C</h2><div class="q">누리느엘</div><p>빛을 거절한 기록자는, 잠든 사이 누리느엘에 닿지 못한 채 소멸했다.<br>남은 것은 카메라 하나.</p><p>그리고 다른 기록자가, 텅 빈 도로 위에서 그 카메라를 찾았다.</p><p class="next">기록은 다음 사람에게 넘어간다.</p><div class="t-btns"><button id="eCont">이어서 기록하기</button><button id="eNew">처음 화면으로</button></div>';
+ $('eCont').onclick=()=>{el.classList.add('hidden');el.classList.remove('nuri');c.classList.add('hidden');endOpen=false;refreshBusy();
+  toast(isTouch?'조사 버튼으로 기록을 살피고, 공격 버튼으로 방망이를 휘두르자':'Enter로 조사, Space나 마우스 클릭으로 방망이를 휘두르자');};
+ $('eNew').onclick=()=>location.reload();
 }
 const LOOPKEY='ruins-record-loop';
 function endStop(){
