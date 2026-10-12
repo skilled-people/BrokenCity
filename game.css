@@ -136,6 +136,8 @@ body.bright #minimap{border-color:#b8b4c6}
 .map-legend i{display:inline-block;width:10px;height:10px;margin-right:5px;vertical-align:-1px}
 .lg-me{background:#fff;clip-path:polygon(0 0,100% 50%,0 100%)}.lg-goal{background:#d8b13a;border-radius:50%}.lg-rec{background:#e7e3da;border-radius:50%}.lg-door{background:#8a2a26}.lg-way{background:#d8b13a}
 @media (orientation:landscape) and (max-height:540px){#minimap{width:84px;height:84px;top:calc(env(safe-area-inset-top,0px) + 44px)}}
+.cmp-hint{margin-top:12px;padding:10px 12px;border-left:3px solid #d8b13a;background:rgba(216,177,58,.08);color:#e7d9a8;font-size:14px}
+.cmp-hint.dim{border-left-color:#4a4843;background:transparent;color:var(--dust);font-size:12px}
 #fade{position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;transition:opacity .45s;z-index:20}
 #fade.on{opacity:1}
 #flash{position:fixed;inset:0;pointer-events:none;z-index:19;opacity:0}
