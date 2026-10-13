@@ -60,7 +60,7 @@ const R={
  archive:{title:'ARCHIVE 시스템 로그',type:'컴퓨터 데이터',place:'지하 연구시설, ARCHIVE실',date:'실시간',color:'nuri',
   text:'ARCHIVE SYSTEM. USER: UNKNOWN. STATUS: RECORDING.\n\n화면 아래로 나의 모든 움직임이 한 줄씩 적히고 있다. 이동, 정지, 조사, 망설임.\n\n나는 기록을 모으고 있었다. 그리고 누군가는 줄곧 나를 기록하고 있었다.\n\n로그 맨 위, 지워지지 않은 표.\n[신규 기록자 접속 · 질의: 기록을 시작하시겠습니까?]\n#1 YES · #2 YES · #3 NO · #4 YES · #5 NO · #6 ___\n비고: 응답과 무관하게 기록 개시. 노트와 카메라는 다음 기록자에게 인계.\n비고: 관측을 멈추고 누리느엘 밖에 남은 기록자는 소멸한다.'},
  accesslog:{title:'B3 출입 기록',type:'출입 기록',place:'지하 연구시설, 보안 게이트',date:'2011~2026',color:'red',
-  text:'2011.10.14 16:30 기록자 입장\n2014.10.14 09:12 기록자 입장\n2017.10.14 09:12 기록자 입장\n2020.10.14 09:12 기록자 입장\n2023.10.14 09:12 기록자 입장\n2026.10.14 09:12 기록자 입장\n\n서로 다른 해, 같은 이름. 퇴장 기록은 한 건도 없다.'},
+  text:'2011.10.14 16:30 기록자 입장\n2014.10.14 09:12 기록자 입장\n2017.10.14 09:12 기록자 입장\n2020.10.14 09:12 기록자 입장\n2023.10.14 09:12 기록자 입장\n2026.10.14 09:12 기록자 입장\n\n서로 다른 해, 같은 이름. 서명의 필체는 매번 다르다.\n퇴장 기록은 단 한 건 — 2020년의 기록자.'},
  server:{title:'오래된 서버',type:'컴퓨터 데이터',place:'지하 연구시설, 서버실',date:'실시간',color:'white',
   text:'누적 관측 기록: 1,247,009건.\n현재 관측 중인 대상: 1명.\n\n전원: 제3발전기 비상 라인.\n\n비상 탈출구 개방 시 전원 차단. 모든 관측 기록이 소멸됩니다.'},
  recorder:{title:'연구원의 녹음',type:'녹음기',place:'지하 연구시설, 보안 게이트',date:'날짜 불명',color:'white',
@@ -84,7 +84,7 @@ const R={
  seoyun:{title:'한서윤',type:'사람',place:'누리느엘, 홀',date:'2011.10.14',color:'nuri',
   text:'홀 한가운데, 교복 차림의 소녀가 웃고 있다. 폴라로이드 속 그 얼굴이다.\n\n"오늘 축제 진짜 재밌었지? 내일도 축제야. 모레도."\n\n"…어? 너도 그 노트 들고 있네. 근데 너는 그 애가 아니구나."\n\n"그 애는 그날 하루 종일 노트에 우리를 적었어. 내 이름도, 내 얼굴도. 그래서 나는 여기 온전히 있는 거래. …근데 그 애는, 자기 이름은 끝내 못 적었어."\n\n"여기선 아무도 늙지 않아. 아무것도 끝나지 않아. 너는 몇 번째야?"'},
  phone2:{title:'누리느엘의 공중전화',type:'전화기',place:'누리느엘, 광장',date:'날짜 불명',color:'red',
-  text:'수화기를 들자, 입이 저절로 움직였다.\n\n"……거기 누구 있어요? 신문은 믿지 마세요. 그날, 학교엔 사람들이 있었어요."\n\n도시의 공중전화에서 들었던 그 목소리. 그건 나였다.',
+  text:'수화기를 들자, 입이 저절로 움직였다.\n\n"……거기 누구 있어요? 신문은 믿지 마세요. 그날, 학교엔 사람들이 있었어요."\n\n도시의 공중전화에서 들었던 그 말과 똑같다. 앞의 기록자도 이 수화기를 들고, 같은 말을 했던 것이다.',
   pages:[{t:'공중전화가 울린다. 수화기를 들었다.'},{t:'상대편에서는 잡음만 들린다. 그런데 내 입이 저절로 움직였다.'},{s:'나',t:'……거기 누구 있어요?'},{s:'나',t:'신문은 믿지 마세요. 그날, 학교엔 사람들이 있었어요.'},{s:'나',t:'다들 아직… 아직 거기서……'},{s:'나',t:'……기록자님?'},{t:'뚝.'},{t:'도시의 공중전화에서 들었던 목소리.\n그건, 나였다.'}]},
  nlcore:{title:'기록자의 기록',type:'기록',place:'누리느엘, 중심부',date:'모든 회차',color:'nuri',
   text:'지금까지 이 노트를 이어받은 기록자들의 이름 없는 명단.\n\n첫 번째: 축제 날의 31번. 모두를 적었지만, 자기 이름을 적어 줄 사람은 없었다. → 노이즈\n두 번째: 흰 코트를 입고 레버를 당겼다. 같은 날을 다시 열면 첫 번째를 구할 수 있다고 믿었다. → 노이즈\n세 번째: 스스로 빛 속으로 들어가려 했다. 영혼만 건너갔다. → 노이즈\n네 번째: 진실을 안 채 탈출구를 열었다. → 바깥\n다섯 번째: 모든 기록을 지키려다 시간을 잃었다. → 노이즈\n\n넷은 몸으로 남았고, 하나는 나갔다.\n\n여섯 번째: ____'}
@@ -162,21 +162,21 @@ const CONTRA=[
  {a:'nuri',b:'nuriel',title:'지워진 이름',
   text:'학교의 보고서에서 검게 지워져 있던 네 글자.\n공장의 문서는 그 이름을 숨기지 않는다.\n\n누리느엘. 도시가 사라진 이유는 그곳에 있다.'},
  {a:'accesslog',b:'diary2',title:'매년 같은 날',
-  text:'일기 속 하루는 언제나 10월 14일이다.\n출입 기록의 날짜도 매번 10월 14일. 바뀌는 건 해뿐이다.\n\n기록자는 그날로, 몇 번이고 돌아왔다.'},
+  text:'일기 속 하루는 언제나 10월 14일이다.\n출입 기록의 날짜도 매번 10월 14일. 바뀌는 건 해와 필체뿐이다.\n\n3년마다, 새 기록자가 같은 날로 들어왔다.'},
  {a:'accesslog',b:'phone',title:'나를 아는 목소리',
-  text:'공중전화 속 목소리는 처음 보는 나를 "기록자님"이라고 불렀다.\n출입 기록에는 같은 이름이 여섯 번.\n\n그 사람은 나를 처음 만난 게 아니었다.'},
+  text:'공중전화 속 목소리는 처음 보는 나를 "기록자님"이라고 불렀다.\n출입 기록에는 "기록자"라는 같은 이름이 여섯 번.\n\n그 목소리가 아는 건 내가 아니라, 기록자라는 자리였다.'},
  {a:'notfirst',b:'map',title:'붉은 펜의 주인',
-  text:'도시 안내도에 EXIT를 그려 둔 붉은 펜.\n관찰 기록 마지막 줄을 덧쓴 붉은 펜.\n\n같은 필체다. 탈출구를 표시한 건 이전 회차의 기록자, 나였다.'},
+  text:'도시 안내도에 EXIT를 그려 둔 붉은 펜.\n관찰 기록 마지막 줄을 덧쓴 붉은 펜.\n\n같은 필체다. 탈출구를 표시하고 다음 사람에게 경고를 남긴 건, 그 문을 열고 나간 네 번째 기록자였다.'},
  {a:'server',b:'power',title:'지워지는 도시',
   text:'탈출구가 열리면 서버의 전원이 끊긴다.\n누적 관측 기록 1,247,009건, 도시의 모든 사람이 거기 있다.\n\n문을 여는 건 탈출이자, 도시를 완전히 지우는 일이다.'},
  {a:'c0400',b:'worklog',title:'거짓의 시간',
   text:'가로등 시계는 04:00. 신문이 말한 사고 시각이다.\n하지만 작업 일지의 새벽 4시는 "이상 없음".\n\n누리느엘의 시계 중 이것 하나만 거짓을 가리킨다.'},
  {a:'phone2',b:'phone',title:'전화를 건 사람',
-  text:'도시의 공중전화에서 들은 목소리.\n누리느엘의 공중전화에서 내 입으로 한 말.\n\n똑같다. 나에게 경고한 건, 나였다.'},
+  text:'도시의 공중전화에서 들은 목소리.\n누리느엘의 공중전화에서 내 입으로 한 말.\n\n똑같다. 나에게 경고한 건 먼저 이 수화기를 든 기록자였고, 나도 지금 다음 사람에게 같은 말을 하고 있다.'},
  {a:'seoyun',b:'photo',title:'자라지 않는 아이',
   text:'폴라로이드 속 서윤, 2011년.\n누리느엘의 서윤. 15년이 지났는데 그대로다.\n\n이곳에서는 아무도 늙지 않는다.'},
  {a:'nlcore',b:'notfirst',title:'여섯 번째',
-  text:'관찰 기록의 회차는 5.\n기록자의 기록에 남은 다섯 번의 선택.\n\n이번이 여섯 번째다. 그리고 아직, 모든 기록을 가져간 적은 없다.'},
+  text:'관찰 기록: 후속 기록자 2 · 3 · 4 · 5, 현재 기록자 6.\n기록자들의 명단에 남은 다섯 명의 결말.\n\n나는 여섯 번째다. 그리고 아직, 모든 기록을 가져간 기록자는 없다.'},
  {a:'kc1',b:'nlpaper',title:'얼굴 없는 사람들',text:'주민증 사진의 얼굴만 노이즈로 번져 있었다.\n누리느엘 일보는 들어오지 못한 이들의 얼굴은 기록되지 않는다고 한다.\n\n노이즈 좀비는, 이 도시의 주민이었다.'},
  {a:'kc5',b:'board',title:'같은 약속',text:'좀비의 쪽지: "누리느엘에 같이 들어가면 헤어지지 않아도 된대."\n칠판의 글씨: "그곳에서 만나."\n\n그들은 도망친 게 아니라, 스스로 그곳으로 향했다.'},
  {a:'kc10',b:'deleted',title:'적히지 못한 사람들',text:'복구된 보고: 관측된 사람들은 사라지지 않고 기록이 되었다.\n좀비의 명단: 기록자에게 이름을 적어 달라며 줄을 섰다. 마지막 줄은 끝내 적히지 못했다.\n\n적힌 사람은 들어갔고, 적히지 못한 사람은 몸으로 남았다.'},
@@ -292,7 +292,7 @@ const SOLID=new Set(['#','r','c','T','G','d','M','X','L','K','S','Q','J','V','B'
 const AREA_NAME={city:'AREA 01 · 폐허 도시',school:'AREA 02 · 폐교',factory:'AREA 03 · 거대 공장',lab:'AREA 04 · 지하 연구시설',nl:'AREA 05 · 누리느엘',room:'원룸'};
 
 /* ================= STATE ================= */
-function fresh(){return {area:'city',x:5.5*TS,y:27.6*TS,records:[],contra:[],flags:{},past:false,time:0,hp:150,bats:[{sp:false,dur:300}],items:{energy:0,bandage:0,aid:0},kills:{},loot:null};}
+function fresh(){return {diff:'normal',area:'city',x:5.5*TS,y:27.6*TS,records:[],contra:[],flags:{},past:false,time:0,hp:150,bats:[{sp:false,dur:300}],items:{energy:0,bandage:0,aid:0},kills:{},loot:null};}
 let S=fresh();
 const P={x:S.x,y:S.y,fx:0,fy:1,moving:false,anim:0,vx:0,vy:0,running:false,sta:1,tired:false,dustT:0,phase:0,walkW:0,runW:0,face:'d',lookA:Math.PI/2};
 let FPV=false;try{FPV=localStorage.getItem('ruins-fpv')==='1';}catch(e){}
@@ -1249,7 +1249,8 @@ function compare(){
  if(idx<0){
   S.cmpFails=(S.cmpFails||0)+1;const cand=hintCandidates();let hint='';
   if(!cand.length)hint='<p class="cmp-hint">지금 가진 기록으로는 더 찾을 수 있는 모순이 없다. 새 기록을 모아 보자.</p>';
-  else{const need=cand.every(o=>contraTier(o.c)===3)?5:3;
+  else if(!diff().hint)hint='<p class="cmp-hint dim">하드 모드에서는 힌트가 없다.</p>';
+  else{const need=diff().hint===1?1:(cand.every(o=>contraTier(o.c)===3)?5:3);
    if(S.cmpFails>=need){const h=cand[0].c;S.cmpFails=0;alog('USER 힌트 · 모순');hint='<p class="cmp-hint">힌트 · 「'+R[h.a].title+'」와(과) 「'+R[h.b].title+'」를 비교해 보자.</p>';}
    else hint='<p class="cmp-hint dim">'+(need-S.cmpFails)+'번 더 틀리면 힌트를 볼 수 있다.</p>';}
   save();
@@ -1480,6 +1481,10 @@ function update(dt){
 
 /* ================= 전투: 노이즈 좀비 · 야구방망이 · 회복 아이템 ================= */
 const HP_MAX=150,Z_DMG=20,Z_CAP=10;
+const DIFF={easy:{name:'이지',hp:null,fixHp:60,dmg:.5,sp:.25,cap:-3,hint:1},normal:{name:'노말',hp:1,dmg:1,sp:1,cap:0,hint:3},hard:{name:'하드',hp:1.5,dmg:1.5,sp:1.75,cap:2,hint:0}};
+function diff(){return DIFF[S.diff]||DIFF.normal;}
+function zCap(){return Z_CAP+diff().cap;}
+function chosenDiff(){try{const d=localStorage.getItem('ruins-diff');return DIFF[d]?d:'normal';}catch(e){return 'normal';}}
 /* 길찾기: 플레이어 위치에서 퍼져 나가는 거리 지도 (막힌 곳을 돌아서 쫓아옴) */
 let FLOW=null,flowT=0,flowKey='';
 function zWalk(x,y){const m=MAPS[S.area];if(x<0||y<0||x>=m.w||y>=m.h)return false;return !solidAt(x,y);}
@@ -1651,15 +1656,16 @@ function spawnCandidates(){
  return out;
 }
 function scheduleGroup(){
- const alive=ZOMBIES.filter(z=>!z.dead&&!z.boss).length+ZMARK.filter(m=>!m.boss).length,room=Z_CAP-alive;if(room<=0)return;
+ const alive=ZOMBIES.filter(z=>!z.dead&&!z.boss).length+ZMARK.filter(m=>!m.boss).length,room=zCap()-alive;if(room<=0)return;
  const n=Math.min(room,groupSize()),c=spawnCandidates();if(!c.length)return;
  for(let i=0;i<n;i++){const p=c[Math.floor(Math.random()*c.length)];ZMARK.push({x:p.x+(Math.random()-.5)*10,y:p.y+(Math.random()-.5)*6,sx:p.sx,sy:p.sy,kind:p.kind,t:3});}
  if(!S.flags.zWarned){S.flags.zWarned=1;toast('붉은 표시가 뜬 곳에서 3초 뒤 노이즈 좀비가 나타난다',COL.red);}
 }
 const REC_Z={school:{n:1,name:'첫 번째 기록자',rec:'rz1',shirt:'#d9d6cf',pants:'#2c3450',tag:1},factory:{n:2,name:'두 번째 기록자',rec:'rz2',shirt:'#e8e8e4',pants:'#2a2a2a',coat:1},
  lab:{n:3,name:'세 번째 기록자',rec:'rz3',shirt:'#9aa0aa',pants:'#22252a',glow:1},city:{n:5,name:'다섯 번째 기록자',rec:'rz5',shirt:'#3a3a3e',pants:'#26262a',hood:1}};
-function spawnZombie(mk){if(mk.boss){const b=REC_Z[S.area];ZOMBIES.push({x:mk.x,y:mk.y,hp:240,max:240,sp:30,v:0,cd:1,flash:0,kx:0,ky:0,ph:Math.random()*6,dead:false,deadT:0,born:.6,boss:b,dmg:25});toast(b.name+' — 노트를 든 그림자가 나타났다',COL.red);alog('USER 조우 · '+b.name);return;}
- const hp=70+Math.floor(Math.random()*81);ZOMBIES.push({x:mk.x,y:mk.y,hp,max:hp,sp:30+Math.random()*16,v:Math.floor(Math.random()*3),cd:.8,flash:0,kx:0,ky:0,ph:Math.random()*6,dead:false,deadT:0,born:.4});}
+function spawnZombie(mk){if(!S.flags.camHint&&!mk.boss){S.flags.camHint=1;setTimeout(()=>toast(isTouch?'무기·카메라 버튼으로 카메라를 들면, 좀비의 기존 모습을 찍을 수 있다':'Q로 카메라를 들면, 좀비의 기존 모습을 찍을 수 있다'),3400);}
+ if(mk.boss){const b=REC_Z[S.area],D=diff(),bh=D.fixHp?120:Math.round(240*D.hp);ZOMBIES.push({x:mk.x,y:mk.y,hp:bh,max:bh,sp:30*D.sp,v:0,cd:1,flash:0,kx:0,ky:0,ph:Math.random()*6,dead:false,deadT:0,born:.6,boss:b,dmg:Math.round(25*D.dmg)});toast(b.name+' — 노트를 든 그림자가 나타났다',COL.red);alog('USER 조우 · '+b.name);return;}
+ const D=diff(),hp=D.fixHp||Math.round((70+Math.floor(Math.random()*81))*D.hp);ZOMBIES.push({x:mk.x,y:mk.y,hp,max:hp,sp:(30+Math.random()*16)*D.sp,dmg:Math.round(Z_DMG*D.dmg),v:Math.floor(Math.random()*3),cd:.8,flash:0,kx:0,ky:0,ph:Math.random()*6,dead:false,deadT:0,born:.4});}
 function maybeRecorderZombie(){const b=REC_Z[S.area];if(!b||has(b.rec)||(S.kills[S.area]||0)<3)return;if(ZOMBIES.some(z=>z.boss&&!z.dead)||ZMARK.some(m=>m.boss))return;
  const c=spawnCandidates();if(!c.length)return;const p=c[Math.floor(Math.random()*c.length)];ZMARK.push({x:p.x,y:p.y,sx:p.sx,sy:p.sy,kind:p.kind,t:3,boss:1});toast('노트를 든 그림자가 다가온다…',COL.red);}
 function zHit(x,y){const pts=[[x-6,y-6],[x+6,y-6],[x-6,y+1],[x+6,y+1]];return pts.some(p=>SOLID.has(tile(Math.floor(p[0]/TS),Math.floor(p[1]/TS))));}
@@ -1903,7 +1909,14 @@ function nearestUnread(ids){
  return best?{x:best.x+(best.w||1)/2,y:best.y+.6,o:best}:null;
 }
 function firstTile(chars){const m=MAPS[S.area];for(let y=0;y<m.h;y++)for(let x=0;x<m.w;x++)if(chars.indexOf(m.g[y][x])>=0)return {x:x+.5,y:y+.5};return null;}
+function guideExtra(){
+ if(COMBAT_AREAS.indexOf(S.area)<0||S.past)return null;
+ const bz=ZOMBIES.find(z=>z.boss&&!z.dead);if(bz)return {x:bz.x/TS,y:bz.y/TS,label:bz.boss.name+' · 노트를 든 그림자'};
+ if(S.drops&&S.drops[S.area]){const d=S.drops[S.area];return {x:d.x/TS,y:d.y/TS,label:'흩어진 기록'};}
+ if(S.area==='city'&&!has('esc4')){const c=objCenter('exitdoor');if(c)return {x:c.x,y:c.y,label:'철문 틈의 쪽지'};}
+ return null;}
 function guideTarget(){
+ const ex=guideExtra();if(ex)return ex;
  if(S.area==='room'){const c=objCenter('rbed');return c?{x:c.x,y:c.y,label:'침대'}:null;}
  const f=S.flags,T=(id,label)=>{const c=objCenter(id);return c?{x:c.x,y:c.y,label}:null;};
  if(S.area==='city'){
@@ -2036,10 +2049,14 @@ function renderBigMap(){
  requestAnimationFrame(()=>{if(mapOpen)renderBigMap();});
 }
 let miniOn=true;try{miniOn=localStorage.getItem('ruins-minimap')!=='0';}catch(e){}
-function settingsLabels(){const lab=(id,on)=>{const b=$(id);if(b){b.textContent=on?'켜짐':'꺼짐';b.classList.toggle('on',on);}};lab('setGuide',guideOn);lab('setMini',miniOn);
+function settingsLabels(){const sd=$('setDiff');if(sd&&S){sd.textContent=diff().name;sd.classList.toggle('on',true);const dd=$('setDiffD');if(dd)dd.textContent=DIFF_DESC[S.diff||'normal'];}
+ const lab=(id,on)=>{const b=$(id);if(b){b.textContent=on?'켜짐':'꺼짐';b.classList.toggle('on',on);}};lab('setGuide',guideOn);lab('setMini',miniOn);
  const gt=$('guideTgl');if(gt)gt.textContent='길 안내 '+(guideOn?'켜짐':'꺼짐');
  const fb=$('fpBtn');if(fb){fb.textContent=FPV?'1인칭':'탑다운';fb.classList.toggle('on',FPV);}
  const sb=$('sndBtn');if(sb&&window.RuinsAudio){const m=RuinsAudio.isMuted();sb.textContent=m?'꺼짐':'켜짐';sb.classList.toggle('on',!m);}}
+const DIFF_DESC={easy:'좀비 체력 60 · 공격력·속도 감소 · 최대 7마리 · 1번 틀리면 힌트',normal:'기본 난이도 · 최대 10마리 · 3번 틀리면 힌트',hard:'좀비 체력·공격력 1.5배 · 속도 1.75배 · 최대 12마리 · 힌트 없음'};
+function renderTitleDiff(){const d=chosenDiff();document.querySelectorAll('#tDiff button').forEach(b=>b.classList.toggle('on',b.dataset.d===d));const dd=$('tDiffD');if(dd)dd.textContent=DIFF_DESC[d];}
+function setDiffNow(d){S.diff=d;try{localStorage.setItem('ruins-diff',d);}catch(e){}save();settingsLabels();toast('난이도: '+DIFF[d].name+' · 새로 나타나는 좀비부터 적용돼요');}
 function setGuide(v){guideOn=v;try{localStorage.setItem('ruins-guide',v?'1':'0');}catch(e){}GT=null;gtT=0;settingsLabels();toast(v?'길 안내를 켰어요':'길 안내를 껐어요');}
 function setMini(v){miniOn=v;try{localStorage.setItem('ruins-minimap',v?'1':'0');}catch(e){}document.body.classList.toggle('nomini',!v);settingsLabels();toast(v?'미니맵을 켰어요':'미니맵을 껐어요');}
 function openSettings(){if(!started||dlg||endOpen||cinema)return;setOpen=true;$('setOv').classList.remove('hidden');settingsLabels();refreshBusy();}
@@ -2048,7 +2065,9 @@ function initGuide(){
  $('mapBtn').onclick=()=>{closeSettings();openBigMap();};$('mapClose').onclick=closeBigMap;$('minimap').onclick=openBigMap;
  $('guideTgl').onclick=()=>setGuide(!guideOn);
  $('setGuide').onclick=()=>setGuide(!guideOn);$('setMini').onclick=()=>setMini(!miniOn);
- $('setBtn').onclick=openSettings;$('setClose').onclick=closeSettings;
+ $('setBtn').onclick=openSettings;
+ $('setDiff').onclick=()=>{const o=['easy','normal','hard'];setDiffNow(o[(o.indexOf(S.diff||'normal')+1)%3]);};
+ document.querySelectorAll('#tDiff button').forEach(b=>b.onclick=()=>{try{localStorage.setItem('ruins-diff',b.dataset.d);}catch(e){}renderTitleDiff();});renderTitleDiff();$('setClose').onclick=closeSettings;
  $('setOv').addEventListener('click',e=>{if(e.target.id==='setOv')closeSettings();});
  document.body.classList.toggle('nomini',!miniOn);settingsLabels();
  window.addEventListener('keydown',e=>{const k=normKey(e);if(k==='m'){if(mapOpen)closeBigMap();else if(!busy())openBigMap();}else if(k==='escape'){if(mapOpen)closeBigMap();else if(setOpen)closeSettings();}});
@@ -3834,7 +3853,7 @@ const newHandler=$('btnNew').onclick;
 function bindTitle(){$('btnNew').onclick=newHandler;$('btnCont').onclick=contHandler;$('btnCont').classList.toggle('hidden',!loadSave());}
 function beginNew(){
  wipeSave();wiped=false;
- S=fresh();P.x=S.x;P.y=S.y;P.fx=0;P.fy=1;
+ S=fresh();S.diff=chosenDiff();P.x=S.x;P.y=S.y;P.fx=0;P.fy=1;
  const seq=$('tSeq');seq.classList.remove('hidden');
  const loopN=getLoops();
  seq.innerHTML='<div class="t-day">DAY 1</div>'+(loopN?'<div class="t-loop">관측 회차 '+(6+loopN)+'</div>':'');

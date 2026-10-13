@@ -7,11 +7,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&family=Noto+Serif+KR:wght@400;600;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="game.css?v=1791766014">
+<link rel="stylesheet" href="game.css?v=1791859524">
 </head>
 <body>
-<script src="config.js?v=1791766014"></script>
-<script src="audio.js?v=1791766014"></script>
+<script src="config.js?v=1791859524"></script>
+<script src="audio.js?v=1791859524"></script>
 <canvas id="cv"></canvas>
 
 <div id="hud" class="hidden">
@@ -43,7 +43,7 @@
   <button id="btnRun" class="tbtn"><span>달리기<small id="runKey"></small></span></button>
   <button id="btnAct" class="tbtn">조사</button>
   <button id="btnAtk" class="tbtn">공격</button>
-  <button id="btnSwap" class="tbtn">무기</button>
+  <button id="btnSwap" class="tbtn">무기<br>카메라</button>
 </div>
 
 <div id="archive" class="ov hidden">
@@ -81,6 +81,8 @@
     <h1 data-t="폐허의 기록">폐허의 기록</h1>
     <div class="t-stamp">2011.10.14 · 17:02</div>
     <p class="t-sub">도시는 죽었지만, 기록은 살아 있다.</p>
+    <div class="t-diff" id="tDiff"><button data-d="easy">이지</button><button data-d="normal">노말</button><button data-d="hard">하드</button></div>
+    <div class="t-diff-d" id="tDiffD"></div>
     <div class="t-btns" id="tBtns"><button id="btnNew">새로 기록하기</button><button id="btnCont" class="hidden">이어서 기록하기</button></div>
     <div class="acc" id="acc"></div>
     <p class="t-ctl" id="tCtl"></p>
@@ -98,6 +100,7 @@
 <div id="warp"></div>
 <div id="setOv" class="hidden"><div class="set-in">
  <div class="set-head"><b>설정</b><button id="setClose">닫기</button></div>
+ <div class="set-row"><div><b>난이도</b><span id="setDiffD">좀비의 세기와 모순 힌트</span></div><button id="setDiff" class="sbtn">노말</button></div>
  <div class="set-row"><div><b>시점</b><span>탑다운과 1인칭을 바꿔요 · Z</span></div><button id="fpBtn" class="sbtn">1인칭</button></div>
  <div class="set-row"><div><b>길 안내</b><span>다음 목표를 화살표와 별로 알려 줘요</span></div><button id="setGuide" class="sbtn">켜짐</button></div>
  <div class="set-row"><div><b>미니맵</b><span>오른쪽 위 작은 지도</span></div><button id="setMini" class="sbtn">켜짐</button></div>
@@ -121,6 +124,6 @@
 <div id="warpTxt"></div>
 <div id="fade"></div>
 
-<script src="game.js?v=1791766014"></script>
+<script src="game.js?v=1791859524"></script>
 </body>
 </html>
