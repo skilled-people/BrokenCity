@@ -278,6 +278,8 @@ function buildNL(){
  rect(g,30,2,12,8,'Y');rect(g,38,2,4,2,'B');
  rect(g,30,13,12,7,'R');rect(g,31,13,4,2,'B');
  rect(g,30,23,18,12,'W');
+ for(let x=29;x<=48;x++){g[22][x]='I';g[35][x]='I';}for(let y=22;y<=35;y++){g[y][29]='I';g[y][48]='I';}
+ rect(g,37,25,3,9,'%');
  return {w:50,h:44,g};
 }
 MAPS.nl=buildNL();
@@ -288,7 +290,7 @@ const CLOCKS=['c0400','c1500','c1650','c1658','c1702'];
 const LAB_ROOMS=[['ARCHIVE실',3,1,9,4],['서버실',23,1,10,4],['보안 게이트',3,10,8,6],['장치실',13,10,10,7],['폐쇄된 실험실',25,10,7,6],['NURI 회의실',13,19,12,7],['수직 통로',33,6,2,24],['탈출구 앞',10,30,25,8],['B3 복도',3,6,30,3],['계단',16,1,4,5]];
 const VENTS=[];MAPS.factory.g.forEach((row,y)=>row.forEach((c,x)=>{if(c==='v')VENTS.push([x,y]);}));
 const RUBBLE_S=new Set(['8,13','9,12','22,14','31,13']);
-const SOLID=new Set(['#','r','c','T','G','d','M','X','L','K','S','Q','J','V','B','C','P']);
+const SOLID=new Set(['I','#','r','c','T','G','d','M','X','L','K','S','Q','J','V','B','C','P']);
 const AREA_NAME={city:'AREA 01 · 폐허 도시',school:'AREA 02 · 폐교',factory:'AREA 03 · 거대 공장',lab:'AREA 04 · 지하 연구시설',nl:'AREA 05 · 누리느엘',room:'원룸'};
 
 /* ================= STATE ================= */
@@ -711,6 +713,22 @@ const OBJ={
   {id:'p4',x:44,y:31,t:'person',c:'#a9b8f0',solid:1,act:()=>say([{s:'누리느엘의 사람',t:'당신, 기록자죠? 이번엔 오래 있다 가요.'}])},
   {id:'p5',x:46,y:27,t:'person',c:'#d2b5ee',solid:1,act:()=>say(['아이를 안은 여자. 눈동자에 하얀 빛이 맴돈다.','…아파트 일기를 쓴 사람일까.'])},
   {id:'p6',x:36,y:24,t:'person',c:'#f0a882',solid:1,act:()=>say([{s:'누리느엘의 사람',t:'곧 5시 방송이 나올 거야. 늘 그렇듯이.'}])},
+  {id:'hstage',x:35,y:23,w:7,t:'hstage',solid:1,act:()=>say(['작은 무대. 현수막이 걸려 있다.','"한결중학교 축제 · 2011. 10. 14."','무대 위 마이크는 켜져 있는데, 아무도 서 있지 않다.'])},
+  {id:'hpil1',x:31,y:24,t:'hpillar',solid:1,act:()=>say(['매끈한 대리석 기둥. 손을 대도 차갑지 않다.'])},
+  {id:'hpil2',x:45,y:24,t:'hpillar',solid:1,act:()=>say(['기둥에 작은 글씨가 새겨져 있다. "여기서는 아무것도 끝나지 않는다."'])},
+  {id:'hpil3',x:31,y:32,t:'hpillar',solid:1,act:()=>say(['매끈한 대리석 기둥. 금빛 띠가 둘려 있다.'])},
+  {id:'hpil4',x:45,y:32,t:'hpillar',solid:1,act:()=>say(['기둥 뒤에 누군가 숨어 웃는 소리가 들린다. 돌아가 보면 아무도 없다.'])},
+  {id:'htab1',x:31,y:28,w:2,t:'htable',solid:1,act:()=>say(['케이크와 음료가 차려진 긴 탁자.','아무도 먹지 않는데, 줄어들지도 않는다.'])},
+  {id:'htab2',x:45,y:28,w:2,t:'htable',solid:1,act:()=>say(['축제 음식이 가득한 탁자. 컵마다 음료가 꼭 같은 높이로 채워져 있다.'])},
+  {id:'hpiano',x:41,y:32,w:2,t:'hpiano',solid:1,act:()=>say(['하얀 피아노. 건반을 누르자 축제 노래가 이어진다.','누가 치고 있는 것도 아닌데.'])},
+  {id:'hphoto',x:33,y:22,w:2,t:'hphoto',act:()=>say(['벽에 사진이 빼곡히 걸려 있다. 축제 날의 사람들.','모두 얼굴이 또렷하다. 이곳에선 아무도 노이즈가 아니다.'])},
+  {id:'hclock',x:43,y:22,t:'hclock',act:()=>say(['커다란 벽시계. 17시 02분.','초침은 돌고 있는데, 분침은 움직이지 않는다.'])},
+  {id:'hplant1',x:30,y:23,t:'hplant',act:()=>say(['화분의 꽃이 활짝 피어 있다. 시들지 않는 꽃.'])},
+  {id:'hplant2',x:47,y:23,t:'hplant',act:()=>say(['화분의 꽃이 활짝 피어 있다.'])},
+  {id:'hplant3',x:30,y:34,t:'hplant',act:()=>say(['화분의 꽃잎 하나가 떨어지다가, 공중에서 멈춰 있다.'])},
+  {id:'hplant4',x:47,y:34,t:'hplant',act:()=>say(['화분의 꽃이 활짝 피어 있다.'])},
+  {id:'hball1',x:34,y:25,t:'hballoon',act:()=>say(['풍선 다발. 바람이 불지 않는데 천천히 흔들린다.'])},{id:'hball2',x:42,y:25,t:'hballoon',act:()=>say(['풍선 다발. 하나도 바람이 빠지지 않았다.'])},
+  {id:'hchand',x:38,y:29,t:'hchand',act:()=>say(['고개를 들자 천장에 샹들리에가 걸려 있다.','촛불이 흔들리는데, 촛농은 흘러내리지 않는다.'])},
   {id:'hallexit',x:38,y:34,t:'hallexit',act:doorAct,to:[22.5,21.4],pre:['들어왔던 작은 문.'],post:['문을 열자 광장이다. 등 뒤의 가건물은 여전히 전화 부스만 하다.']},
   {id:'core',x:13,y:3,w:2,t:'core',act:coreAct,solid:1},
   {id:'nlcore',x:7,y:4,t:'pedestal',rec:'nlcore',solid:1},
@@ -827,7 +845,7 @@ function collect(id){
  if(S.records.length===1)setTimeout(()=>toast(isTouch?'오른쪽 위 "기록 보관함"에서 모은 기록을 다시 볼 수 있다':'Tab 키 또는 "기록 보관함"에서 모은 기록을 다시 볼 수 있다'),3000);
  else if(S.records.length===3&&S.contra.length===0)setTimeout(()=>toast('기록 보관함에서 두 기록을 비교하면 모순을 찾을 수 있다'),3000);
 }
-const OBJ_NAME={keypad:'정문 키패드',exitdoor:'철문',hatch:'철제 해치',lever:'레버',gen:'발전기',device:'하얀 장치',console:'방송 콘솔',ghost:'과거의 사람',coat:'흰 코트의 사람',terminal:'ARCHIVE 컴퓨터',codepad:'코드 패널',irondoor:'비상 탈출구',portal:'고리 장치',speaker:'스피커',fuse:'선반',none:'잔해',sign:'경고판',tower:'시계탑',clock:'시계',nphone:'공중전화',nstop:'정류장',schooldoor:'한결중학교 현관',kiosk:'가건물',upstair:'위층 계단',downstair:'아래층 계단',person:'사람',core:'빛의 핵',retgate:'하얀 고리',chair31:'빈 의자',hallexit:'작은 문',pedestal:'받침대',card:'정체 불명의 카드',b3sign:'안내판',nlstand:'신문 가판대',dpanel:'인증 패널',rbed:'침대',rdesk:'책상',rwin:'창문',rclock:'벽시계',rfridge:'냉장고',rshelf:'책장',rmirror:'거울',rdoor:'현관문'};
+const OBJ_NAME={keypad:'정문 키패드',exitdoor:'철문',hatch:'철제 해치',lever:'레버',gen:'발전기',device:'하얀 장치',console:'방송 콘솔',ghost:'과거의 사람',coat:'흰 코트의 사람',terminal:'ARCHIVE 컴퓨터',codepad:'코드 패널',irondoor:'비상 탈출구',portal:'고리 장치',speaker:'스피커',fuse:'선반',none:'잔해',sign:'경고판',tower:'시계탑',clock:'시계',nphone:'공중전화',nstop:'정류장',schooldoor:'한결중학교 현관',kiosk:'가건물',upstair:'위층 계단',downstair:'아래층 계단',person:'사람',core:'빛의 핵',retgate:'하얀 고리',chair31:'빈 의자',hallexit:'작은 문',pedestal:'받침대',card:'정체 불명의 카드',b3sign:'안내판',nlstand:'신문 가판대',dpanel:'인증 패널',hstage:'무대',hpillar:'기둥',htable:'탁자',hpiano:'피아노',hphoto:'사진 벽',hclock:'벽시계',hplant:'화분',rbed:'침대',rdesk:'책상',rwin:'창문',rclock:'벽시계',rfridge:'냉장고',rshelf:'책장',rmirror:'거울',rdoor:'현관문'};
 function interact(o){alog('USER 조사 · '+(o.rec?R[o.rec].title:(o.t==='lever'?o.L+' 레버':(OBJ_NAME[o.t]||'대상'))));if(o.act)o.act(o);else if(o.rec)readRecord(o);}
 const feedLines=[];let stepAcc=0,idleT=0,idleLogged=false,lastRoom='';
 function alog(msg){
@@ -2086,7 +2104,7 @@ window.addEventListener('resize',resize);resize();
 function h2(x,y){let n=(x*374761393+y*668265263)|0;n=Math.imul(n^(n>>>13),1274126177);return ((n^(n>>>16))>>>0)/4294967295;}
 function hexA(h,a){const n=parseInt(h.slice(1),16);return 'rgba('+((n>>16)&255)+','+((n>>8)&255)+','+(n&255)+','+a+')';}
 function fr(c,x,y,w,h){ctx.fillStyle=c;ctx.fillRect(x,y,w,h);}
-function isWall(t){return t==='#'||t==='G'||t==='g'||t==='M'||t==='L'||t==='K'||t==='Q'||t==='J'||t==='P';}
+function isWall(t){return t==='I'||t==='#'||t==='G'||t==='g'||t==='M'||t==='L'||t==='K'||t==='Q'||t==='J'||t==='P';}
 let NOW=0;
 const PAST=['#f4b6c2','#b9e4cf','#bfd0f6','#f6dfa8','#d8c6f1','#ffd1b3'];
 function pastel(x,y){return PAST[Math.floor(h2(Math.floor(x/3)+7,Math.floor(y/3)+3)*PAST.length)%PAST.length];}
@@ -2522,6 +2540,24 @@ TP['K']=(g,R,x,y)=>{fillc(g,'#141516',0,0,32,32);g.fillStyle=lg(g,2,0,30,0,[[0,'
 TP['k']=(g,R,x,y)=>{fillc(g,'#060707',0,0,32,32);g.fillStyle=lg(g,0,0,0,32,[[0,'rgba(170,200,230,.03)'],[1,'rgba(170,200,230,.16)']]);g.fillRect(3,0,26,32);
  for(const xx of [0,29]){fillc(g,'#d8b13a',xx,0,3,32);for(let k=2;k<32;k+=8)fillc(g,'#141414',xx,k,3,3);}
  fillc(g,'#2a2c2e',3,0,4,32);fillc(g,'#3c3f42',3,0,.6,32);fillc(g,'#0e0f10',7,0,.8,32);};
+TP['I']=(g,R,x,y)=>{
+ const face=!isWall(tile(x,y+1))&&tile(x,y+1)!=='V';
+ if(!face){fillc(g,'#d8cfe6',0,0,32,32);const fl=t=>!isWall(t)&&t!=='V';if(fl(tile(x,y-1)))fillc(g,'#d9b46a',0,0,32,1.6);if(fl(tile(x-1,y)))fillc(g,'#d9b46a',0,0,1.6,32);if(fl(tile(x+1,y)))fillc(g,'#d9b46a',30.4,0,1.6,32);return;}
+ g.fillStyle=lg(g,0,0,0,32,[[0,'#fbf6ee'],[1,'#efe5d6']]);g.fillRect(0,0,32,32);
+ for(let yy=4;yy<20;yy+=6)for(let xx=((yy/6)%2)*4;xx<32;xx+=8){g.fillStyle='rgba(217,180,106,.16)';g.beginPath();g.moveTo(xx+4,yy);g.lineTo(xx+6,yy+2.5);g.lineTo(xx+4,yy+5);g.lineTo(xx+2,yy+2.5);g.closePath();g.fill();}
+ fillc(g,'#ffffff',0,0,32,1.6);fillc(g,'#d9b46a',0,1.6,32,.8);
+ fillc(g,'#e6d8c2',0,21,32,9);fillc(g,'#d9b46a',0,20.4,32,.8);fillc(g,'#f6eee2',2,22.5,12,6);fillc(g,'#f6eee2',18,22.5,12,6);fillc(g,'rgba(0,0,0,.06)',2,28,12,.5);fillc(g,'rgba(0,0,0,.06)',18,28,12,.5);
+ fillc(g,'#cbb89a',0,30,32,2);
+ const k=R();
+ if(k<.32){g.fillStyle='#ffffff';rr(g,9,3,14,16,7);g.fill();g.fillStyle=lg(g,0,4,0,19,[[0,'#cfe0fb'],[.6,'#f3e6f2'],[1,'#ffe9d6']]);rr(g,10.4,4.4,11.2,14.2,5.6);g.fill();fillc(g,'#ffffff',15.6,5,.8,13.6);fillc(g,'#ffffff',10.4,11.4,11.2,.8);g.fillStyle='rgba(255,255,255,.35)';g.fillRect(11,6,3,10);}
+ else if(k<.55){const c=PAST[Math.floor(R()*PAST.length)];fillc(g,'#c9a45a',8,5,16,12);fillc(g,'#fffaf0',9.2,6.2,13.6,9.6);g.fillStyle=c;g.beginPath();g.arc(13,11,3,0,Math.PI*2);g.fill();g.fillStyle=PAST[Math.floor(R()*PAST.length)];g.beginPath();g.moveTo(15,15);g.lineTo(21,8);g.lineTo(22.6,15);g.closePath();g.fill();}
+ for(let i=0;i<4;i++){g.fillStyle=PAST[(x*4+i)%PAST.length];g.beginPath();g.moveTo(i*8,2.6);g.lineTo(i*8+8,2.6);g.lineTo(i*8+4,7.4);g.closePath();g.fill();}
+ g.strokeStyle='rgba(160,140,110,.6)';g.lineWidth=.4;g.beginPath();g.moveTo(0,2.6);g.quadraticCurveTo(16,4,32,2.6);g.stroke();
+};
+TP['%']=(g,R,x,y)=>{TP['W'](g,R,x,y);const lf=tile(x-1,y)!=='%',rt=tile(x+1,y)!=='%',up=tile(x,y-1)!=='%',dn=tile(x,y+1)!=='%';
+ g.fillStyle=lg(g,0,0,32,32,[[0,'#c98a9a'],[1,'#b7778a']]);g.fillRect(lf?3:0,up?3:0,32-(lf?3:0)-(rt?3:0),32-(up?3:0)-(dn?3:0));
+ for(let yy=6;yy<32;yy+=10)for(let xx=6;xx<32;xx+=10){g.fillStyle='rgba(255,230,190,.28)';g.beginPath();g.moveTo(xx,yy-3);g.lineTo(xx+3,yy);g.lineTo(xx,yy+3);g.lineTo(xx-3,yy);g.closePath();g.fill();}
+ g.fillStyle='#e2c27a';if(lf)g.fillRect(3,0,1.2,32);if(rt)g.fillRect(27.8,0,1.2,32);if(up)g.fillRect(0,3,32,1.2);if(dn)g.fillRect(0,27.8,32,1.2);};
 TP['O']=(g,R,x,y)=>{
  for(let i=0;i<4;i++){const v=58+R()*10,yy=i*8;fillc(g,grayc(v),0,yy,32,8);fillc(g,grayc(v+10),0,yy,32,.6);fillc(g,grayc(v-16),0,yy+7.5,32,.5);
   const off=((x*3+y*5+i*7)%4)*8;fillc(g,grayc(v-14),off,yy,.6,8);fillc(g,grayc(v-14),(off+16)%32,yy,.6,8);
@@ -2636,7 +2672,7 @@ TP['C']=(g,R,x,y)=>{TP['w'](g,R,x,y);const c=PAST[(x+y*3)%PAST.length];
 };
 
 /* ===== 오브젝트 ===== */
-const OB={irondoor:[-8,-52,112,86],tower:[-8,-72,80,108],board:[-18,-6,68,40],gen:[-16,-8,64,44],portal:[-8,-24,80,64]};
+const OB={hstage:[-8,-14,240,50],hpiano:[-8,-14,80,48],htable:[-8,-10,80,44],hphoto:[-4,-4,72,36],hchand:[-16,-24,64,64],irondoor:[-8,-52,112,86],tower:[-8,-72,80,108],board:[-18,-6,68,40],gen:[-16,-8,64,44],portal:[-8,-24,80,64]};
 function objBox(t){return OB[t]||[-24,-48,80,80];}
 function objState(o){const f=S.flags;
  switch(o.t){case 'keypad':return f.gateOpen?'o':'c';case 'fuse':return f.hasFuse?'e':'f';case 'console':return f.powered?'p':'n';
@@ -2849,6 +2885,33 @@ OP.rshelf=(g,R)=>{shE(g,16,29,13,2.4,.4);fillc(g,'#3a352f',3,-10,26,38);fillc(g,
 OP.rmirror=(g,R)=>{fillc(g,'#2a2622',18,4,10,20);g.fillStyle=lg(g,19,5,27,23,[[0,'#cfd3d6'],[.5,'#8a9095'],[1,'#b9bec2']]);g.fillRect(19,5,8,18);fillc(g,'rgba(255,255,255,.4)',20,6,1.4,10);};
 OP.rdoor=(g,R)=>{fillc(g,'#1a1816',4,0,24,32);g.fillStyle=lg(g,6,0,26,0,[[0,'#5a5148'],[1,'#3a342e']]);g.fillRect(6,2,20,30);fillc(g,'#6a6056',6,2,20,.8);
  fillc(g,'#c9c2a8',21,15,3,3);fillc(g,'#8a8478',21.5,18,2,1.4);fillc(g,'#2a2622',14,6,4,1.4);};
+OP.hstage=(g,R)=>{shE(g,112,30,110,4,.1);g.fillStyle=lg(g,0,10,0,30,[[0,'#e9dcc4'],[1,'#cdb895']]);g.fillRect(2,12,220,18);fillc(g,'#fff6e6',2,12,220,1.4);fillc(g,'#b89c6c',2,28.6,220,1.4);
+ g.fillStyle='#c98a9a';g.beginPath();g.moveTo(0,-6);g.lineTo(224,-6);g.lineTo(224,12);g.quadraticCurveTo(200,4,180,12);g.lineTo(44,12);g.quadraticCurveTo(24,4,0,12);g.closePath();g.fill();fillc(g,'#e2c27a',0,-6,224,1.6);
+ fillc(g,'#ffffff',62,-3,100,9);fillc(g,'#d9b46a',62,-3,100,.8);tx(g,'한결중학교 축제 · 2011. 10. 14.',112,3.4,4.4,'#8a6a9a');
+ for(let i=0;i<8;i++){g.fillStyle=PAST[i%PAST.length];g.beginPath();g.moveTo(10+i*27,7);g.lineTo(22+i*27,7);g.lineTo(16+i*27,13);g.closePath();g.fill();}
+ fillc(g,'#3a3a44',111,8,1.2,10);g.fillStyle='#3a3a44';g.beginPath();g.ellipse(111.6,8,1.8,2.4,0,0,Math.PI*2);g.fill();};
+OP.hpillar=(g,R)=>{shE(g,16,30,9,2.4,.1);g.fillStyle=lg(g,8,0,24,0,[[0,'#ffffff'],[.5,'#f3ece2'],[1,'#d9cfc0']]);g.fillRect(9,-16,14,44);
+ fillc(g,'#fff',7,-18,18,3);fillc(g,'#d9b46a',7,-15,18,1);fillc(g,'#fff',7,26,18,3);fillc(g,'#d9b46a',7,25,18,1);
+ for(let i=0;i<3;i++)fillc(g,'rgba(0,0,0,.05)',11+i*4,-14,1,38);g.strokeStyle='rgba(180,160,140,.3)';g.lineWidth=.4;g.beginPath();g.moveTo(12,-8);g.bezierCurveTo(16,0,10,10,18,20);g.stroke();};
+OP.htable=(g,R)=>{shE(g,32,26,30,3.5,.1);fillc(g,'#cbb89a',4,18,2,8);fillc(g,'#cbb89a',58,18,2,8);
+ g.fillStyle='#ffffff';rr(g,1,6,62,14,2);g.fill();for(let i=0;i<8;i++)fillc(g,PAST[i%PAST.length],1+i*7.75,17,7.75,3);
+ g.fillStyle='#fff4f6';rr(g,10,0,16,9,2);g.fill();fillc(g,'#f4b6c2',10,4,16,2);g.fillStyle='#e89aa8';g.beginPath();g.arc(18,0,2.4,0,Math.PI*2);g.fill();fillc(g,'#f2c46f',17.6,-4,.8,3);
+ for(let i=0;i<4;i++){fillc(g,'rgba(200,225,245,.8)',34+i*7,4,4,7);fillc(g,PAST[(i+2)%PAST.length],34.4+i*7,6.5,3.2,4.2);}};
+OP.hpiano=(g,R)=>{shE(g,32,28,28,3.5,.1);g.fillStyle='#fbfaf6';rr(g,4,-6,56,30,4);g.fill();fillc(g,'#e8e2d8',4,14,56,2);
+ fillc(g,'#ffffff',8,16,48,6);for(let i=0;i<13;i++)fillc(g,'#c9c2b6',8+i*3.7,16,.4,6);for(let i=0;i<12;i++)if(i%7!==2&&i%7!==6)fillc(g,'#2a2a33',10.4+i*3.7,16,2,3.4);
+ fillc(g,'#d9b46a',4,-6,56,1);g.fillStyle='rgba(255,255,255,.6)';g.fillRect(8,-3,20,1.4);};
+OP.hphoto=(g,R)=>{for(let i=0;i<6;i++){const x=4+(i%3)*19,y=4+Math.floor(i/3)*12;g.save();g.translate(x+7,y+5);g.rotate((R()-.5)*.25);fillc(g,'#ffffff',-7,-5,14,11);fillc(g,PAST[i%PAST.length],-6,-4,12,7);
+ g.fillStyle='#f3e0d2';g.beginPath();g.arc(-1,-1,2,0,Math.PI*2);g.fill();g.fillStyle='#3a2b2a';g.fillRect(-3,-3.4,4,1.4);g.restore();}fillc(g,'#d9b46a',2,1,60,.6);};
+OP.hclock=(g,R)=>{g.fillStyle='#d9b46a';g.beginPath();g.arc(16,12,10,0,Math.PI*2);g.fill();g.fillStyle='#fffaf0';g.beginPath();g.arc(16,12,8.4,0,Math.PI*2);g.fill();
+ for(let i=0;i<12;i++){const a=i/12*Math.PI*2;fillc(g,'#8a7a9a',16+Math.cos(a)*7-.4,12+Math.sin(a)*7-.4,.8,.8);}
+ ln(g,'#2a2a33',1.2,[[16,12],[16+Math.cos(-Math.PI/2+(17%12+2/60)/12*Math.PI*2)*4.6,12+Math.sin(-Math.PI/2+(17%12+2/60)/12*Math.PI*2)*4.6]]);ln(g,'#2a2a33',.8,[[16,12],[16+Math.cos(-Math.PI/2+2/60*Math.PI*2)*6.6,12+Math.sin(-Math.PI/2+2/60*Math.PI*2)*6.6]]);bolt(g,16,12,'#c8322d');};
+OP.hplant=(g,R)=>{shE(g,16,28,7,2,.1);g.fillStyle='#e9dcc4';g.beginPath();g.moveTo(9,18);g.lineTo(23,18);g.lineTo(21,28);g.lineTo(11,28);g.closePath();g.fill();fillc(g,'#d9b46a',9,18,14,1.2);
+ for(let i=0;i<7;i++){g.fillStyle=i%2?'#9fd6ba':'#8fcfb3';g.beginPath();g.ellipse(16+(i-3)*2.4,12-Math.abs(i-3)*.6,2,5,(i-3)*.3,0,Math.PI*2);g.fill();}
+ for(let i=0;i<5;i++){g.fillStyle=PAST[i%PAST.length];g.beginPath();g.arc(11+i*2.6,7+((i*7)%3),1.8,0,Math.PI*2);g.fill();}};
+OP.hballoon=(g,R)=>{for(let i=0;i<3;i++){const x=10+i*6,y=-14+((i*5)%4);ln(g,'rgba(150,140,160,.7)',.4,[[x,y+5],[16,24]]);g.fillStyle=PAST[(i*2)%PAST.length];g.beginPath();g.ellipse(x,y,4,5,0,0,Math.PI*2);g.fill();fillc(g,'rgba(255,255,255,.5)',x-2,y-3,1.2,1.6);}fillc(g,'#d9b46a',14,23,4,2);};
+OP.hchand=(g,R)=>{g.fillStyle=rg(g,16,8,1,26,[[0,'rgba(255,240,210,.55)'],[1,'rgba(255,240,210,0)']]);g.fillRect(-10,-18,52,52);
+ g.strokeStyle='#d9b46a';g.lineWidth=1;g.beginPath();g.ellipse(16,8,11,4,0,0,Math.PI*2);g.stroke();g.beginPath();g.ellipse(16,6,6,2.4,0,0,Math.PI*2);g.stroke();
+ for(let i=0;i<8;i++){const a=i/8*Math.PI*2;g.fillStyle='#fff7e0';g.beginPath();g.arc(16+Math.cos(a)*11,8+Math.sin(a)*4,1.4,0,Math.PI*2);g.fill();}ln(g,'#d9b46a',.6,[[16,-14],[16,4]]);};
 OP.b3sign=(g,R)=>{fillc(g,'rgba(0,0,0,.35)',5.6,6.6,22,15);fillc(g,'#1e2022',5,6,22,14.4);fillc(g,'#2e3134',5.6,6.6,20.8,13.2);fillc(g,'#3e4144',5.6,6.6,20.8,.5);
  tx(g,'B3',11.6,15.6,6,'#e7e3da');g.fillStyle='#d8b13a';g.beginPath();g.moveTo(20,10);g.lineTo(24,10);g.lineTo(24,14);g.lineTo(26,14);g.lineTo(22,18.4);g.lineTo(18,14);g.lineTo(20,14);g.closePath();g.fill();
  tx(g,'지하 연구시설',16,19.2,2,'#9a968e');[[6.4,7.6],[25.6,7.6],[6.4,18.8],[25.6,18.8]].forEach(q=>bolt(g,q[0],q[1],'#5a5d60'));};
@@ -3522,7 +3585,7 @@ function draw(t){
  else{rad=TS*4.3*(1+.03*Math.sin(t*9))*(Math.random()<.008?.8:1);dark=.9;}
  drawVision(pcx,pcy,rad,dark,camX,camY,k);
  if(S.area==='nl'){
-  const bg=ctx.createRadialGradient(pcx,pcy,TS*3,pcx,pcy,Math.max(VW,VH)*.75);bg.addColorStop(0,'rgba(255,255,255,0)');bg.addColorStop(1,'rgba(255,255,255,.42)');
+  const inHall=P.x>29*TS&&P.x<49*TS&&P.y>22*TS&&P.y<36*TS;const bg=ctx.createRadialGradient(pcx,pcy,TS*(inHall?6:3),pcx,pcy,Math.max(VW,VH)*.75);bg.addColorStop(0,'rgba(255,255,255,0)');bg.addColorStop(1,inHall?'rgba(255,240,220,.16)':'rgba(255,255,255,.42)');
   ctx.fillStyle=bg;ctx.fillRect(camX-10,camY-10,VW+20,VH+20);
   ctx.fillStyle='hsla('+Math.round((t*18)%360)+',70%,75%,.06)';ctx.fillRect(camX,camY,VW,VH);
  }
@@ -3554,7 +3617,7 @@ function draw(t){
 }
 
 /* ================= 1인칭 (레이캐스팅) ================= */
-const FP_WALL=new Set(['#','B','V','X','S','Q','J','L','K','G','M','P']);
+const FP_WALL=new Set(['I','#','B','V','X','S','Q','J','L','K','G','M','P']);
 const fpc=document.createElement('canvas'),fctx=fpc.getContext('2d');
 const RGBC={};function rgb(h){if(RGBC[h])return RGBC[h];const n=parseInt(h.slice(1),16);return RGBC[h]=[(n>>16)&255,(n>>8)&255,n&255];}
 function mixc(c,f,t){return 'rgb('+Math.round(c[0]+(f[0]-c[0])*t)+','+Math.round(c[1]+(f[1]-c[1])*t)+','+Math.round(c[2]+(f[2]-c[2])*t)+')';}
@@ -3576,21 +3639,21 @@ function wallBase(t,mx,my){
  }
  return '#333333';
 }
-function wallH(t){if(t==='V')return 4;if(t==='B')return 1.8;if(t==='#'&&S.area==='city')return 2.1;return 1.05;}
+function wallH(t){if(t==='V')return 4;if(t==='I')return 2.4;if(t==='B')return 1.8;if(t==='#'&&S.area==='city')return 2.1;return 1.05;}
 const SPR={stand:[.6,.7,'#4d4d4d'],phone:[1.25,.6,'#333333'],graffiti:[.3,1.2,'#7a2422',.4],radio:[.35,.65,'#2a2f2f',.3],busstop:[1.3,.35,'#8d8a83'],mailbox:[.35,.4,'#444444',.35],
  keypad:[.28,.28,'#2a2a2a',.45],book:[.45,.6,'#4a4a48'],board:[.4,1.6,'#1d221e',.35],camera:[.62,.45,'#3a3a3a'],docs:[.45,.6,'#4a4a48'],speaker:[.2,.35,'#3d3d3d',.65],
  fuse:[.5,.6,'#4d4d4d'],memo:[.45,.6,'#d8dee8'],console:[.62,.8,'#333333'],hatch:[.04,.65,'#3a3a38'],exitdoor:[.95,.9,'#403b39'],monitor:[.62,.7,'#1d2b44'],
- lever:[.45,.35,'#2b2d2d',.3],gen:[.95,1.7,'#2f3131'],device:[.6,.55,'#eaf2ff',.25],coat:[.9,.42,'#eef2fa'],ghost:[.88,.42,'#b4cbf2'],sign:[.35,.5,'#6b5a1a',.45],b3sign:[.36,.58,'#2a2c2e',.42],dpanel:[.75,.5,'#1a1d21'],rbed:[.42,.9,'#8d8a84'],rdesk:[.55,.9,'#5a544c'],rfridge:[.95,.6,'#c9c6bf'],rshelf:[1.05,.75,'#3a352f'],rdoor:[1,.8,'#4a443c'],rwin:[.45,.6,'#f2f2f0',.35],rclock:[.25,.25,'#e7e3da',.6],rmirror:[.4,.25,'#b9bec2',.35],nlstand:[.6,.7,'#f6f3ed'],
+ lever:[.45,.35,'#2b2d2d',.3],gen:[.95,1.7,'#2f3131'],device:[.6,.55,'#eaf2ff',.25],coat:[.9,.42,'#eef2fa'],ghost:[.88,.42,'#b4cbf2'],sign:[.35,.5,'#6b5a1a',.45],b3sign:[.36,.58,'#2a2c2e',.42],dpanel:[.75,.5,'#1a1d21'],hpillar:[2.2,.42,'#f3ece2'],htable:[.4,.95,'#ffffff'],hpiano:[.55,.95,'#fbfaf6'],hstage:[.35,1,'#e9dcc4'],hphoto:[.5,.9,'#ffffff',.6],hclock:[.45,.5,'#fffaf0',.8],hplant:[.55,.4,'#8fcfb3'],hballoon:[.6,.5,'#f4b6c2',.6],hchand:[.5,.7,'#fff7e0',1.6],rbed:[.42,.9,'#8d8a84'],rdesk:[.55,.9,'#5a544c'],rfridge:[.95,.6,'#c9c6bf'],rshelf:[1.05,.75,'#3a352f'],rdoor:[1,.8,'#4a443c'],rwin:[.45,.6,'#f2f2f0',.35],rclock:[.25,.25,'#e7e3da',.6],rmirror:[.4,.25,'#b9bec2',.35],nlstand:[.6,.7,'#f6f3ed'],
  terminal:[.75,1.3,'#15171a'],term:[.62,.7,'#1b2536'],recorder:[.3,.6,'#3c3f44'],tank:[1.15,.6,'#9fc4d8'],codepad:[.26,.45,'#5a4c18',.42],portal:[1.15,1.5,'#d8dce6'],
  irondoor:[1.7,2.9,'#3a3533'],clock:[1.25,.38,'#f4f4f0'],tower:[2.3,1.9,'#d8c6f1'],nphone:[1.25,.6,'#e87a8a'],nstop:[1.3,.35,'#bfd0f6'],schooldoor:[.95,.9,'#8fa9d6'],
  kiosk:[1.25,.8,'#b9e4cf'],upstair:[.95,.7,'#fafafa'],downstair:[.95,.7,'#fafafa'],hallexit:[.05,.7,'#d9c7a3'],person:[.88,.42,'#888888'],core:[1.5,1.7,'#ffffff',.1],
  pedestal:[.55,.45,'#fafafa'],retgate:[.75,.6,'#e8eaf2'],chair31:[.5,.5,'#fafafa'],card:[.06,.35,'#e89aa8']};
 const FIG=new Set(['coat','ghost','person']);
-const FPTEX={rbed:[1,0,62,28],rdesk:[2,4,60,16],rfridge:[5,-8,22,36],rshelf:[3,-10,26,38],rdoor:[4,0,24,32],dpanel:[6,0,20,28],nlstand:[1,2,30,26],b3sign:[5,6,22,15],phone:[5,-18,22,46],nphone:[5,-18,22,46],stand:[1,2,30,26],busstop:[1,-19,30,47],nstop:[1,-19,30,47],mailbox:[5,7,22,20],keypad:[8,7,16,22],radio:[1,4,30,25],
+const FPTEX={hpillar:[7,-18,18,47],htable:[1,-4,62,24],hpiano:[4,-6,56,30],hstage:[0,-6,224,36],rbed:[1,0,62,28],rdesk:[2,4,60,16],rfridge:[5,-8,22,36],rshelf:[3,-10,26,38],rdoor:[4,0,24,32],dpanel:[6,0,20,28],nlstand:[1,2,30,26],b3sign:[5,6,22,15],phone:[5,-18,22,46],nphone:[5,-18,22,46],stand:[1,2,30,26],busstop:[1,-19,30,47],nstop:[1,-19,30,47],mailbox:[5,7,22,20],keypad:[8,7,16,22],radio:[1,4,30,25],
  graffiti:[-10,6,52,24],book:[4,4,24,16],camera:[4,4,24,16],docs:[4,4,24,16],memo:[4,4,24,16],board:[-16,1,64,26],speaker:[9,6,14,12],fuse:[2,3,28,25],console:[0,0,32,28],
  exitdoor:[0,0,32,32],monitor:[2,0,28,19],lever:[8,4,16,23],gen:[-12,2,56,26],sign:[6,6,20,15],terminal:[-10,-12,52,40],term:[3,0,26,27],recorder:[4,10,24,15],tank:[4,-12,24,42],
  codepad:[22,7,20,17],irondoor:[-6,-44,108,76],tower:[5,-72,54,104],schooldoor:[0,0,32,32],kiosk:[1,-13,30,41],upstair:[4,4,24,28],downstair:[4,4,24,28],pedestal:[7,4,18,26],chair31:[7,3,18,24]};
-const IMGBB={person:[5,-2,22,33],ghost:[5,-2,22,33],coat:[5,-2,22,33],clock:1};
+const IMGBB={hchand:[-6,-6,44,26],hballoon:[4,-20,24,46],hplant:[6,0,20,30],hphoto:[2,2,60,24],hclock:[5,1,22,22],person:[5,-2,22,33],ghost:[5,-2,22,33],coat:[5,-2,22,33],clock:1};
 const RUB3D={};
 function rubble3D(x,y){
  const key=S.area+x+','+y;if(RUB3D[key])return RUB3D[key];
@@ -3606,12 +3669,12 @@ function rubble3D(x,y){
  if(R()<.5){const h=.3+R()*.25;out.push({bar:{x:x+.3+R()*.4,y:y+.3+R()*.4,sp:[h,.025,'#1c1c1c'],col:'#1c1c1c'}});}
  return RUB3D[key]=out;
 }
-const BOXT=new Set(['rbed','rdesk','rfridge','rshelf','rdoor','dpanel','nlstand','b3sign','stand','phone','graffiti','radio','mailbox','keypad','book','board','camera','docs','speaker','fuse','memo','console','hatch','exitdoor','monitor','lever','gen','sign','terminal','term','recorder','tank','codepad','irondoor','tower','nphone','nstop','schooldoor','kiosk','upstair','downstair','hallexit','pedestal','chair31','busstop']);
+const BOXT=new Set(['hpillar','htable','hpiano','hstage','rbed','rdesk','rfridge','rshelf','rdoor','dpanel','nlstand','b3sign','stand','phone','graffiti','radio','mailbox','keypad','book','board','camera','docs','speaker','fuse','memo','console','hatch','exitdoor','monitor','lever','gen','sign','terminal','term','recorder','tank','codepad','irondoor','tower','nphone','nstop','schooldoor','kiosk','upstair','downstair','hallexit','pedestal','chair31','busstop']);
 function lighten(h,f){const c=rgb(h);return '#'+c.map(v=>Math.min(255,Math.round(v*f)).toString(16).padStart(2,'0')).join('');}
 const LOWT={r:[.35,.95,'#4f4f4f'],c:[.5,1,'#474747'],d:[.42,.78,'#4a4a4a'],C:[.5,.55,null],T:[1.7,.14,'#161616']};
 /* 바닥 텍스처 투영 (1인칭) */
 const FTEXC={};
-const FLOOR_OF={'O':'O','p':'p','Z':'Z','k':'k',',':',','.':'.','f':'f','m':'m','n':'n','w':'w','o':'o','Y':'Y','R':'R','W':'W','v':'v','c':'.','g':'.','G':'.','T':',','N':'o','C':'w','S':'n','q':'n','j':'n','d':'f','H':'f','U':'U'};
+const FLOOR_OF={'%':'%','O':'O','p':'p','Z':'Z','k':'k',',':',','.':'.','f':'f','m':'m','n':'n','w':'w','o':'o','Y':'Y','R':'R','W':'W','v':'v','c':'.','g':'.','G':'.','T':',','N':'o','C':'w','S':'n','q':'n','j':'n','d':'f','H':'f','U':'U'};
 function floorTexData(t,x,y){
  const key=S.area+t+(S.past?1:0)+'|'+x+','+y;let d=FTEXC[key];if(d)return d;
  const cv2=tileCanvas(t,x,y).cv;let data=null;
