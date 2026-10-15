@@ -130,6 +130,20 @@ const R={
   text:'처음 눈을 뜬 곳 옆, 철문 틈에 접힌 쪽지가 끼워져 있다.\n\n"나는 나간다. 진실은 알았지만, 기록은 다 두고 간다."\n\n"넷 중 셋은 노이즈가 되었고, 한 명은 아직 노트를 들고 이 도시를 헤맨다. 그 애들을 괴물이라고 부르지 마."\n\n"처음 눈을 뜨면 \'기록을 시작하시겠습니까?\'라고 묻지. 그건 질문이 아니야. YES라고 하든 NO라고 하든, 그 순간 너는 앞사람의 노트와 카메라를 넘겨받아."\n\n"문 밖이 어땠는지는 적지 않겠다. 다음 기록자가, 직접 보기를. — 네 번째"'}
  ,zphoto:{title:'좀비를 찍은 사진',type:'사진',place:'카메라',date:'지금',color:'white',
   text:'넘겨받은 카메라로 노이즈 좀비를 찍었다.\n\n밀려 나온 사진 속에는 괴물이 없다. 셔츠 단추를 잘못 끼운 회사원, 가방을 멘 학생, 앞치마를 두른 아주머니. 얼굴이 또렷하다.\n\n눈으로 보면 노이즈인데, 사진으로 찍으면 사람이다.\n\n이 카메라는, 노이즈 너머의 기존 사람을 찍는다.'}
+ ,kcore:{title:'꺼진 핵',type:'구조물',place:'카탈라, 중앙 광장',date:'날짜 불명',color:'white',
+  text:'도시 한가운데의 거대한 구.\n\n누리느엘 중심부의 빛의 핵과 똑같이 생겼다. 크기도, 받침의 고리도, 둘러선 기둥의 수도.\n\n하지만 빛이 하나도 없다. 표면에 금이 가 있고, 손을 대도 아무 일도 일어나지 않는다.\n\n…이것도 한때는, 누군가를 기록하고 있었을까.'}
+ ,kplate:{title:'핵 앞의 금속 판',type:'표지',place:'카탈라, 중앙 광장',date:'날짜 불명',color:'white',
+  text:'카탈라 핵\n상태: 가동 정지\n정지 일시: 즉시\n정지 사유: ____\n\n사유 칸은 비어 있다. 누군가 쓰다 만 것처럼.'}
+ ,ksign:{title:'거주 구역 안내판',type:'표지',place:'카탈라, 남쪽 대로',date:'날짜 불명',color:'white',
+  text:'카탈라 · 거주 구역 C\n주민 2,140명 · 대피 완료\n\n"완료"라는 글자 위에만 손때가 묻어 있다. 누군가 몇 번이고 만져 본 것처럼.'}
+ ,knotice:{title:'대피 벽보',type:'벽보',place:'카탈라, 남쪽 대로',date:'날짜 불명',color:'white',
+  text:'모든 시민은 누리느엘로 이동하십시오.\n핵의 빛이 날마다 약해지고 있습니다.\n완전히 꺼지기 전에, 남쪽 고리로.\n\n밑에 손글씨가 덧붙어 있다.\n"먼저 간다. 문 열어 둘게."'}
+ ,kbag:{title:'버려진 가방',type:'유류품',place:'카탈라, 서쪽 대로',date:'날짜 불명',color:'white',
+  text:'급하게 싼 가방이 길 한가운데 놓여 있다. 옷 몇 벌, 칫솔, 사진 한 장.\n\n손잡이에 묶인 이름표.\n"동생을 아직 못 찾았음. 찾으면 같이 갈 것."\n\n가방 주인은, 이것을 두고 동생을 찾으러 간 것 같다.'}
+ ,kshoes:{title:'북쪽을 향한 신발',type:'유류품',place:'카탈라, 북쪽 대로',date:'날짜 불명',color:'white',
+  text:'신발 한 켤레가 가지런히 놓여 있다.\n\n모두가 남쪽으로 떠난 도시에서, 이 신발만은 북쪽을 향하고 있다. 북쪽 끝의 거대한 문 쪽으로.\n\n신발 주인은 맨발로 갔다.'}
+ ,kgate:{title:'다음 기록의 문',type:'구조물',place:'카탈라, 북쪽 끝',date:'날짜 불명',color:'white',
+  text:'도시 북쪽 끝을 막은 거대한 문.\n\n문 위에 새겨진 글씨.\n"다음 기록"\n\n굳게 닫혀 있다. 문틈에서 아주 양은 빛이 새어 나온다. 누리느엘의 빛도, 카탈라의 빛도 아닌 색이다.\n\n이 문 너머의 이야기는, 아직 아무도 기록하지 않았다.'}
  ,nlpaper:{title:'누리느엘 일보',type:'신문',place:'누리느엘, 광장 가판대',date:'매일 10월 14일',color:'nuri',
   text:'[1면] 들어오지 못한 사람들\n\n17시 02분, 많은 이들이 누리느엘로 향했다. 기록자의 노트에 적힌 사람은 온전히 닿았다. 적히지 못한 사람은 영혼만 이곳에 닿고, 육체는 폐허에 남았다.\n\n남겨진 몸에는 의식이 없다. 얼굴은 기록되지 않아 노이즈로 번지고, 본능만 남아 움직인다. 폐허를 떠도는 그들은 괴물이 아니다.\n\n그러니 누리느엘에는 그들이 없다. 그들은 이미, 여기 있으니까.'}
 };
@@ -204,7 +218,12 @@ const CONTRA=[
  {a:'rz5',b:'nlcore',title:'여섯 번째에게',text:'다섯 번째 기록자의 노트: "여섯 번째에게. 노트를 끝까지 혼자 들고 있지 마."\n기록자들의 명단, 마지막 줄: 여섯 번째: ____\n\n빈칸은, 나다.'},
  {a:'esc4',b:'archive',title:'질문이 아닌 질문',text:'네 번째 기록자의 쪽지: "그건 질문이 아니야. YES든 NO든, 너는 노트와 카메라를 넘겨받아."\nARCHIVE 접속 기록: NO라고 답한 #3과 #5도, 기록은 그대로 시작되었다.\n\n처음 눈을 뜰 때 들은 "기록을 시작하시겠습니까?"는, 앞사람의 자리를 이어받으라는 통보였다.'},
  {a:'zphoto',b:'kc1',title:'노이즈 너머의 얼굴',text:'좀비의 주민증: 사진 칸의 얼굴만 노이즈로 번져 있다.\n카메라로 찍은 사진: 같은 좀비의 얼굴이 또렷하게 찍혔다.\n\n소멸한 얼굴은 지워진 게 아니다. 기록자의 카메라에는, 아직 남아 있다.'},
- {a:'zphoto',b:'nlpaper',title:'괴물이 아닌 사람',text:'누리느엘 일보: 들어오지 못한 사람들은 몸만 폐허에 남았다.\n좀비를 찍은 사진: 그 몸은 사진 속에서 여전히 평범한 사람의 모습이다.\n\n우리가 쓰러뜨린 것은 괴물이 아니라, 기존 사람이었다.'}
+ {a:'zphoto',b:'nlpaper',title:'괴물이 아닌 사람',text:'누리느엘 일보: 들어오지 못한 사람들은 몸만 폐허에 남았다.\n좀비를 찍은 사진: 그 몸은 사진 속에서 여전히 평범한 사람의 모습이다.\n\n우리가 쓰러뜨린 것은 괴물이 아니라, 기존 사람이었다.'},
+ {a:'kcore',b:'nuriel',title:'처음이 아니었던 누리느엘',text:'PROJECT NURI 최종 목표: 사라지지 않는 도시, 우리는 그곳을 누리느엘이라 부른다.\n카탈라의 꺼진 핵: 누리느엘의 빛의 핵과 똑같이 생겼다.\n\nNURI가 처음 만든 것이 아니었다. 같은 핵은, 이미 다른 도시에서 켜졌다가 꺼진 적이 있다.'},
+ {a:'kplate',b:'knotice',title:'서서히 꺼진 핵',text:'금속 판: 정지 일시 — 즉시.\n대피 벽보: 핵의 빛이 날마다 약해지고 있습니다.\n\n핵은 한순간에 멈춘 게 아니다. 오래전부터 조금씩 꺼져 갔고, 판에는 그 사실이 적히지 않았다.'},
+ {a:'ksign',b:'kbag',title:'완료되지 않은 대피',text:'안내판: 주민 2,140명 · 대피 완료.\n버려진 가방: 동생을 아직 못 찾았음. 찾으면 같이 갈 것.\n\n대피는 완료되지 않았다. 적어도 두 사람은, 남쪽 고리로 가지 않았다.'},
+ {a:'kshoes',b:'knotice',title:'반대쪽을 향한 발',text:'대피 벽보: 모든 시민은 남쪽 고리로, 누리느엘로.\n북쪽을 향한 신발: 주인은 신발을 벗고 북쪽으로 갔다.\n\n누군가는 누리느엘이 아니라, 다음 기록의 문 쪽을 골랐다.'},
+ {a:'kgate',b:'nlcore',title:'여섯 번째 다음',text:'기록자들의 명단, 마지막 줄: 여섯 번째: ____\n카탈라의 문: 다음 기록.\n\n이 기록은 여섯 번째에서 끝나지 않는다. 다만, 아직 아무도 그 문을 열지 못했을 뿐이다.'}
 ];
 const ESC=[{id:'map',l:'출입구 위치 기록',a:'폐허 도시'},{id:'broadcast',l:'대피 방송 기록',a:'폐교'},{id:'power',l:'전력 공급 기록',a:'거대 공장'},{id:'code',l:'최종 잠금 해제 코드',a:'지하 연구시설'}];
 
@@ -285,13 +304,25 @@ function buildNL(){
 MAPS.nl=buildNL();
 function buildRoom(){const g=grid(12,9,'#');rect(g,1,1,10,7,'O');return {w:12,h:9,g};}
 MAPS.room=buildRoom();
+function buildCatala(){
+ const W=48,H=38,g=grid(W,H,'2');
+ rect(g,2,17,44,4,'1');rect(g,22,2,4,34,'1');
+ rect(g,4,7,40,3,'1');rect(g,4,28,40,3,'1');
+ rect(g,8,4,3,30,'1');rect(g,37,4,3,30,'1');
+ for(let y=0;y<H;y++)for(let x=0;x<W;x++){const d=Math.hypot(x+.5-24,y+.5-19);if(d<8.2)g[y][x]='1';}
+ rect(g,12,11,3,3,'1');rect(g,33,11,3,3,'1');rect(g,12,24,3,3,'1');rect(g,33,24,3,3,'1');
+ for(let x=0;x<W;x++){g[0][x]='2';g[H-1][x]='2';}for(let y=0;y<H;y++){g[y][0]='2';g[y][W-1]='2';}
+ for(let x=22;x<=25;x++)g[1][x]='1';
+ return {w:W,h:H,g};
+}
+MAPS.catala=buildCatala();
 const NL_ZONES=[['중심부',4,1,20,8],['없던 길',13,9,2,5],['광장',0,14,28,10],['지하 3층',30,2,12,8],['옥상',30,13,12,7],['홀',30,23,18,12]];
 const CLOCKS=['c0400','c1500','c1650','c1658','c1702'];
 const LAB_ROOMS=[['ARCHIVE실',3,1,9,4],['서버실',23,1,10,4],['보안 게이트',3,10,8,6],['장치실',13,10,10,7],['폐쇄된 실험실',25,10,7,6],['NURI 회의실',13,19,12,7],['수직 통로',33,6,2,24],['탈출구 앞',10,30,25,8],['B3 복도',3,6,30,3],['계단',16,1,4,5]];
 const VENTS=[];MAPS.factory.g.forEach((row,y)=>row.forEach((c,x)=>{if(c==='v')VENTS.push([x,y]);}));
 const RUBBLE_S=new Set(['8,13','9,12','22,14','31,13']);
-const SOLID=new Set(['I','#','r','c','T','G','d','M','X','L','K','S','Q','J','V','B','C','P']);
-const AREA_NAME={city:'AREA 01 · 폐허 도시',school:'AREA 02 · 폐교',factory:'AREA 03 · 거대 공장',lab:'AREA 04 · 지하 연구시설',nl:'AREA 05 · 누리느엘',room:'원룸'};
+const SOLID=new Set(['2','I','#','r','c','T','G','d','M','X','L','K','S','Q','J','V','B','C','P']);
+const AREA_NAME={city:'AREA 01 · 폐허 도시',school:'AREA 02 · 폐교',factory:'AREA 03 · 거대 공장',lab:'AREA 04 · 지하 연구시설',nl:'AREA 05 · 누리느엘',room:'원룸',catala:'AREA ?? · 카탈라'};
 
 /* ================= STATE ================= */
 function fresh(){return {diff:'normal',area:'city',x:5.5*TS,y:27.6*TS,records:[],contra:[],flags:{},past:false,time:0,hp:150,bats:[{sp:false,dur:300}],items:{energy:0,bandage:0,aid:0},kills:{},loot:null};}
@@ -616,6 +647,21 @@ function tile(x,y){
 
 /* ================= OBJECTS ================= */
 const OBJ={
+ catala:[
+  {id:'kcore',x:23,y:18,w:2,t:'kcore',solid:1,rec:'kcore'},
+  {id:'kpl',x:24,y:25,t:'kplaque',rec:'kplate'},
+  {id:'kp1',x:19,y:14,t:'kpillar',solid:1,act:()=>say(['검은 기둥. 표면을 따라 흐르던 빛의 길이 모두 꺼져 있다.'])},
+  {id:'kp2',x:28,y:14,t:'kpillar',solid:1,act:()=>say(['검은 기둥. 손을 대자 아주 희미하게 떨린다. 아직 완전히 죽지는 않은 걸까.'])},
+  {id:'kp3',x:19,y:23,t:'kpillar',solid:1,act:()=>say(['검은 기둥. 바닥에 누군가 분필로 화살표를 그려 두었다. 남쪽, 누리느엘 쪽으로.'])},
+  {id:'kp4',x:28,y:23,t:'kpillar',solid:1,act:()=>say(['검은 기둥. 받침에 이름들이 새겨져 있다. 너무 많아서 끝까지 읽을 수가 없다.'])},
+  {id:'ksign',x:21,y:33,t:'ksign',rec:'ksign'},
+  {id:'knote',x:26,y:30,t:'knotice',rec:'knotice'},
+  {id:'kbag',x:14,y:19,t:'kbag',rec:'kbag'},
+  {id:'kbench',x:33,y:19,t:'kbench',act:()=>say(['길가의 긴 의자. 찻잔 하나가 놓여 있다.','차는 다 식었다. 아니, 처음부터 온기가 없었던 것 같다.'])},
+  {id:'kshoes',x:24,y:9,t:'kshoes',rec:'kshoes'},
+  {id:'kgate',x:22,y:1,w:4,t:'kgate',solid:1,rec:'kgate'},
+  {id:'kret',x:24,y:35,t:'kret',act:()=>say([{t:'희미하게 빛나는 작은 고리. 너머로 누리느엘의 광장이 보인다.',c:[{l:'누리느엘로 돌아간다',f:()=>goArea('nl',2.5*TS,19.6*TS)},{l:'그만둔다'}]}])}
+ ],
  room:[
   {id:'rbed',x:1,y:1,w:2,t:'rbed',act:()=>bedAct(),solid:1},
   {id:'rdesk',x:7,y:1,w:2,t:'rdesk',solid:1,act:()=>say(['책상 위에 노트 한 권이 놓여 있다.','펼쳐 봐도, 아무것도 적혀 있지 않다.'])},
@@ -697,6 +743,7 @@ const OBJ={
   {id:'c0400',x:24,y:17,t:'clock',pole:1,h:4,m:0,rim:'#c9c6c0',rec:'c0400',solid:1,tall:1},
   {id:'nphone',x:9,y:22,t:'nphone',act:nphoneAct,solid:1,tall:1},
   {id:'nstop',x:17,y:22,t:'nstop',solid:1,tall:1,act:()=>say(['같은 버스 정류장. 같은 도시 안내도.','…이 안내도에는 붉은 X가 없다. 탈출구라는 것이 처음부터 없었던 것처럼.'])},
+  {id:'catgate',x:1,y:18,t:'kgatenl',act:()=>say(['광장 서쪽 끝, 빛이 거의 꺼진 고리 하나가 서 있다.','고리 너머로 처음 보는 도시가 비친다. 거대한 검은 구조물들. 사람은 하나도 없다.',{t:'고리 옆 돌에 이름이 새겨져 있다. "카탈라".',c:[{l:'카탈라로 간다',f:()=>{alog('USER 이동 · 카탈라');goArea('catala',24.5*TS,33.6*TS);if(!S.flags.catalaSeen){S.flags.catalaSeen=1;setTimeout(()=>say(['…모두가 떠난 도시다.','누리느엘의 사람들 중 일부는, 이곳에서 왔다.']),900);}}},{l:'그만둔다'}]}])},
   {id:'sd1',x:5,y:16,t:'schooldoor',act:doorAct,to:[33,16.5],pre:['한결중학교 현관. 폐교가 아니라 방금 칠한 것처럼 깨끗하다.'],post:['문을 열었다. …학교 복도가 아니다.','바람이 분다. 여기는 어느 건물의 옥상이다.']},
   {id:'up',x:20,y:16,t:'upstair',act:doorAct,to:[32,7.5],pre:['위층으로 올라가는 계단.'],post:['계단을 올라갔다. 한 층, 두 층, 세 층.','그런데 벽의 표지판에는 "B3"라고 적혀 있다.','위로 올라왔는데, 지하다.']},
   {id:'kiosk',x:22,y:22,t:'kiosk',act:doorAct,to:[38.5,33.3],solid:1,pre:['공중전화 부스만 한 작은 가건물이다.'],post:['문을 열자… 끝이 보이지 않는 거대한 홀이 펼쳐졌다.','밖에서 본 건물보다, 안이 훨씬 크다.']},
@@ -845,7 +892,7 @@ function collect(id){
  if(S.records.length===1)setTimeout(()=>toast(isTouch?'오른쪽 위 "기록 보관함"에서 모은 기록을 다시 볼 수 있다':'Tab 키 또는 "기록 보관함"에서 모은 기록을 다시 볼 수 있다'),3000);
  else if(S.records.length===3&&S.contra.length===0)setTimeout(()=>toast('기록 보관함에서 두 기록을 비교하면 모순을 찾을 수 있다'),3000);
 }
-const OBJ_NAME={keypad:'정문 키패드',exitdoor:'철문',hatch:'철제 해치',lever:'레버',gen:'발전기',device:'하얀 장치',console:'방송 콘솔',ghost:'과거의 사람',coat:'흰 코트의 사람',terminal:'ARCHIVE 컴퓨터',codepad:'코드 패널',irondoor:'비상 탈출구',portal:'고리 장치',speaker:'스피커',fuse:'선반',none:'잔해',sign:'경고판',tower:'시계탑',clock:'시계',nphone:'공중전화',nstop:'정류장',schooldoor:'한결중학교 현관',kiosk:'가건물',upstair:'위층 계단',downstair:'아래층 계단',person:'사람',core:'빛의 핵',retgate:'하얀 고리',chair31:'빈 의자',hallexit:'작은 문',pedestal:'받침대',card:'정체 불명의 카드',b3sign:'안내판',nlstand:'신문 가판대',dpanel:'인증 패널',hstage:'무대',hpillar:'기둥',htable:'탁자',hpiano:'피아노',hphoto:'사진 벽',hclock:'벽시계',hplant:'화분',rbed:'침대',rdesk:'책상',rwin:'창문',rclock:'벽시계',rfridge:'냉장고',rshelf:'책장',rmirror:'거울',rdoor:'현관문'};
+const OBJ_NAME={keypad:'정문 키패드',exitdoor:'철문',hatch:'철제 해치',lever:'레버',gen:'발전기',device:'하얀 장치',console:'방송 콘솔',ghost:'과거의 사람',coat:'흰 코트의 사람',terminal:'ARCHIVE 컴퓨터',codepad:'코드 패널',irondoor:'비상 탈출구',portal:'고리 장치',speaker:'스피커',fuse:'선반',none:'잔해',sign:'경고판',tower:'시계탑',clock:'시계',nphone:'공중전화',nstop:'정류장',schooldoor:'한결중학교 현관',kiosk:'가건물',upstair:'위층 계단',downstair:'아래층 계단',person:'사람',core:'빛의 핵',retgate:'하얀 고리',chair31:'빈 의자',hallexit:'작은 문',pedestal:'받침대',card:'정체 불명의 카드',b3sign:'안내판',nlstand:'신문 가판대',dpanel:'인증 패널',kcore:'꺼진 핵',kpillar:'검은 기둥',kplaque:'금속 판',ksign:'안내판',knotice:'벽보',kbag:'가방',kbench:'의자',kshoes:'신발',kgate:'거대한 문',kret:'작은 고리',kgatenl:'꺼진 고리',hstage:'무대',hpillar:'기둥',htable:'탁자',hpiano:'피아노',hphoto:'사진 벽',hclock:'벽시계',hplant:'화분',rbed:'침대',rdesk:'책상',rwin:'창문',rclock:'벽시계',rfridge:'냉장고',rshelf:'책장',rmirror:'거울',rdoor:'현관문'};
 function interact(o){alog('USER 조사 · '+(o.rec?R[o.rec].title:(o.t==='lever'?o.L+' 레버':(OBJ_NAME[o.t]||'대상'))));if(o.act)o.act(o);else if(o.rec)readRecord(o);}
 const feedLines=[];let stepAcc=0,idleT=0,idleLogged=false,lastRoom='';
 function alog(msg){
@@ -1022,7 +1069,7 @@ function ironDoorAct(){
  const allC={l:'모든 기록을 가져간다',f:()=>{
   if(!has('nlcore')&&!has('nlpaper')){say(['손잡이에 손을 얹자 경고등이 깜박인다.',{s:'ARCHIVE SYSTEM',t:'조건 미충족.\n누리느엘의 기록이 없습니다.'},'…모든 기록을 가져가려면, 아직 가 보지 않은 곳의 기록이 필요하다.']);return;}
   if(trueReady()){alog('USER 선택 · 모든 기록을 가져간다');say([{s:'ARCHIVE SYSTEM',t:'USER: 기록자\n핵심 기록 '+trueKeys().length+' / '+trueKeys().length+'\n발견한 모순 '+S.contra.length+'\n조건 충족.'},'철문이 처음으로, 경고음 없이 열리기 시작했다.'],endTrue);}
-  else{const miss=trueKeys().filter(k=>!has(k));say(['손잡이에 손을 얹자 경고등이 깜박인다.',{s:'ARCHIVE SYSTEM',t:'조건 미충족.\n핵심 기록 '+(trueKeys().length-miss.length)+' / '+trueKeys().length+'\n발견한 모순 '+S.contra.length+' / '+TRUE_CONTRA+' 이상'+(miss.length?'\n\n아직 없는 핵심 기록이 남아 있는 곳:\n'+[...new Set(miss.map(k=>R[k].place.split(',')[0]))].map(p=>'· '+p).join('\n'):'')}]);}
+  else{const miss=trueKeys().filter(k=>!has(k));say(['손잡이에 손을 얹자 경고등이 깜박인다.',{s:'ARCHIVE SYSTEM',t:'조건 미충족.\n핵심 기록 '+(trueKeys().length-miss.length)+' / '+trueKeys().length+'\n발견한 모순 '+S.contra.length+' / '+TRUE_CONTRA+' 이상'+(miss.length?'\n\n아직 찾지 못한 핵심 기록:\n'+miss.map(k=>'· '+R[k].title+' — '+R[k].place).join('\n'):'')}]);}
  }};
  const lines=[];
  if(k)lines.push('봉인등이 하나씩 꺼진다. 누리느엘의 기록에 반응한 걸까.','철문이 다시 선택을 기다리고 있다.');
@@ -1286,6 +1333,7 @@ function compare(){
 let hudCache='';
 function objective(){
  const f=S.flags;
+ if(S.area==='catala')return '카탈라. 모두가 누리느엘로 떠난 도시. 한가운데의 핵은 꺼져 있다.';
  if(S.area==='room')return '문은 잠겨 있다. …잠이나 잘까.';
  if(S.area==='city'){
   if(f.gateOpen)return '북쪽 정문을 지나 폐교로 들어가자.';
@@ -1611,7 +1659,7 @@ function takePhoto(){
  ZOMBIES.forEach(z=>{if(z.dead||z.born>0)return;const dx=z.x-cx,dy=(z.y-10)-cy,d=Math.hypot(dx,dy);if(d>TS*5)return;if(Math.abs(angDiff(Math.atan2(dy,dx),P.lookA))>.6&&d>TS*.8)return;if(d<bd){bd=d;best=z;}});
  if(!best){toast('찰칵. 텅 빈 거리만 찍혔다.');alog('USER 촬영 · 아무것도 없음');return;}
  best.stun=Math.max(best.stun||0,.8);best.flash=.2;
- const who=best.boss?best.boss.name+' — 노트를 든 사람의 얼굴':ZPHOTO[Math.floor(Math.random()*ZPHOTO.length)];
+ if(!best.who)best.who=ZPHOTO[Math.floor(Math.random()*ZPHOTO.length)];const who=best.boss?best.boss.name+' — 노트를 든 사람의 얼굴':best.who;
  FLOATS.push({x:best.x,y:best.y-62,txt:'기존 사람이 보인다',col:'#f2efe8',t:0});alog('USER 촬영 · 노이즈 좀비 → '+who);
  if(!has('zphoto')){say(['셔터를 눌렀다. 카메라에서 사진이 밀려 나온다.','…사진 속에는 노이즈 좀비가 없다.','대신 '+who+'이(가), 또렷한 얼굴로 서 있다.','기존 사람이 보인다.'],()=>readRecord({rec:'zphoto'}));}
  else toast('사진 속: '+who);
@@ -1935,6 +1983,7 @@ function guideExtra(){
  return null;}
 function guideTarget(){
  const ex=guideExtra();if(ex)return ex;
+ if(S.area==='catala'){if(!has('kcore')){const c=objCenter('kcore');return c?{x:c.x,y:c.y,label:'꺼진 핵'}:null;}const c=objCenter('kret');return c?{x:c.x,y:c.y,label:'작은 고리 → 누리느엘'}:null;}
  if(S.area==='room'){const c=objCenter('rbed');return c?{x:c.x,y:c.y,label:'침대'}:null;}
  const f=S.flags,T=(id,label)=>{const c=objCenter(id);return c?{x:c.x,y:c.y,label}:null;};
  if(S.area==='city'){
@@ -1968,7 +2017,7 @@ function guideTarget(){
   if(!f.nuriDoor&&!has('nurimeet'))return T('nuripanel','NURI 회의실 인증 패널');
   if(!has('nurimeet'))return T('nurimeet','NURI 회의실');
   if(!f.sawIron||!f.preserved)return T('irondoor','탈출구');
-  return has('nlcore')?T('irondoor','탈출구'):T('portal','하얀 빛의 장치');
+  return has('nlpaper')?T('irondoor','탈출구'):T('portal','하얀 빛의 장치 → 누리느엘');
  }
  if(S.area==='nl'){
   if(!f.roadOpen){const c=nearestUnread(CLOCKS);if(c)return {x:c.x,y:c.y,label:'시계'};return T('tower','시계탑');}
@@ -2104,7 +2153,7 @@ window.addEventListener('resize',resize);resize();
 function h2(x,y){let n=(x*374761393+y*668265263)|0;n=Math.imul(n^(n>>>13),1274126177);return ((n^(n>>>16))>>>0)/4294967295;}
 function hexA(h,a){const n=parseInt(h.slice(1),16);return 'rgba('+((n>>16)&255)+','+((n>>8)&255)+','+(n&255)+','+a+')';}
 function fr(c,x,y,w,h){ctx.fillStyle=c;ctx.fillRect(x,y,w,h);}
-function isWall(t){return t==='I'||t==='#'||t==='G'||t==='g'||t==='M'||t==='L'||t==='K'||t==='Q'||t==='J'||t==='P';}
+function isWall(t){return t==='2'||t==='I'||t==='#'||t==='G'||t==='g'||t==='M'||t==='L'||t==='K'||t==='Q'||t==='J'||t==='P';}
 let NOW=0;
 const PAST=['#f4b6c2','#b9e4cf','#bfd0f6','#f6dfa8','#d8c6f1','#ffd1b3'];
 function pastel(x,y){return PAST[Math.floor(h2(Math.floor(x/3)+7,Math.floor(y/3)+3)*PAST.length)%PAST.length];}
@@ -2558,6 +2607,25 @@ TP['%']=(g,R,x,y)=>{TP['W'](g,R,x,y);const lf=tile(x-1,y)!=='%',rt=tile(x+1,y)!=
  g.fillStyle=lg(g,0,0,32,32,[[0,'#c98a9a'],[1,'#b7778a']]);g.fillRect(lf?3:0,up?3:0,32-(lf?3:0)-(rt?3:0),32-(up?3:0)-(dn?3:0));
  for(let yy=6;yy<32;yy+=10)for(let xx=6;xx<32;xx+=10){g.fillStyle='rgba(255,230,190,.28)';g.beginPath();g.moveTo(xx,yy-3);g.lineTo(xx+3,yy);g.lineTo(xx,yy+3);g.lineTo(xx-3,yy);g.closePath();g.fill();}
  g.fillStyle='#e2c27a';if(lf)g.fillRect(3,0,1.2,32);if(rt)g.fillRect(27.8,0,1.2,32);if(up)g.fillRect(0,3,32,1.2);if(dn)g.fillRect(0,27.8,32,1.2);};
+TP['1']=(g,R,x,y)=>{
+ fillc(g,'#262c33',0,0,32,32);
+ for(let sy=0;sy<2;sy++)for(let sx=0;sx<2;sx++){const v=R();g.fillStyle=v<.5?'#2c333b':'#29303a';g.fillRect(sx*16+.5,sy*16+.5,15,15);fillc(g,'rgba(255,255,255,.04)',sx*16+.5,sy*16+.5,15,.5);}
+ if((x+y)%3===0){g.strokeStyle='rgba(140,170,200,.10)';g.lineWidth=.5;g.beginPath();g.moveTo(4,16);g.lineTo(16,4);g.lineTo(28,16);g.lineTo(16,28);g.closePath();g.stroke();}
+ speck(g,R,0,0,32,32,40,48,10);
+ if(R()<.12){g.fillStyle='rgba(0,0,0,.25)';g.beginPath();g.ellipse(6+R()*20,6+R()*20,4,2.5,R()*3,0,Math.PI*2);g.fill();}
+ const d=Math.hypot(x+.5-24,y+.5-19);if(d>6.2&&d<7.4){fillc(g,'rgba(150,180,210,.14)',0,0,32,32);}
+};
+TP['2']=(g,R,x,y)=>{
+ const below=tile(x,y+1),face=!(below==='2'||below===undefined);
+ if(!face){fillc(g,'#14181d',0,0,32,32);speck(g,R,0,0,32,32,20,28,8);const fl=t=>t!=='2';if(fl(tile(x,y-1)))fillc(g,'#3a434d',0,0,32,1.6);if(fl(tile(x-1,y)))fillc(g,'#323a43',0,0,1.6,32);if(fl(tile(x+1,y)))fillc(g,'#323a43',30.4,0,1.6,32);
+  if(R()<.15){fillc(g,'#1b2026',8,8,16,16);fillc(g,'#262c33',9,9,14,1);}return;}
+ g.fillStyle=lg(g,0,0,0,32,[[0,'#3a434d'],[1,'#20262d']]);g.fillRect(0,0,32,32);
+ for(let i=0;i<32;i+=8){fillc(g,'rgba(0,0,0,.25)',i,0,.8,32);fillc(g,'rgba(255,255,255,.05)',i+.8,0,.5,32);}
+ fillc(g,'#4a545f',0,0,32,1.2);fillc(g,'rgba(0,0,0,.35)',0,12,32,1);fillc(g,'rgba(0,0,0,.35)',0,24,32,1);
+ if(R()<.4){g.strokeStyle='rgba(120,160,200,.18)';g.lineWidth=.6;g.beginPath();const sx=4+R()*24;g.moveTo(sx,2);g.lineTo(sx,10);g.lineTo(sx+(R()<.5?-6:6),10);g.lineTo(sx+(R()<.5?-6:6),22);g.stroke();fillc(g,'rgba(120,160,200,.22)',sx-.8,9.2,1.6,1.6);}
+ if(R()<.25){fillc(g,'#141a20',10,14,12,9);fillc(g,'rgba(150,180,210,.06)',11,15,10,7);}
+ speck(g,R,0,0,32,32,30,52,10);
+};
 TP['O']=(g,R,x,y)=>{
  for(let i=0;i<4;i++){const v=58+R()*10,yy=i*8;fillc(g,grayc(v),0,yy,32,8);fillc(g,grayc(v+10),0,yy,32,.6);fillc(g,grayc(v-16),0,yy+7.5,32,.5);
   const off=((x*3+y*5+i*7)%4)*8;fillc(g,grayc(v-14),off,yy,.6,8);fillc(g,grayc(v-14),(off+16)%32,yy,.6,8);
@@ -2672,7 +2740,7 @@ TP['C']=(g,R,x,y)=>{TP['w'](g,R,x,y);const c=PAST[(x+y*3)%PAST.length];
 };
 
 /* ===== 오브젝트 ===== */
-const OB={hstage:[-8,-14,240,50],hpiano:[-8,-14,80,48],htable:[-8,-10,80,44],hphoto:[-4,-4,72,36],hchand:[-16,-24,64,64],irondoor:[-8,-52,112,86],tower:[-8,-72,80,108],board:[-18,-6,68,40],gen:[-16,-8,64,44],portal:[-8,-24,80,64]};
+const OB={kcore:[-8,-26,80,64],kgate:[-6,-44,140,80],hstage:[-8,-14,240,50],hpiano:[-8,-14,80,48],htable:[-8,-10,80,44],hphoto:[-4,-4,72,36],hchand:[-16,-24,64,64],irondoor:[-8,-52,112,86],tower:[-8,-72,80,108],board:[-18,-6,68,40],gen:[-16,-8,64,44],portal:[-8,-24,80,64]};
 function objBox(t){return OB[t]||[-24,-48,80,80];}
 function objState(o){const f=S.flags;
  switch(o.t){case 'keypad':return f.gateOpen?'o':'c';case 'fuse':return f.hasFuse?'e':'f';case 'console':return f.powered?'p':'n';
@@ -2912,6 +2980,29 @@ OP.hballoon=(g,R)=>{for(let i=0;i<3;i++){const x=10+i*6,y=-14+((i*5)%4);ln(g,'rg
 OP.hchand=(g,R)=>{g.fillStyle=rg(g,16,8,1,26,[[0,'rgba(255,240,210,.55)'],[1,'rgba(255,240,210,0)']]);g.fillRect(-10,-18,52,52);
  g.strokeStyle='#d9b46a';g.lineWidth=1;g.beginPath();g.ellipse(16,8,11,4,0,0,Math.PI*2);g.stroke();g.beginPath();g.ellipse(16,6,6,2.4,0,0,Math.PI*2);g.stroke();
  for(let i=0;i<8;i++){const a=i/8*Math.PI*2;g.fillStyle='#fff7e0';g.beginPath();g.arc(16+Math.cos(a)*11,8+Math.sin(a)*4,1.4,0,Math.PI*2);g.fill();}ln(g,'#d9b46a',.6,[[16,-14],[16,4]]);};
+OP.kcore=(g,R)=>{shE(g,32,30,30,6,.5);
+ g.strokeStyle='#3a434d';g.lineWidth=2;g.beginPath();g.ellipse(32,26,30,7,0,0,Math.PI*2);g.stroke();g.strokeStyle='#2a3038';g.beginPath();g.ellipse(32,26,24,5.4,0,0,Math.PI*2);g.stroke();
+ g.fillStyle='#1c2128';g.fillRect(16,20,32,8);
+ g.fillStyle=rg(g,26,-6,2,22,[[0,'#3c4652'],[.6,'#1e242b'],[1,'#0c0f12']]);g.beginPath();g.arc(32,0,20,0,Math.PI*2);g.fill();
+ g.strokeStyle='rgba(150,180,210,.35)';g.lineWidth=.6;g.beginPath();g.moveTo(22,-12);g.lineTo(30,-2);g.lineTo(27,8);g.moveTo(30,-2);g.lineTo(40,2);g.lineTo(44,12);g.moveTo(36,-14);g.lineTo(34,-4);g.stroke();
+ g.fillStyle='rgba(255,255,255,.08)';g.beginPath();g.ellipse(25,-9,6,3,-.6,0,Math.PI*2);g.fill();};
+OP.kpillar=(g,R)=>{shE(g,16,30,8,2.4,.5);g.fillStyle=lg(g,9,0,23,0,[[0,'#2c333b'],[1,'#14181d']]);g.beginPath();g.moveTo(10,30);g.lineTo(12,-40);g.lineTo(16,-46);g.lineTo(20,-40);g.lineTo(22,30);g.closePath();g.fill();
+ g.strokeStyle='rgba(120,160,200,.16)';g.lineWidth=.5;g.beginPath();g.moveTo(16,-38);g.lineTo(16,20);g.moveTo(13,-10);g.lineTo(19,-10);g.stroke();fillc(g,'#3a434d',8,26,16,4);};
+OP.kplaque=(g,R)=>{fillc(g,'#2a3038',9,8,14,10);fillc(g,'#3a434d',9,8,14,.8);for(let i=0;i<3;i++)fillc(g,'#5a6470',11,11+i*2.4,8+R()*2,.6);fillc(g,'#1c2128',15,18,2,10);};
+OP.ksign=(g,R)=>{fillc(g,'#1c2128',15,10,2,18);fillc(g,'#2e353e',6,2,20,10);fillc(g,'#4a545f',6,2,20,.8);tx(g,'카탈라 · C',16,7.6,3,'#9fb0c2');fillc(g,'#7a8a9a',8,9,16,.6);};
+OP.knotice=(g,R)=>{g.save();g.translate(16,10);g.rotate(-.06);fillc(g,'#8a8f94',-7,-8,14,17);fillc(g,'#a9adb2',-7,-8,14,1.4);for(let i=0;i<5;i++)fillc(g,'#4a4f55',-5,-4+i*2.6,9+R()*2,.7);fillc(g,'#2a2f35',-5,8,6,.8);g.restore();};
+OP.kbag=(g,R)=>{shE(g,16,26,9,2.4,.45);g.fillStyle='#3a3f46';rr(g,7,14,18,11,2);g.fill();fillc(g,'#4a5058',7,14,18,1.4);fillc(g,'#1e2227',15,13,2,3);fillc(g,'#cfd3d6',18,20,5,4);fillc(g,'#9aa4ae',18.6,20.6,3.8,2.6);};
+OP.kbench=(g,R)=>{shE(g,16,26,13,2.4,.45);fillc(g,'#2a3038',4,16,24,3);fillc(g,'#3a434d',4,16,24,.8);fillc(g,'#1c2128',6,19,2,6);fillc(g,'#1c2128',24,19,2,6);fillc(g,'#2a3038',4,10,24,3);
+ fillc(g,'#cfd3d6',18,13.6,3,2.4);fillc(g,'#9aa4ae',18,13.6,3,.6);};
+OP.kshoes=(g,R)=>{for(const dx of [11,17]){g.fillStyle='#3a3f46';rr(g,dx,12,4.6,9,2);g.fill();fillc(g,'#cfd3d6',dx+1,13,2.6,1);}};
+OP.kgate=(g,R)=>{fillc(g,'#0e1114',0,-40,128,72);g.fillStyle=lg(g,0,0,128,0,[[0,'#2a3038'],[.5,'#3a434d'],[1,'#2a3038']]);g.fillRect(4,-36,120,68);
+ fillc(g,'#14181d',63,-36,2,68);for(let i=0;i<6;i++){bolt(g,10,-30+i*11,'#5a6470');bolt(g,118,-30+i*11,'#5a6470');}
+ fillc(g,'#1c2128',34,-30,60,12);tx(g,'다음 기록',64,-21,7,'#9fb0c2');
+ g.strokeStyle='rgba(120,160,200,.15)';g.lineWidth=.8;g.beginPath();g.arc(64,6,18,Math.PI,0);g.stroke();};
+OP.kret=(g,R)=>{shE(g,16,28,9,2,.35);g.strokeStyle='#7f8fa3';g.lineWidth=2.2;g.beginPath();g.ellipse(16,10,8,10,0,0,Math.PI*2);g.stroke();
+ g.fillStyle=rg(g,16,10,0,9,[[0,'rgba(240,244,255,.7)'],[1,'rgba(240,244,255,0)']]);g.beginPath();g.ellipse(16,10,7,9,0,0,Math.PI*2);g.fill();fillc(g,'#3a434d',10,22,12,4);};
+OP.kgatenl=(g,R)=>{shE(g,16,28,10,2.4,.12);g.strokeStyle='#8a92a6';g.lineWidth=2.4;g.beginPath();g.ellipse(16,6,9,12,0,0,Math.PI*2);g.stroke();
+ g.fillStyle='rgba(40,48,60,.55)';g.beginPath();g.ellipse(16,6,7.6,10.6,0,0,Math.PI*2);g.fill();for(let i=0;i<4;i++)fillc(g,'rgba(150,170,200,.4)',11+i*3,-2+i*4,.8,.8);fillc(g,'#a9b2c4',10,19,12,4);tx(g,'카탈라',16,22,2.4,'#3a434d');};
 OP.b3sign=(g,R)=>{fillc(g,'rgba(0,0,0,.35)',5.6,6.6,22,15);fillc(g,'#1e2022',5,6,22,14.4);fillc(g,'#2e3134',5.6,6.6,20.8,13.2);fillc(g,'#3e4144',5.6,6.6,20.8,.5);
  tx(g,'B3',11.6,15.6,6,'#e7e3da');g.fillStyle='#d8b13a';g.beginPath();g.moveTo(20,10);g.lineTo(24,10);g.lineTo(24,14);g.lineTo(26,14);g.lineTo(22,18.4);g.lineTo(18,14);g.lineTo(20,14);g.closePath();g.fill();
  tx(g,'지하 연구시설',16,19.2,2,'#9a968e');[[6.4,7.6],[25.6,7.6],[6.4,18.8],[25.6,18.8]].forEach(q=>bolt(g,q[0],q[1],'#5a5d60'));};
@@ -3581,6 +3672,7 @@ function draw(t){
  else if(S.area==='nl'){const inB=P.x>29*TS&&P.x<43*TS&&P.y<11*TS;rad=TS*5.5;dark=inB?.5:0;}
  else if(S.area==='factory'){if(S.past){rad=TS*9;dark=.3;}else if(S.flags.power){rad=TS*6.5;dark=.62;}else{rad=TS*4.6*(1+.03*Math.sin(t*7));dark=.88;}}
  else if(S.area==='room'){rad=TS*7;dark=.45;}
+ else if(S.area==='catala'){rad=TS*7.5;dark=.5;}
  else if(S.past){rad=TS*9;dark=.3;}
  else{rad=TS*4.3*(1+.03*Math.sin(t*9))*(Math.random()<.008?.8:1);dark=.9;}
  drawVision(pcx,pcy,rad,dark,camX,camY,k);
@@ -3617,7 +3709,7 @@ function draw(t){
 }
 
 /* ================= 1인칭 (레이캐스팅) ================= */
-const FP_WALL=new Set(['I','#','B','V','X','S','Q','J','L','K','G','M','P']);
+const FP_WALL=new Set(['2','I','#','B','V','X','S','Q','J','L','K','G','M','P']);
 const fpc=document.createElement('canvas'),fctx=fpc.getContext('2d');
 const RGBC={};function rgb(h){if(RGBC[h])return RGBC[h];const n=parseInt(h.slice(1),16);return RGBC[h]=[(n>>16)&255,(n>>8)&255,n&255];}
 function mixc(c,f,t){return 'rgb('+Math.round(c[0]+(f[0]-c[0])*t)+','+Math.round(c[1]+(f[1]-c[1])*t)+','+Math.round(c[2]+(f[2]-c[2])*t)+')';}
@@ -3625,6 +3717,7 @@ function fpPal(){
  const a=S.area,p=S.past,nl=a==='nl',inB=nl&&P.x>29*TS&&P.x<43*TS&&P.y<11*TS;
  if(nl)return inB?{fog:'#1d1a2a',sky:'#2a2540',floor:'#3a3453'}:{fog:'#e9edf5',sky:'#cfe0f5',floor:'#efece5'};
  if(a==='room')return {fog:'#141210',sky:'#1e1c19',floor:'#3a3631'};
+ if(a==='catala')return {fog:'#1a2028',sky:'#2a3444',floor:'#2e353f'};
  if(a==='city')return {fog:'#0c0c0c',sky:'#1c1c1c',floor:'#333333'};
  if(a==='school')return p?{fog:'#4a4a48',sky:'#9a9a96',floor:'#767673'}:{fog:'#050505',sky:'#181818',floor:'#2d2d2c'};
  if(a==='factory')return p?{fog:'#4a4d4d',sky:'#8a8d8d',floor:'#6f7272'}:{fog:S.flags.power?'#141412':'#080909',sky:'#171818',floor:'#2a2c2c'};
@@ -3639,21 +3732,21 @@ function wallBase(t,mx,my){
  }
  return '#333333';
 }
-function wallH(t){if(t==='V')return 4;if(t==='I')return 2.4;if(t==='B')return 1.8;if(t==='#'&&S.area==='city')return 2.1;return 1.05;}
+function wallH(t){if(t==='V')return 4;if(t==='I')return 2.4;if(t==='2')return 5.5;if(t==='B')return 1.8;if(t==='#'&&S.area==='city')return 2.1;return 1.05;}
 const SPR={stand:[.6,.7,'#4d4d4d'],phone:[1.25,.6,'#333333'],graffiti:[.3,1.2,'#7a2422',.4],radio:[.35,.65,'#2a2f2f',.3],busstop:[1.3,.35,'#8d8a83'],mailbox:[.35,.4,'#444444',.35],
  keypad:[.28,.28,'#2a2a2a',.45],book:[.45,.6,'#4a4a48'],board:[.4,1.6,'#1d221e',.35],camera:[.62,.45,'#3a3a3a'],docs:[.45,.6,'#4a4a48'],speaker:[.2,.35,'#3d3d3d',.65],
  fuse:[.5,.6,'#4d4d4d'],memo:[.45,.6,'#d8dee8'],console:[.62,.8,'#333333'],hatch:[.04,.65,'#3a3a38'],exitdoor:[.95,.9,'#403b39'],monitor:[.62,.7,'#1d2b44'],
- lever:[.45,.35,'#2b2d2d',.3],gen:[.95,1.7,'#2f3131'],device:[.6,.55,'#eaf2ff',.25],coat:[.9,.42,'#eef2fa'],ghost:[.88,.42,'#b4cbf2'],sign:[.35,.5,'#6b5a1a',.45],b3sign:[.36,.58,'#2a2c2e',.42],dpanel:[.75,.5,'#1a1d21'],hpillar:[2.2,.42,'#f3ece2'],htable:[.4,.95,'#ffffff'],hpiano:[.55,.95,'#fbfaf6'],hstage:[.35,1,'#e9dcc4'],hphoto:[.5,.9,'#ffffff',.6],hclock:[.45,.5,'#fffaf0',.8],hplant:[.55,.4,'#8fcfb3'],hballoon:[.6,.5,'#f4b6c2',.6],hchand:[.5,.7,'#fff7e0',1.6],rbed:[.42,.9,'#8d8a84'],rdesk:[.55,.9,'#5a544c'],rfridge:[.95,.6,'#c9c6bf'],rshelf:[1.05,.75,'#3a352f'],rdoor:[1,.8,'#4a443c'],rwin:[.45,.6,'#f2f2f0',.35],rclock:[.25,.25,'#e7e3da',.6],rmirror:[.4,.25,'#b9bec2',.35],nlstand:[.6,.7,'#f6f3ed'],
+ lever:[.45,.35,'#2b2d2d',.3],gen:[.95,1.7,'#2f3131'],device:[.6,.55,'#eaf2ff',.25],coat:[.9,.42,'#eef2fa'],ghost:[.88,.42,'#b4cbf2'],sign:[.35,.5,'#6b5a1a',.45],b3sign:[.36,.58,'#2a2c2e',.42],dpanel:[.75,.5,'#1a1d21'],kcore:[1.7,1.4,'#1e242b'],kpillar:[2.4,.35,'#20262d'],kbench:[.35,.9,'#2a3038'],kret:[.95,.6,'#c9d2e0'],kgatenl:[1.1,.6,'#8a92a6'],ksign:[.8,.5,'#2e353e'],knotice:[.5,.45,'#8a8f94',.3],kbag:[.3,.5,'#3a3f46'],kshoes:[.15,.4,'#3a3f46'],kplaque:[.5,.45,'#2a3038'],kgate:[2.6,3.6,'#2a3038'],hpillar:[2.2,.42,'#f3ece2'],htable:[.4,.95,'#ffffff'],hpiano:[.55,.95,'#fbfaf6'],hstage:[.35,1,'#e9dcc4'],hphoto:[.5,.9,'#ffffff',.6],hclock:[.45,.5,'#fffaf0',.8],hplant:[.55,.4,'#8fcfb3'],hballoon:[.6,.5,'#f4b6c2',.6],hchand:[.5,.7,'#fff7e0',1.6],rbed:[.42,.9,'#8d8a84'],rdesk:[.55,.9,'#5a544c'],rfridge:[.95,.6,'#c9c6bf'],rshelf:[1.05,.75,'#3a352f'],rdoor:[1,.8,'#4a443c'],rwin:[.45,.6,'#f2f2f0',.35],rclock:[.25,.25,'#e7e3da',.6],rmirror:[.4,.25,'#b9bec2',.35],nlstand:[.6,.7,'#f6f3ed'],
  terminal:[.75,1.3,'#15171a'],term:[.62,.7,'#1b2536'],recorder:[.3,.6,'#3c3f44'],tank:[1.15,.6,'#9fc4d8'],codepad:[.26,.45,'#5a4c18',.42],portal:[1.15,1.5,'#d8dce6'],
  irondoor:[1.7,2.9,'#3a3533'],clock:[1.25,.38,'#f4f4f0'],tower:[2.3,1.9,'#d8c6f1'],nphone:[1.25,.6,'#e87a8a'],nstop:[1.3,.35,'#bfd0f6'],schooldoor:[.95,.9,'#8fa9d6'],
  kiosk:[1.25,.8,'#b9e4cf'],upstair:[.95,.7,'#fafafa'],downstair:[.95,.7,'#fafafa'],hallexit:[.05,.7,'#d9c7a3'],person:[.88,.42,'#888888'],core:[1.5,1.7,'#ffffff',.1],
  pedestal:[.55,.45,'#fafafa'],retgate:[.75,.6,'#e8eaf2'],chair31:[.5,.5,'#fafafa'],card:[.06,.35,'#e89aa8']};
 const FIG=new Set(['coat','ghost','person']);
-const FPTEX={hpillar:[7,-18,18,47],htable:[1,-4,62,24],hpiano:[4,-6,56,30],hstage:[0,-6,224,36],rbed:[1,0,62,28],rdesk:[2,4,60,16],rfridge:[5,-8,22,36],rshelf:[3,-10,26,38],rdoor:[4,0,24,32],dpanel:[6,0,20,28],nlstand:[1,2,30,26],b3sign:[5,6,22,15],phone:[5,-18,22,46],nphone:[5,-18,22,46],stand:[1,2,30,26],busstop:[1,-19,30,47],nstop:[1,-19,30,47],mailbox:[5,7,22,20],keypad:[8,7,16,22],radio:[1,4,30,25],
+const FPTEX={kcore:[10,-22,44,52],kpillar:[8,-46,16,76],kgate:[0,-40,128,72],kbench:[4,9,24,17],hpillar:[7,-18,18,47],htable:[1,-4,62,24],hpiano:[4,-6,56,30],hstage:[0,-6,224,36],rbed:[1,0,62,28],rdesk:[2,4,60,16],rfridge:[5,-8,22,36],rshelf:[3,-10,26,38],rdoor:[4,0,24,32],dpanel:[6,0,20,28],nlstand:[1,2,30,26],b3sign:[5,6,22,15],phone:[5,-18,22,46],nphone:[5,-18,22,46],stand:[1,2,30,26],busstop:[1,-19,30,47],nstop:[1,-19,30,47],mailbox:[5,7,22,20],keypad:[8,7,16,22],radio:[1,4,30,25],
  graffiti:[-10,6,52,24],book:[4,4,24,16],camera:[4,4,24,16],docs:[4,4,24,16],memo:[4,4,24,16],board:[-16,1,64,26],speaker:[9,6,14,12],fuse:[2,3,28,25],console:[0,0,32,28],
  exitdoor:[0,0,32,32],monitor:[2,0,28,19],lever:[8,4,16,23],gen:[-12,2,56,26],sign:[6,6,20,15],terminal:[-10,-12,52,40],term:[3,0,26,27],recorder:[4,10,24,15],tank:[4,-12,24,42],
  codepad:[22,7,20,17],irondoor:[-6,-44,108,76],tower:[5,-72,54,104],schooldoor:[0,0,32,32],kiosk:[1,-13,30,41],upstair:[4,4,24,28],downstair:[4,4,24,28],pedestal:[7,4,18,26],chair31:[7,3,18,24]};
-const IMGBB={hchand:[-6,-6,44,26],hballoon:[4,-20,24,46],hplant:[6,0,20,30],hphoto:[2,2,60,24],hclock:[5,1,22,22],person:[5,-2,22,33],ghost:[5,-2,22,33],coat:[5,-2,22,33],clock:1};
+const IMGBB={kret:[4,-4,24,32],kgatenl:[5,-8,22,32],ksign:[5,1,22,28],knotice:[7,1,18,20],kbag:[5,10,22,18],kshoes:[9,10,14,12],kplaque:[7,6,18,22],hchand:[-6,-6,44,26],hballoon:[4,-20,24,46],hplant:[6,0,20,30],hphoto:[2,2,60,24],hclock:[5,1,22,22],person:[5,-2,22,33],ghost:[5,-2,22,33],coat:[5,-2,22,33],clock:1};
 const RUB3D={};
 function rubble3D(x,y){
  const key=S.area+x+','+y;if(RUB3D[key])return RUB3D[key];
@@ -3669,19 +3762,19 @@ function rubble3D(x,y){
  if(R()<.5){const h=.3+R()*.25;out.push({bar:{x:x+.3+R()*.4,y:y+.3+R()*.4,sp:[h,.025,'#1c1c1c'],col:'#1c1c1c'}});}
  return RUB3D[key]=out;
 }
-const BOXT=new Set(['hpillar','htable','hpiano','hstage','rbed','rdesk','rfridge','rshelf','rdoor','dpanel','nlstand','b3sign','stand','phone','graffiti','radio','mailbox','keypad','book','board','camera','docs','speaker','fuse','memo','console','hatch','exitdoor','monitor','lever','gen','sign','terminal','term','recorder','tank','codepad','irondoor','tower','nphone','nstop','schooldoor','kiosk','upstair','downstair','hallexit','pedestal','chair31','busstop']);
+const BOXT=new Set(['kcore','kpillar','kbench','kgate','hpillar','htable','hpiano','hstage','rbed','rdesk','rfridge','rshelf','rdoor','dpanel','nlstand','b3sign','stand','phone','graffiti','radio','mailbox','keypad','book','board','camera','docs','speaker','fuse','memo','console','hatch','exitdoor','monitor','lever','gen','sign','terminal','term','recorder','tank','codepad','irondoor','tower','nphone','nstop','schooldoor','kiosk','upstair','downstair','hallexit','pedestal','chair31','busstop']);
 function lighten(h,f){const c=rgb(h);return '#'+c.map(v=>Math.min(255,Math.round(v*f)).toString(16).padStart(2,'0')).join('');}
 const LOWT={r:[.35,.95,'#4f4f4f'],c:[.5,1,'#474747'],d:[.42,.78,'#4a4a4a'],C:[.5,.55,null],T:[1.7,.14,'#161616']};
 /* 바닥 텍스처 투영 (1인칭) */
 const FTEXC={};
-const FLOOR_OF={'%':'%','O':'O','p':'p','Z':'Z','k':'k',',':',','.':'.','f':'f','m':'m','n':'n','w':'w','o':'o','Y':'Y','R':'R','W':'W','v':'v','c':'.','g':'.','G':'.','T':',','N':'o','C':'w','S':'n','q':'n','j':'n','d':'f','H':'f','U':'U'};
+const FLOOR_OF={'1':'1','%':'%','O':'O','p':'p','Z':'Z','k':'k',',':',','.':'.','f':'f','m':'m','n':'n','w':'w','o':'o','Y':'Y','R':'R','W':'W','v':'v','c':'.','g':'.','G':'.','T':',','N':'o','C':'w','S':'n','q':'n','j':'n','d':'f','H':'f','U':'U'};
 function floorTexData(t,x,y){
  const key=S.area+t+(S.past?1:0)+'|'+x+','+y;let d=FTEXC[key];if(d)return d;
  const cv2=tileCanvas(t,x,y).cv;let data=null;
  try{const g=cv2.getContext('2d');data=g.getImageData(0,0,64,64).data;if(!data||typeof data.length!=='number'||data.length<16384)data=null;}catch(e){data=null;}
  return FTEXC[key]=data||new Uint8ClampedArray(64*64*4).fill(60);
 }
-function defFloor(){return {city:',',school:'f',factory:'m',lab:'n',nl:'w',room:'O'}[S.area]||',';}
+function defFloor(){return {city:',',school:'f',factory:'m',lab:'n',nl:'w',room:'O',catala:'1'}[S.area]||',';}
 let FIMG=null;
 function floorCast(c,W,H,hor,posX,posY,dirX,dirY,plX,plY,maxD,pal){
  const y0=Math.max(0,Math.ceil(hor+1));if(y0>=H)return;const rows=H-y0;
@@ -3713,8 +3806,8 @@ function drawFP(t){
  if(fpc.width!==W||fpc.height!==H){fpc.width=W;fpc.height=H;}
  const c=fctx,pal=fpPal(),fog=rgb(pal.fog);
  const posX=P.x/TS,posY=(P.y-6)/TS,A=P.lookA,dirX=Math.cos(A),dirY=Math.sin(A),pl=Math.tan(1.2/2),plX=-dirY*pl,plY=dirX*pl;
- let rad=TS*5;if(S.area==='city')rad=TS*6;else if(S.area==='nl')rad=TS*6;else if(S.past)rad=TS*9;else if(S.area==='factory')rad=TS*(S.flags.power?6.5:4.6);else if(S.area==='lab')rad=TS*5.2;else if(S.area==='room')rad=TS*7;else rad=TS*4.3;
- const maxD=rad*VISION_BOOST/TS*(S.area==='nl'?1.6:1);
+ let rad=TS*5;if(S.area==='city')rad=TS*6;else if(S.area==='nl')rad=TS*6;else if(S.past)rad=TS*9;else if(S.area==='factory')rad=TS*(S.flags.power?6.5:4.6);else if(S.area==='lab')rad=TS*5.2;else if(S.area==='room')rad=TS*7;else if(S.area==='catala')rad=TS*6.5;else rad=TS*4.3;
+ const maxD=rad*VISION_BOOST/TS*(S.area==='nl'?1.6:S.area==='catala'?2.2:1);
  const bob=P.walkW*(1.2+1.8*P.runW)*Math.sin(P.phase*2)*H/220;const hor=H/2+bob;
  let g=c.createLinearGradient(0,0,0,hor);g.addColorStop(0,pal.sky);g.addColorStop(1,pal.fog);c.fillStyle=g;c.fillRect(0,0,W,hor+1);
  g=c.createLinearGradient(0,hor,0,H);g.addColorStop(0,pal.fog);g.addColorStop(.55,pal.floor);{const fl=rgb(pal.floor);g.addColorStop(1,'rgb('+Math.min(255,fl[0]*1.45)+','+Math.min(255,fl[1]*1.45)+','+Math.min(255,fl[2]*1.45)+')');}c.fillStyle=g;c.fillRect(0,hor,W,H-hor);

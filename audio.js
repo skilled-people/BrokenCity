@@ -24,6 +24,13 @@
    const dr=ac.createGain();dr.gain.value=.05;dr.connect(out);st.push(tone(55,'sine',.6,dr),tone(82.6,'sine',.35,dr),tone(55.4,'triangle',.2,dr));
    return ()=>{if(Math.random()<.25)burst(out,900+Math.random()*1400,8,.05,1.6);};
   },
+  catala(out,st){
+   const n=noiseSrc(),bp=ac.createBiquadFilter(),g=ac.createGain();bp.type='bandpass';bp.Q.value=.5;n.connect(bp);bp.connect(g);g.connect(out);n.start();
+   st.push(n,lfo(bp.frequency,.04,120,260),lfo(g.gain,.07,.03,.06));
+   const dr=ac.createGain();dr.gain.value=.045;dr.connect(out);st.push(tone(41.2,'sine',.7,dr),tone(61.7,'sine',.35,dr),tone(41.5,'triangle',.18,dr));
+   const e=echo(out,.8,.55,.5);
+   return ()=>{if(Math.random()<.3)ping(e,[196,233.1,277.2][Math.floor(Math.random()*3)],'sine',.02,3.4);};
+  },
   school(out,st){
    const n=noiseSrc(),lp=ac.createBiquadFilter(),g=ac.createGain();lp.type='lowpass';lp.frequency.value=600;g.gain.value=.05;n.connect(lp);lp.connect(g);g.connect(out);n.start();st.push(n,lfo(g.gain,.08,.025,.05));
    const e=echo(out,.42,.45,.5);const sc=[523.25,587.33,659.25,783.99,880,1046.5];
